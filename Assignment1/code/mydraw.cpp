@@ -20,6 +20,12 @@ void display( void )
     //This clears the colorbuffer (current window)
     glClear(GL_COLOR_BUFFER_BIT);
 //    disp_canv_array(canvas);
+    pen_t pen1(5,red1,'d');
+    for(int i = 20; i < 100; i++)
+    {
+        point_t a(i,i-10,red1);
+        a.draw(canvas->get_pixel_array(), pen1);
+    }
     canvas->display_to_screen();
     std::cout << "next buffer " << std::endl;
     //Flush the framebuffer to the screen

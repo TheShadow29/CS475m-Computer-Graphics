@@ -1,5 +1,7 @@
 #include "mydraw_class.hpp"
 #include <iostream>
+#define sgn(x) (x>0)?1:((x<0)?-1:0)
+#define abs(x) (x>0)?x:-x
 //global variables
 color_t red = color_t(1.0f,0.0f,0.0f);
 color_t green = color_t(0.0f,1.0f,0.0f);
@@ -27,7 +29,7 @@ float color_t::B(void) { return b; }
 // 2. pen_t methods
 pen_t::pen_t() : size(1), pen_color(red), mode('d'){};
 pen_t::pen_t(int _size, color_t _pen_color, char _mode)
-        :size(2*size-1), pen_color(_pen_color), mode(_mode) {}
+        :size(2*_size+1), pen_color(_pen_color), mode(_mode) {}
 int pen_t::get_size()  { return size; }
 color_t pen_t::get_pen_color()  { return pen_color; }
 char pen_t::get_mode() { return mode; }
@@ -56,16 +58,22 @@ void point_t::draw_direct(point_t** pixel_array)
 void point_t::draw(point_t** pixel_array, pen_t pen)
 {
     pixel_array[y][x] = *this;
-    int thick = pen.get_size();
+    int thick = pen.get_size()/2;
     color_t color = pen.get_pen_color();
+    int y_min = (y - thick > 0)?(y-thick):0;
+    int x_min = (x - thick > 0)?(x-thick):0;
 
-    for (int i = y - thick; i <= y + thick; i++)
+    for (int i = y_min; i <= y + thick; i++)
     {
-        for (int j = x - thick; j <= x + thick; j++)
+        for (int j = x_min; j <= x + thick; j++)
         {
-            point_t* a = new point_t(j,i,color);
-            a->draw_direct(pixel_array);
-            delete a;
+//            std::cout << "line 59 " << "pen_size" << pen.get_size() << std::endl;
+//            std::cout << "line 68 " << "i=" << i << " j=" << j << std::endl;
+//            std::cout << "line 69 " << "x_min=" << x_min << " y_min=" << y_min << std::endl;
+//            std::cout << "line 69 " << "x+thick=" << x + thick << " y+thick=" << y+thick << std::endl;
+            point_t* c = new point_t(j,i,color);
+            c->draw_direct(pixel_array);
+            delete c;
         }
     }
 }
@@ -75,30 +83,53 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
 line_t::line_t(point_t _a, point_t _b) :a(_a), b(_b) { };
 void line_t::draw(point_t** pixel_array, pen_t pen)
 {
-    int delX = b.getX() - a.getX();
-    int delY = b.getY() - a.getY();
-    std::cout << "line 80" << " delX=" << delX << " delY=" << delY << std::endl;
-    int eps_dash = 0;
-    int y11 = a.getY();
+    bool swap = false;
+    int delX = abs(b.getX() - a.getX());
+    int delY = abs(b.getY() - a.getY());
+//    std::cout << "line 80" << " delX=" << delX << " delY=" << delY << std::endl
     color_t color = pen.get_pen_color();
-    std::cout << "line 82" << "a_x=" << a.getX() << " b_x=" << b.getX() << std::endl;
-    std::cout << "line 83" << "a_y=" << a.getY() << " b_y=" << b.getY() << std::endl;
-
-    for (int x11 = a.getX(); x11 < b.getX(); x11++)
+//    std::cout << "line 82" << "a_x=" << a.getX() << " b_x=" << b.getX() << std::endl;
+//    std::cout << "line 83" << "a_y=" << a.getY() << " b_y=" << b.getY() << std::endl;
+    if (delY > delX)
     {
-        //std::cout << "line 85" << std::endl;
-        point_t c(x11,y11, color);
-        c.draw(pixel_array, pen);
-        if ((2*eps_dash+delY) < delX)
+        //swap delX, delY
+        delY = delY + delX; delX = delY - delX; delY = delY - delX;
+        swap = true;
+    }
+    int s1 = sgn(b.getX() - a.getX());
+    int s2 = sgn(b.getY() - a.getY());
+//    std::cout << "s1=" << s1 << " s2=" << s2;
+    int D = 2*delY - delX;
+    int x11 = a.getX();
+    int y11 = a.getY();
+    for (int i = 0; i < delX; i++)
+    {
+        point_t* c = new point_t(x11, y11, color);
+        c->draw(pixel_array, pen);
+        delete c;
+        while(D >= 0)
         {
-            eps_dash += delY;
+            D = D - 2*delX;
+            if (swap)
+            {
+                x11 = x11 + s1;
+            }
+            else
+            {
+                y11 = y11 + s2;
+            }
+        }
+        D = D + 2*delY;
+        if (swap)
+        {
+            y11 += s2;
         }
         else
         {
-            y11 += 1;
-            eps_dash = eps_dash + delY - delX;
+            x11 += s1;
         }
     }
+    return;
 }
 
 //-------------------------
