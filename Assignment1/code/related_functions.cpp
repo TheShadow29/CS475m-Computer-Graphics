@@ -89,7 +89,8 @@ void left_button_function(int x, int y)
     {
         if (line_mode)
         {
-            point_t* tmp = new point_t(x,y,pen->get_pen_color());
+            point_t* tmp = new point_t(x,win_height - y,pen->get_pen_color());
+//            disp_mouse_pointer_click(mouse_point_clicks);
             mouse_point_clicks.push_back(*tmp);
             delete tmp;
             if (mouse_point_clicks.size()%2 == 0)

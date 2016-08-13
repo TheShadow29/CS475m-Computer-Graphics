@@ -82,19 +82,21 @@ void line_t::draw(point_t** pixel_array, pen_t pen)
     int y11 = a.getY();
     color_t color = pen.get_pen_color();
     std::cout << "line 82" << "a_x=" << a.getX() << " b_x=" << b.getX() << std::endl;
+    std::cout << "line 83" << "a_y=" << a.getY() << " b_y=" << b.getY() << std::endl;
+
     for (int x11 = a.getX(); x11 < b.getX(); x11++)
     {
         //std::cout << "line 85" << std::endl;
         point_t c(x11,y11, color);
         c.draw(pixel_array, pen);
-        if ((2*eps_dash+delY) > -delX)
+        if ((2*eps_dash+delY) < delX)
         {
             eps_dash += delY;
         }
         else
         {
-            y11 -= 1;
-            eps_dash = eps_dash + delY + delX;
+            y11 += 1;
+            eps_dash = eps_dash + delY - delX;
         }
     }
 }

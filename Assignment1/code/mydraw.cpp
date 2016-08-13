@@ -79,7 +79,6 @@ void mouse(int button, int state, int x, int y)
         if (button == GLUT_LEFT_BUTTON)
         {
             left_button_function(x,y);
-            disp_mouse_pointer_click(mouse_point_clicks);
         }
         if (button == GLUT_RIGHT_BUTTON)
         {
