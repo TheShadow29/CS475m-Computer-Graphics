@@ -1,5 +1,4 @@
 #include "mydraw_class.hpp"
-#include <vector>
 #include <iostream>
 //global variables
 color_t red = color_t(1.0f,0.0f,0.0f);
@@ -74,9 +73,30 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
 //-------------------------
 // 5. line_t methods
 line_t::line_t(point_t _a, point_t _b) :a(_a), b(_b) { };
-void line_t::draw()
+void line_t::draw(point_t** pixel_array, pen_t pen)
 {
-
+    int delX = b.getX() - a.getX();
+    int delY = b.getY() - a.getY();
+    std::cout << "line 80" << " delX=" << delX << " delY=" << delY << std::endl;
+    int eps_dash = 0;
+    int y11 = a.getY();
+    color_t color = pen.get_pen_color();
+    std::cout << "line 82" << "a_x=" << a.getX() << " b_x=" << b.getX() << std::endl;
+    for (int x11 = a.getX(); x11 < b.getX(); x11++)
+    {
+        //std::cout << "line 85" << std::endl;
+        point_t c(x11,y11, color);
+        c.draw(pixel_array, pen);
+        if ((2*eps_dash+delY) > -delX)
+        {
+            eps_dash += delY;
+        }
+        else
+        {
+            y11 -= 1;
+            eps_dash = eps_dash + delY + delX;
+        }
+    }
 }
 
 //-------------------------

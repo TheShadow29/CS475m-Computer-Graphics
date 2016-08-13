@@ -13,7 +13,7 @@ private:
   float r,g,b;
 public:
   color_t();
-  color_t(const float _r, const float _g, const float _b);
+    color_t(const float _r, const float _g, const float _b);
 
   void set(const float _r, const float _g, const float _b);
   float R(void);
@@ -77,7 +77,7 @@ private:
     point_t b;
 public:
     line_t(point_t _a, point_t _b);
-    void draw();    //draws line with current color, use draw method from current class
+    void draw(point_t** pixel_array, pen_t pen);    //draws line with current color, use draw method from current class
 };
 
 //---------------------
