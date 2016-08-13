@@ -1,5 +1,6 @@
 #include "mydraw_class.hpp"
 #include <vector>
+#include <iostream>
 //global variables
 color_t red = color_t(1.0f,0.0f,0.0f);
 color_t green = color_t(0.0f,1.0f,0.0f);
@@ -27,7 +28,7 @@ float color_t::B(void) { return b; }
 // 2. pen_t methods
 pen_t::pen_t() : size(1), pen_color(red), mode('d'){};
 pen_t::pen_t(int _size, color_t _pen_color, char _mode)
-        :size(size), pen_color(_pen_color), mode(_mode) {}
+        :size(2*size-1), pen_color(_pen_color), mode(_mode) {}
 int pen_t::get_size()  { return size; }
 color_t pen_t::get_pen_color()  { return pen_color; }
 char pen_t::get_mode() { return mode; }
@@ -48,9 +49,26 @@ point_t::point_t(int _x, int _y, color_t _point_color) : x(_x), y(_y), point_col
 int point_t::getX() { return x; }
 int point_t::getY() { return y; }
 color_t point_t::get_point_color() { return point_color; }
-void point_t::draw()
+void point_t::set_point_color(color_t color) {point_color = color; }
+void point_t::draw_direct(point_t** pixel_array)
 {
+    pixel_array[y][x] = *this;
+}
+void point_t::draw(point_t** pixel_array, pen_t pen)
+{
+    pixel_array[y][x] = *this;
+    int thick = pen.get_size();
+    color_t color = pen.get_pen_color();
 
+    for (int i = y - thick; i <= y + thick; i++)
+    {
+        for (int j = x - thick; j <= x + thick; j++)
+        {
+            point_t* a = new point_t(j,i,color);
+            a->draw_direct(pixel_array);
+            delete a;
+        }
+    }
 }
 
 //-------------------------
@@ -77,40 +95,37 @@ drawing_t::drawing_t(std::vector <line_t> _lines_list, std::vector <triangle_t> 
                 : lines_list(_lines_list), triangles_list(_triangles_list){ }
 void drawing_t::draw()
 {
-
 }
 //--------------------------
 // 8. canvas methods
 canvas_t::canvas_t() : width(640), height(480), background_color(white)
 {
-    pixel_array = new point_t* [height];
-    for(int i = 0; i < height; i++)
-    {
-        pixel_array[i] = new point_t [width];
-        for(int j = 0; j < width; j++)
-        {
-            pixel_array[i][j] = point_t(0,0);
-        }
-    }
+    this->clear();
 }
 canvas_t::canvas_t(int _width, int _height) :width(_width), height(_height), background_color(white)
 {
+    this->clear();
+}
+canvas_t::canvas_t(int _width, int _height, color_t _background_color)
+            :width(_width), height(_height), background_color(_background_color)
+{
+    this->clear();
+}
+canvas_t::canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
+                   point_t **_pixel_array)
+                :width(_width), height(_height), background_color(_background_color), pixel_array(_pixel_array){}
+
+void canvas_t::clear()
+{
     pixel_array = new point_t* [height];
     for(int i = 0; i < height; i++)
     {
         pixel_array[i] = new point_t [width];
         for(int j = 0; j < width; j++)
         {
-            pixel_array[i][j] = point_t(0,0);
+            pixel_array[i][j] = point_t(j,i, background_color);
         }
     }
-}
-canvas_t::canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
-                   point_t **_pixel_array)
-                :width(_width), height(_height), background_color(_background_color), pixel_array(_pixel_array){ }
-void canvas_t::clear()
-{
-
 }
 point_t** canvas_t::get_pixel_array() {return pixel_array; }
 int canvas_t::getW() { return width; }

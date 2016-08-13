@@ -4,6 +4,7 @@
 //Define all classes like the color class, adding appropriate methods and data members. 
 //Implementation of the methods go into the corresponding cpp files
 //------------------------
+
 //1. color_t class
 
 class color_t
@@ -63,7 +64,9 @@ public:
     int getX();
     int getY();
     color_t get_point_color();
-    void draw();
+    void set_point_color(color_t color);
+    void draw_direct(point_t** pixel_array);
+    void draw(point_t** pixel_array, pen_t pen);
 };
 //-------------------
 //5. line_t class
@@ -119,14 +122,14 @@ public:
     canvas_t(int _width, int _height);
     canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
                 point_t** _pixel_array);
+    canvas_t(int _width, int _height, color_t _background_color);
     void clear();
     int getW();
     int getH();
     color_t get_bgc();
     point_t** get_pixel_array();
-    void grid();
+    void display_to_screen();
     //2D array implementation
-
 };
 
 #endif
