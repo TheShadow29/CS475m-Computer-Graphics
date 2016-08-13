@@ -1,9 +1,8 @@
 #ifndef _MYDRAW_CLASS_HPP_
 #define _MYDRAW_CLASS_HPP_
-
+#include <vector>
 //Define all classes like the color class, adding appropriate methods and data members. 
-//Implementation of the methods go into the corresponding cpp file
-
+//Implementation of the methods go into the corresponding cpp files
 //------------------------
 //1. color_t class
 
@@ -26,12 +25,15 @@ public:
 class pen_t
 {
 private:
-        int size;
-    color_t color;
+    int size;
+    color_t pen_color;
     char mode;  // 'd' for draw and 'e' for eraser
 public:
     pen_t();
-    pen_t(int _size, color_t _color, char _mode);
+    pen_t(int _size, color_t _pen_color, char _mode);
+    int get_size();
+    color_t get_pen_color();
+    char get_mode();
 };
 
 
@@ -42,7 +44,6 @@ class fill_t
 private:
     color_t current_fill_color;
 public:
-    fill_t();
     fill_t(color_t _current_fill_color);
     void draw();
 };
@@ -54,8 +55,14 @@ class point_t
 private:
     int x;
     int y;
+    color_t point_color;
 public:
+    point_t();
     point_t(int _x, int _y);
+    point_t(int _x, int _y, color_t _point_color);
+    int getX();
+    int getY();
+    color_t get_point_color();
     void draw();
 };
 //-------------------
@@ -89,11 +96,11 @@ public:
 class drawing_t
 {
 private:
-    vector<line_t> lines_list;
-    vector<triangle_t> triangles_list;
+    std::vector<line_t> lines_list;
+    std::vector<triangle_t> triangles_list;
 public:
     drawing_t();
-    drawing_t(vector<line_t> _lines_list, vector<triangle_t> _triangles_list);
+    drawing_t(std::vector<line_t> _lines_list, std::vector<triangle_t> _triangles_list);
     void draw();
 };
 
@@ -106,10 +113,18 @@ private:
     int width;
     int height;
     color_t background_color;
+    point_t** pixel_array;
 public:
     canvas_t();
-    canvas_t(int _width, int _height, drawing_t _current_drawing, color_t background_color);
+    canvas_t(int _width, int _height);
+    canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
+                point_t** _pixel_array);
     void clear();
+    int getW();
+    int getH();
+    color_t get_bgc();
+    point_t** get_pixel_array();
+    void grid();
     //2D array implementation
 
 };

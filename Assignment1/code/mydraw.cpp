@@ -1,6 +1,6 @@
 /*******************************
  *
- * CS475m Assignment 1 Basecode 
+ * CS475m Assignment 1 Basecode
  *
  * Parag Chaudhuri, 2016
  *
@@ -12,22 +12,68 @@
 #include <GL/glut.h>
 
 #include "mydraw_class.hpp"
-
+color_t red1 = color_t(1.0f,0.0f,0.0f);
+color_t green1 = color_t(0.0f,1.0f,0.0f);
+color_t blue1 = color_t(0.0f,0.0f,1.0f);
+color_t black1 = color_t(0.0f,0.0f,0.0f);
+color_t white1 = color_t(1.0f,1.0f,1.0f);
 //Window width
-int win_width = 512;
+int win_width = 640;
 //Window height
-int win_height = 512;
+int win_height = 480;
+void canvas_t::grid()
+{
+    GLubyte checkImage[this->height][this->width][3];
+    point_t** arr = this->get_pixel_array();
+    for(int i = 0; i < this-> height; i++)
+    {
+        for (int j = 0; j < this->width; j++)
+        {
+            checkImage[i][j][0] = (GLubyte) int(arr[i][j].get_point_color().R()*255);
+            checkImage[i][j][1] = (GLubyte) int(arr[i][j].get_point_color().G()*255);
+            checkImage[i][j][2] = (GLubyte) int(arr[i][j].get_point_color().B()*255);
+        }
+    }
+    glRasterPos2i(0,0);
+    glDrawPixels(this->width, this->height, GL_RGB, GL_UNSIGNED_BYTE, checkImage);
+}
+void disp_color_t(color_t elm)
+{
+    std::cout << "red" << elm.R();
+    std::cout << "green" << elm.G();
+    std::cout << "blue" << elm.B()<< std::endl;
+}
 
+void disp_canv_array(canvas_t* canv)
+{
+    int w = canv -> getW();
+    int h = canv -> getH();
+    point_t** arr = canv->get_pixel_array();
+    for(int i = 0; i < h; i++)
+    {
+        for (int j=0; j < w; j++)
+        {
+            std::cout << "i=" << i << " j=" << j << std::endl;
+            disp_color_t(arr[i][j].get_point_color());
+            std::cout << std::endl;
+        }
+    }
+    return;
+}
 
 
 //Display callback
 void display( void )
 {
-  //This clears the colorbuffer (current window)
-  glClear(GL_COLOR_BUFFER_BIT);
-
-  //Flush the framebuffer to the screen
-  glutSwapBuffers();
+    //This clears the colorbuffer (current window)
+    glClear(GL_COLOR_BUFFER_BIT);
+    canvas_t* canvas1 = new canvas_t(win_width, win_height);
+    canvas1->grid();
+    //disp_canv_array(canvas1);
+    //disp_color_t(red1);
+    std::cout << std::endl;
+    //Flush the framebuffer to the screen
+    glutSwapBuffers();
 }
 
 //Reshape callback
@@ -51,7 +97,7 @@ void reshape( int w, int h )
 void keyboard( unsigned char key, int x, int y ) {
   switch(key) {
   //Exit on pressing escape
-  case 27: 
+  case 27:
     exit(0);
     break;
     //Do something when 'C' is pressed
@@ -64,33 +110,36 @@ void keyboard( unsigned char key, int x, int y ) {
 }
 
 //Mouse callback
-void mouse(int button, int state, int x, int y) 
+void mouse(int button, int state, int x, int y)
 {
-   if (state == GLUT_DOWN) 
+   if (state == GLUT_DOWN)
      {
-       if (button == GLUT_LEFT_BUTTON) 
-	 {
-	   //Do something when the left mouse button is clicked
-	 }
+       if (button == GLUT_LEFT_BUTTON)
+       {
+         //Do something when the left mouse button is clicked
+       }
      }
    glutPostRedisplay();
-}       
+}
 
 
-int main (int argc, char *argv[]) 
+int main (int argc, char *argv[])
 {
+//    canvas_t* canvas1 = new canvas_t(win_width, win_height);
+//    disp_canv_array(canvas1);
 
+    //disp_color_t(red1);
   glutInit( &argc, argv );
   glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
   glutInitWindowSize( win_width, win_height );
 
   //Open a GLUT window
   glutCreateWindow( "MyDraw" );
-
   glutDisplayFunc( display );
   glutReshapeFunc( reshape );
   glutKeyboardFunc( keyboard );
   glutMouseFunc( mouse );
- 
+
   glutMainLoop();
+
 }
