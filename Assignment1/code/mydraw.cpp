@@ -67,9 +67,15 @@ void keyboard( unsigned char key, int x, int y ) {
         case '1':
             line_mode = !line_mode;
             break;
-
-
-
+        case '2':
+            triangle_mode = !triangle_mode;
+            break;
+        case 'H':
+            change_pen_color();
+            break;
+        case 'I':
+            change_back_color();
+            break;
 
         //Ignore all other keypresses
         default:

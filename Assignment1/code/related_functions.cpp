@@ -5,12 +5,12 @@
 #include "mydraw_class.hpp"
 #include <iostream>
 color_t red1 = color_t(1.0f,0.0f,0.0f);
-canvas_t* canvas = new canvas_t();
 pen_t *pen = new pen_t(0,red1,'d');
 std::vector<point_t> mouse_point_clicks;
 drawing_t* drawing = new drawing_t();
-bool line_mode = true;
-bool triangle_mode = false;
+canvas_t* canvas = new canvas_t(*drawing);
+bool line_mode = false;
+bool triangle_mode = true;
 
 //Window width
 int win_width = 640;
@@ -56,15 +56,35 @@ void disp_canv_array(canvas_t* canv)
     }
     return;
 }
-
-void InitCanvas()
+color_t get_color_from_term()
 {
     float r,g,b;
     std::cout << "Enter floats [0-1] rgb: ";
     std::cin >> r >> g >> b;
-    color_t bgcolor(r,g,b);
+    return color_t(r,g,b);
+}
+
+void InitCanvas()
+{
+    color_t bgcolor = get_color_from_term();
     canvas_t* new_canvas = new canvas_t(win_width, win_height, bgcolor);
     canvas = new_canvas;
+    pen->set_back_color(bgcolor);
+    return;
+}
+void change_pen_color()
+{
+    color_t pen_color = get_color_from_term();
+    pen->set_pen_color(pen_color);
+    return;
+}
+///change back color not working completely
+void change_back_color()
+{
+    color_t back_color = get_color_from_term();
+    canvas->set_back_color(back_color, *pen);
+    canvas->clear();
+    drawing->draw(canvas->get_pixel_array(),*pen);
     return;
 }
 void disp_point(point_t p)
@@ -88,22 +108,45 @@ void left_button_function(int x, int y)
 {
     if (pen->get_mode() == 'd')
     {
-        if (line_mode)
+        if (!triangle_mode)
         {
-            point_t* tmp = new point_t(x,win_height - y,pen->get_pen_color());
-//            disp_mouse_pointer_click(mouse_point_clicks);
-            mouse_point_clicks.push_back(*tmp);
-            delete tmp;
-            if (mouse_point_clicks.size()%2 == 0)
+            if (line_mode)
             {
-                std::cout << "line 97" << std::endl;
+                point_t *tmp = new point_t(x, win_height - y, pen->get_pen_color());
+                //            disp_mouse_pointer_click(mouse_point_clicks);
+                mouse_point_clicks.push_back(*tmp);
+                delete tmp;
+                if (mouse_point_clicks.size() % 2 == 0)
+                {
+                    std::cout << "line 97" << std::endl;
+                    point_t b = mouse_point_clicks.back();
+                    mouse_point_clicks.pop_back();
+                    point_t a = mouse_point_clicks.back();
+                    mouse_point_clicks.pop_back();
+                    line_t l1(a, b);
+                    l1.draw(canvas->get_pixel_array(), *pen);
+                    drawing->lines_list.push_back(l1);
+                }
+            }
+        }
+        else
+        {
+            std::cout << "line 119" << std::endl;
+            point_t* tmp = new point_t(x, win_height - y, pen->get_pen_color());
+            mouse_point_clicks.push_back(*tmp);
+            disp_mouse_pointer_click(mouse_point_clicks);
+            delete tmp;
+            if (mouse_point_clicks.size()%3 == 0)
+            {
+                point_t c = mouse_point_clicks.back();
+                mouse_point_clicks.pop_back();
                 point_t b = mouse_point_clicks.back();
                 mouse_point_clicks.pop_back();
                 point_t a = mouse_point_clicks.back();
                 mouse_point_clicks.pop_back();
-                line_t l1(a,b);
-                l1.draw(canvas->get_pixel_array(), *pen);
-                drawing->lines_list.push_back(l1);
+                triangle_t t1(a,b,c);
+                t1.draw(canvas->get_pixel_array(), *pen);
+                drawing->triangles_list.push_back(t1);
             }
         }
     }

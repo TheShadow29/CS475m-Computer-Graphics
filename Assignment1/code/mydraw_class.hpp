@@ -28,12 +28,17 @@ class pen_t
 private:
     int size;
     color_t pen_color;
+    color_t back_color;
     char mode;  // 'd' for draw and 'e' for eraser
 public:
     pen_t();
     pen_t(int _size, color_t _pen_color, char _mode);
+    pen_t(int _size, color_t _pen_color, char _mode, color_t _back_color);
     int get_size();
     color_t get_pen_color();
+    color_t get_back_color();
+    void set_back_color(color_t color);
+    void set_pen_color(color_t color);
     char get_mode();
 };
 
@@ -91,7 +96,10 @@ private:
     color_t border_color;
 public:
     triangle_t(point_t _a, point_t _b, point_t _c);
-    void draw();
+    void draw(point_t** pixel_array, pen_t pen);
+    point_t getA();
+    point_t getB();
+    point_t getC();
 };
 
 //----------------------
@@ -104,7 +112,7 @@ public:
 public:
     drawing_t();
     drawing_t(std::vector<line_t> _lines_list, std::vector<triangle_t> _triangles_list);
-    void draw();
+    void draw(point_t** pixel_array, pen_t pen);
 };
 
 //----------------------
@@ -123,12 +131,14 @@ public:
     canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
                 point_t** _pixel_array);
     canvas_t(int _width, int _height, color_t _background_color);
+    canvas_t(drawing_t _current_drawing);
     void clear();
     int getW();
     int getH();
     color_t get_bgc();
     point_t** get_pixel_array();
     void display_to_screen();
+    void set_back_color(color_t color, pen_t pen);
     //2D array implementation
 };
 

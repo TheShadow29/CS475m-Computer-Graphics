@@ -10,7 +10,12 @@ color_t black = color_t(0.0f,0.0f,0.0f);
 color_t white = color_t(1.0f,1.0f,1.0f);
 void bresenham_octant(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep);
 void bresenham_octant_negative(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep);
-
+void disp_point1(point_t p)
+{
+    std::cout << "x=" << p.getX() << " y=" << p.getY() << " rgb=" << p.get_point_color().R()
+    << p.get_point_color().G() << p.get_point_color().B();
+    return;
+}
 int abs(int x)
 {
     if (x >= 0)
@@ -42,9 +47,14 @@ float color_t::B(void) { return b; }
 pen_t::pen_t() : size(1), pen_color(red), mode('d'){};
 pen_t::pen_t(int _size, color_t _pen_color, char _mode)
         :size(2*_size+1), pen_color(_pen_color), mode(_mode) {}
+pen_t::pen_t(int _size, color_t _pen_color, char _mode, color_t _back_color)
+        :size(2*_size+1), pen_color(_pen_color), mode(_mode), back_color(_back_color){ }
 int pen_t::get_size()  { return size; }
 color_t pen_t::get_pen_color()  { return pen_color; }
 char pen_t::get_mode() { return mode; }
+void pen_t::set_back_color(color_t color) {back_color = color;}
+void pen_t::set_pen_color(color_t color) {pen_color = color; }
+color_t pen_t::get_back_color() {return back_color; }
 
 //-----------------------
 // 3. fill_t methods
@@ -71,7 +81,16 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
 {
     pixel_array[y][x] = *this;
     int thick = pen.get_size()/2;
-    color_t color = pen.get_pen_color();
+    color_t color;
+    if (pen.get_mode() == 'd')
+    {
+       color = pen.get_pen_color();
+    }
+    else
+    {
+        color = pen.get_pen_color();
+    }
+
     int y_min = (y - thick > 0)?(y-thick):0;
     int x_min = (x - thick > 0)?(x-thick):0;
 
@@ -153,18 +172,40 @@ void line_t::draw(point_t** pixel_array, pen_t pen)
 //-------------------------
 // 6. triangle_t methods
 triangle_t::triangle_t(point_t _a, point_t _b, point_t _c) :a(_a), b(_b), c(_c){ };
-void triangle_t::draw()
+point_t triangle_t::getA() { return a; }
+point_t triangle_t::getB() { return b; }
+point_t triangle_t::getC() { return c; }
+void triangle_t::draw(point_t **pixel_array, pen_t pen)
 {
-
+    line_t* l1 = new line_t(a,b);
+    line_t* l2 = new line_t(b,c);
+    line_t* l3 = new line_t(c,a);
+    l1->draw(pixel_array,pen);
+    l2->draw(pixel_array,pen);
+    l3->draw(pixel_array,pen);
+    delete l1;
+    delete l2;
+    delete l3;
 }
 //-------------------------------
 // 7. drawing_t methods
 drawing_t::drawing_t(){}
 drawing_t::drawing_t(std::vector <line_t> _lines_list, std::vector <triangle_t> _triangles_list)
                 : lines_list(_lines_list), triangles_list(_triangles_list){ }
-void drawing_t::draw()
+void drawing_t::draw(point_t **pixel_array, pen_t pen)
 {
-
+    for (int i = 0; i < lines_list.size(); i++)
+    {
+        lines_list[i].draw(pixel_array, pen);
+    }
+    for (int i = 0; i < lines_list.size(); i++)
+    {
+        disp_point1(triangles_list[i].getA());
+        disp_point1(triangles_list[i].getB());
+        disp_point1(triangles_list[i].getC());
+        triangles_list[i].draw(pixel_array,pen);
+    }
+    return;
 }
 //--------------------------
 // 8. canvas methods
@@ -201,7 +242,19 @@ point_t** canvas_t::get_pixel_array() {return pixel_array; }
 int canvas_t::getW() { return width; }
 int canvas_t::getH() { return height; }
 color_t canvas_t::get_bgc() { return background_color; }
-
+canvas_t::canvas_t(drawing_t _current_drawing) :width(640), height(480), background_color(white),
+            current_drawing(_current_drawing)
+{
+    this->clear();
+}
+void canvas_t::set_back_color(color_t color, pen_t pen)
+{
+    background_color = color;
+    this->clear();
+    //current_drawing.draw(pixel_array, pen);
+}
+///BRESENHAM WORKING
+/////DONOT EDIT ANYTHING PLZZ
 void bresenham_octant(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep)
 {
     int eps_dash = 0;
