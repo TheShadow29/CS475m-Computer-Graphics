@@ -76,7 +76,12 @@ void keyboard( unsigned char key, int x, int y ) {
         case 'I':
             change_back_color();
             break;
-
+        case 'J':
+            change_pen_width();
+            break;
+        case 'S':
+            save_drawing();
+            break;
         //Ignore all other keypresses
         default:
         break;

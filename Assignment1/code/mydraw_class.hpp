@@ -39,6 +39,7 @@ public:
     color_t get_back_color();
     void set_back_color(color_t color);
     void set_pen_color(color_t color);
+    void set_pen_size(int _size);
     char get_mode();
 };
 
@@ -83,6 +84,8 @@ private:
 public:
     line_t(point_t _a, point_t _b);
     void draw(point_t** pixel_array, pen_t pen);    //draws line with current color, use draw method from current class
+    point_t getA();
+    point_t getB();
 };
 
 //---------------------
@@ -113,6 +116,8 @@ public:
     drawing_t();
     drawing_t(std::vector<line_t> _lines_list, std::vector<triangle_t> _triangles_list);
     void draw(point_t** pixel_array, pen_t pen);
+    std::vector<line_t> get_lines_list();
+    std::vector<triangle_t> get_triangles_list();
 };
 
 //----------------------
@@ -137,6 +142,7 @@ public:
     int getH();
     color_t get_bgc();
     point_t** get_pixel_array();
+    drawing_t get_current_drawing();
     void display_to_screen();
     void set_back_color(color_t color, pen_t pen);
     //2D array implementation

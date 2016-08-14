@@ -4,11 +4,15 @@
 #include <GL/glut.h>
 #include "mydraw_class.hpp"
 #include <iostream>
+#include <fstream>
 color_t red1 = color_t(1.0f,0.0f,0.0f);
 pen_t *pen = new pen_t(0,red1,'d');
 std::vector<point_t> mouse_point_clicks;
 drawing_t* drawing = new drawing_t();
 canvas_t* canvas = new canvas_t(*drawing);
+
+std::ofstream ofile;
+
 bool line_mode = false;
 bool triangle_mode = true;
 
@@ -63,6 +67,19 @@ color_t get_color_from_term()
     std::cin >> r >> g >> b;
     return color_t(r,g,b);
 }
+int get_size_from_term()
+{
+    int s;
+    std::cout << "Enter pen thickness: ";
+    std::cin >> s;
+    return s;
+}
+void write_point_to_file(point_t p)
+{
+    ofile << "x=" << p.getX() << " y=" << p.getY() << " rgb=" << p.get_point_color().R()
+    << p.get_point_color().G() << p.get_point_color().B();
+    return;
+}
 
 void InitCanvas()
 {
@@ -86,6 +103,39 @@ void change_back_color()
     canvas->clear();
     drawing->draw(canvas->get_pixel_array(),*pen);
     return;
+}
+void change_pen_width()
+{
+    int size = get_size_from_term();
+    pen->set_pen_size(size);
+    return;
+}
+void save_drawing()
+{
+    ofile.open("saved_drawing.txt");
+    std::cout << "started writing to file" << std::endl;
+    ofile << "lets start"<< std::endl;
+    drawing_t drawing1 = canvas->get_current_drawing();
+    std::vector<line_t> l1 = drawing1.get_lines_list();
+    std::vector<triangle_t> t1 = drawing1.get_triangles_list();
+    for (int i = 0; i < l1.size(); i++)
+    {
+        ofile << "line" << i << " A=";
+        write_point_to_file(l1[i].getA());
+        ofile << "B=";
+        write_point_to_file(l1[i].getB());
+    }
+    for (int i = 0; i < t1.size(); i++)
+    {
+        ofile << "triangle" << i << " A=";
+        write_point_to_file(t1[i].getA());
+        ofile << "B=";
+        write_point_to_file(t1[i].getB());
+        ofile << "C=";
+        write_point_to_file(t1[i].getC());
+    }
+    ofile<<"ending";
+    ofile.close();
 }
 void disp_point(point_t p)
 {
