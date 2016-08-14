@@ -1,13 +1,25 @@
 #include "mydraw_class.hpp"
 #include <iostream>
 #define sgn(x) (x>0)?1:((x<0)?-1:0)
-#define abs(x) (x>0)?x:-x
+
 //global variables
 color_t red = color_t(1.0f,0.0f,0.0f);
 color_t green = color_t(0.0f,1.0f,0.0f);
 color_t blue = color_t(0.0f,0.0f,1.0f);
 color_t black = color_t(0.0f,0.0f,0.0f);
 color_t white = color_t(1.0f,1.0f,1.0f);
+void bresenham_octant(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep);
+void bresenham_octant_negative(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep);
+
+int abs(int x)
+{
+    if (x >= 0)
+    { return  x;}
+    else
+    {
+        return -x;
+    }
+}
 
 //-------------------
 // 1. color_t methods
@@ -83,50 +95,56 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
 line_t::line_t(point_t _a, point_t _b) :a(_a), b(_b) { };
 void line_t::draw(point_t** pixel_array, pen_t pen)
 {
-    bool swap = false;
-    int delX = abs(b.getX() - a.getX());
-    int delY = abs(b.getY() - a.getY());
-//    std::cout << "line 80" << " delX=" << delX << " delY=" << delY << std::endl
     color_t color = pen.get_pen_color();
-//    std::cout << "line 82" << "a_x=" << a.getX() << " b_x=" << b.getX() << std::endl;
-//    std::cout << "line 83" << "a_y=" << a.getY() << " b_y=" << b.getY() << std::endl;
-    if (delY > delX)
-    {
-        //swap delX, delY
-        delY = delY + delX; delX = delY - delX; delY = delY - delX;
-        swap = true;
-    }
     int s1 = sgn(b.getX() - a.getX());
-    int s2 = sgn(b.getY() - a.getY());
-//    std::cout << "s1=" << s1 << " s2=" << s2;
-    int D = 2*delY - delX;
-    int x11 = a.getX();
-    int y11 = a.getY();
-    for (int i = 0; i < delX; i++)
+    if (s1 == -1)
     {
-        point_t* c = new point_t(x11, y11, color);
-        c->draw(pixel_array, pen);
-        delete c;
-        while(D >= 0)
+        point_t* tmp = new point_t(a.getX(),a.getY(),a.get_point_color());
+        a = b;
+        b = *tmp;
+        delete tmp;
+    }
+    // a stores the left point
+    int eps_dash = 0;
+    int x1 = a.getX(), y1 = a.getY(), x2 = b.getX(), y2 = b.getY();
+    int delX = abs(x2 - x1);
+    int delY = abs(y2 - y1);
+    bool is_steep = delY > delX;
+    std::cout << "line 103 a_x=" << x1 << " a_y=" << y1 << std::endl;
+    std::cout << "line 104 b_x=" << x2 << " b_y=" << y2 << std::endl;
+    std::cout << "line 105 delX=" << delX << std::endl;
+    std::cout << "line 106 delY=" << delY << std::endl ;
+    std::cout << "line 107 is_steep" << is_steep << std::endl;
+    int x11 = x1, y11 = y1;
+    std::cout << "line 119 x11=" << x11 << std::endl;
+    std::cout << "line 120 y11=" << y11 << std::endl;
+    s1 = sgn(x2 - x1);
+    int s2 = sgn(y2 - y1);
+    int slope_dir = sgn(s1 * s2);
+    bool slope_pos = (slope_dir>=0);
+
+
+    if (!is_steep)
+    {
+        if (slope_pos)
         {
-            D = D - 2*delX;
-            if (swap)
-            {
-                x11 = x11 + s1;
-            }
-            else
-            {
-                y11 = y11 + s2;
-            }
-        }
-        D = D + 2*delY;
-        if (swap)
-        {
-            y11 += s2;
+            bresenham_octant(delX,delY,x11,y11,pen,pixel_array, is_steep);
         }
         else
         {
-            x11 += s1;
+            bresenham_octant_negative(x2 - x1,y2 - y1,x11,y11,pen,pixel_array, is_steep);
+        }
+    }
+    else
+    {
+        if(slope_pos)
+        {
+            bresenham_octant(delY, delX, y11, x11, pen, pixel_array, is_steep);
+        }
+        else
+        {
+            std::cout << "line 129" << std::endl;
+            bresenham_octant_negative(y1 - y2,x1 - x2,b.getY(),b.getX(),pen,pixel_array,is_steep);
         }
     }
     return;
@@ -142,12 +160,11 @@ void triangle_t::draw()
 //-------------------------------
 // 7. drawing_t methods
 drawing_t::drawing_t(){}
-//drawing_t::drawing_t(vector <line_t> _lines_list, vector <triangle_t> _triangles_list)
-//            :lines_list(_lines_list), triangles_list(_triangles_list){ }
 drawing_t::drawing_t(std::vector <line_t> _lines_list, std::vector <triangle_t> _triangles_list)
                 : lines_list(_lines_list), triangles_list(_triangles_list){ }
 void drawing_t::draw()
 {
+
 }
 //--------------------------
 // 8. canvas methods
@@ -185,4 +202,60 @@ int canvas_t::getW() { return width; }
 int canvas_t::getH() { return height; }
 color_t canvas_t::get_bgc() { return background_color; }
 
+void bresenham_octant(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep)
+{
+    int eps_dash = 0;
+    color_t color = pen.get_pen_color();
+    for (int i = 0; i < delX; ++i)
+    {
+        point_t* c = new point_t();
+        if (!is_steep)
+        {
+            *c = point_t(x11,y11, color);
+        }
+        else
+        {
+            *c = point_t(y11,x11,color);
+        }
+        c->draw(pixel_array, pen);
+        delete c;
+        if (2*(eps_dash + delY) < delX)
+        {
+            eps_dash += delY;
+        }
+        else
+        {
+            eps_dash += delY - delX;
+            y11 += 1;
+        }
+        x11 += 1;
+    }
+}
+void bresenham_octant_negative(int delX, int delY, int x11, int y11, pen_t pen, point_t** pixel_array, bool is_steep)
+{
+    int eps_dash = 0;
+    color_t color = pen.get_pen_color();
+    std::cout << "line 219 delX=" << delX << std::endl;
+    std::cout << "line 219 delY=" << delY << std::endl;
+    std::cout << "line 238 x11=" << x11 << std::endl;
+    std::cout << "line 239 y11=" << y11 << std::endl;
+    for (int i = 0; i < delX; ++i)
+    {
 
+        point_t* c = new point_t();
+        if (!is_steep){*c = point_t(x11,y11,color);}
+        else{*c = point_t(y11,x11,color);}
+        c->draw(pixel_array,pen);
+        delete c;
+        if (2*(eps_dash + delY) > -delX)
+        {
+            eps_dash = eps_dash + delY;
+        }
+        else
+        {
+            y11 -= 1;
+            eps_dash = eps_dash + delY + delX;
+        }
+        x11 += 1;
+    }
+}

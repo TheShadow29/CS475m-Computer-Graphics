@@ -6,8 +6,9 @@
 #include <iostream>
 color_t red1 = color_t(1.0f,0.0f,0.0f);
 canvas_t* canvas = new canvas_t();
-pen_t *pen = new pen_t(5,red1,'d');
+pen_t *pen = new pen_t(0,red1,'d');
 std::vector<point_t> mouse_point_clicks;
+drawing_t* drawing = new drawing_t();
 bool line_mode = true;
 bool triangle_mode = false;
 
@@ -102,6 +103,7 @@ void left_button_function(int x, int y)
                 mouse_point_clicks.pop_back();
                 line_t l1(a,b);
                 l1.draw(canvas->get_pixel_array(), *pen);
+                drawing->lines_list.push_back(l1);
             }
         }
     }

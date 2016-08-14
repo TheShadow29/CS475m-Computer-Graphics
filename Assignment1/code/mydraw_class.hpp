@@ -98,7 +98,7 @@ public:
 // 7. drawing_t class
 class drawing_t
 {
-private:
+public:
     std::vector<line_t> lines_list;
     std::vector<triangle_t> triangles_list;
 public:
