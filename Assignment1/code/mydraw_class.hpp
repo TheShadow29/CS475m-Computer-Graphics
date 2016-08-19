@@ -1,6 +1,8 @@
 #ifndef _MYDRAW_CLASS_HPP_
 #define _MYDRAW_CLASS_HPP_
 #include <vector>
+#include <string>
+
 //Define all classes like the color class, adding appropriate methods and data members. 
 //Implementation of the methods go into the corresponding cpp files
 //------------------------
@@ -43,18 +45,6 @@ public:
     char get_mode();
 };
 
-
-//------------------------
-// 3. fill_t
-class fill_t
-{
-private:
-    color_t current_fill_color;
-public:
-    fill_t(color_t _current_fill_color);
-    void draw();
-};
-
 //-----------------------------
 //4. point_t class
 class point_t
@@ -73,7 +63,21 @@ public:
     void set_point_color(color_t color);
     void draw_direct(point_t** pixel_array);
     void draw(point_t** pixel_array, pen_t pen);
+    std::string toString();
+    bool checkIfSameColor(color_t color_compare);
 };
+//------------------------
+// 3. fill_t
+class fill_t
+{
+private:
+    color_t current_fill_color;
+public:
+    fill_t(color_t _current_fill_color);
+    void draw(color_t _background_color, color_t _fill_color, point_t** pixel_array, point_t node);
+};
+
+
 //-------------------
 //5. line_t class
 class line_t
@@ -86,6 +90,7 @@ public:
     void draw(point_t** pixel_array, pen_t pen);    //draws line with current color, use draw method from current class
     point_t getA();
     point_t getB();
+    std::string toString();
 };
 
 //---------------------
@@ -100,6 +105,7 @@ private:
 public:
     triangle_t(point_t _a, point_t _b, point_t _c);
     void draw(point_t** pixel_array, pen_t pen);
+    std::string toString();
     point_t getA();
     point_t getB();
     point_t getC();
@@ -110,14 +116,18 @@ public:
 class drawing_t
 {
 public:
-    std::vector<line_t> lines_list;
-    std::vector<triangle_t> triangles_list;
+//    std::vector<line_t> lines_list;
+//    std::vector<triangle_t> triangles_list;
+    std::vector<std::string> drawing_list;
 public:
     drawing_t();
-    drawing_t(std::vector<line_t> _lines_list, std::vector<triangle_t> _triangles_list);
+    drawing_t(std::vector<std::string> _drawing_list);
     void draw(point_t** pixel_array, pen_t pen);
-    std::vector<line_t> get_lines_list();
-    std::vector<triangle_t> get_triangles_list();
+    std::vector<std::string> get_drawing_list();
+    void set_drawing_list(std::vector<std::string> _drawing_list);
+    void clear_drawing_list();
+    void store_drawing(std::string s);
+
 };
 
 //----------------------
@@ -125,7 +135,7 @@ public:
 class canvas_t
 {
 private:
-    drawing_t current_drawing;
+    drawing_t* current_drawing;
     int width;
     int height;
     color_t background_color;
@@ -133,18 +143,18 @@ private:
 public:
     canvas_t();
     canvas_t(int _width, int _height);
-    canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
+    canvas_t(int _width, int _height, drawing_t* _current_drawing, color_t _background_color,
                 point_t** _pixel_array);
     canvas_t(int _width, int _height, color_t _background_color);
-    canvas_t(drawing_t _current_drawing);
+    canvas_t(drawing_t* _current_drawing);
     void clear();
     int getW();
     int getH();
     color_t get_bgc();
     point_t** get_pixel_array();
-    drawing_t get_current_drawing();
+    drawing_t* get_current_drawing();
     void display_to_screen();
-    void set_back_color(color_t color, pen_t pen);
+    void set_back_color(color_t init_back_color, color_t color, pen_t pen);
     //2D array implementation
 };
 

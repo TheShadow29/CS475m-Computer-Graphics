@@ -11,6 +11,6 @@ clean:
 	rm -f *~
 
 mydraw: clean
-	g++ mydraw_class.cpp mydraw.cpp -o $@ $(GLLIBS)
+	g++ --std=c++11 mydraw_class.cpp mydraw.cpp -o $@ $(GLLIBS)
 
 

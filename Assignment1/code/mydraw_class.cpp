@@ -1,5 +1,6 @@
 #include "mydraw_class.hpp"
 #include <iostream>
+#include <string>
 #define sgn(x) (x>0)?1:((x<0)?-1:0)
 
 //global variables
@@ -60,9 +61,48 @@ void pen_t::set_pen_size(int _size) { size = 2*_size + 1;}
 //-----------------------
 // 3. fill_t methods
 fill_t::fill_t(color_t _current_fill_color) : current_fill_color(_current_fill_color) {};
-void fill_t::draw()
+void fill_t::draw(color_t _background_color, color_t _fill_color, point_t** pixel_array, point_t node)
 {
-    //need to implement some fill algorithm
+    std::vector<point_t> pixels;
+    pixels.push_back(node);
+    int counter =0;
+    while(!pixels.empty())
+    {
+        int y = pixels[0].getY();
+        int x = pixels[0].getX();
+        int w = x;
+        int e = x;
+        int c = y;
+        bool left_move = true;
+        bool right_move =  true;
+        if(!pixel_array[y][x].checkIfSameColor(_background_color))
+        {
+            left_move = false;
+            right_move = false;
+            e--;
+        }
+        while (left_move || right_move)
+        {
+            if(pixel_array[c][w-1].checkIfSameColor(_background_color) && left_move)
+                w--;
+            else left_move = false;
+            if(pixel_array[c][e+1].checkIfSameColor(_background_color) && right_move)
+                e++;
+            else right_move = false;
+        }
+        for(int var = w; var<=e; var++)
+        {
+            pixel_array[y][var].set_point_color(_fill_color);
+            if(pixel_array[y+1][var].checkIfSameColor(_background_color))
+                pixels.push_back(pixel_array[y+1][var]);
+            if(pixel_array[y-1][var].checkIfSameColor(_background_color));
+            pixels.push_back(pixel_array[y-1][var]);
+        }
+        std::cout<<pixels.size()<<std::endl;
+        pixels.erase(pixels.begin());
+        counter++;
+        std::cout<<"line 180:"<<counter<<" "<<pixels.size()<<std::endl;
+    }
 }
 
 //------------------------
@@ -78,8 +118,25 @@ void point_t::draw_direct(point_t** pixel_array)
 {
     pixel_array[y][x] = *this;
 }
+std::string point_t::toString()
+{
+//    std::string s = "(" + std::to_string(this->x) + "," + std::to_string(this->y) + ")";
+    std::string s = std::to_string(this->x) + "\n" + std::to_string(this->y) + "\n";
+    return s;
+}
+bool point_t::checkIfSameColor(color_t color_compare)
+{
+    color_t color_base = point_color;
+    //color_t color_compare = point.get_point_color();
+    bool same = false;
+    if(color_base.R() == color_compare.R() && color_base.G() == color_compare.G() && color_base.B() == color_compare.B())
+        same = true;
+    return same;
+
+}
 void point_t::draw(point_t** pixel_array, pen_t pen)
 {
+
     pixel_array[y][x] = *this;
     int thick = pen.get_size()/2;
     color_t color;
@@ -115,6 +172,11 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
 line_t::line_t(point_t _a, point_t _b) :a(_a), b(_b) { };
 point_t line_t::getA() { return a; }
 point_t line_t::getB() { return b; }
+std::string line_t::toString()
+{
+    std::string s = "l\n" + a.toString() + b.toString();
+    return  s;
+}
 void line_t::draw(point_t** pixel_array, pen_t pen)
 {
     color_t color = pen.get_pen_color();
@@ -178,6 +240,11 @@ triangle_t::triangle_t(point_t _a, point_t _b, point_t _c) :a(_a), b(_b), c(_c){
 point_t triangle_t::getA() { return a; }
 point_t triangle_t::getB() { return b; }
 point_t triangle_t::getC() { return c; }
+std::string triangle_t::toString()
+{
+    std::string s = "t\n" +  a.toString() + b.toString() + c.toString();
+    return s;
+}
 void triangle_t::draw(point_t **pixel_array, pen_t pen)
 {
     line_t* l1 = new line_t(a,b);
@@ -190,25 +257,111 @@ void triangle_t::draw(point_t **pixel_array, pen_t pen)
     delete l2;
     delete l3;
 }
+//std::String triangle_t::toString()
+//{
+//}
 //-------------------------------
 // 7. drawing_t methods
 drawing_t::drawing_t(){}
-drawing_t::drawing_t(std::vector <line_t> _lines_list, std::vector <triangle_t> _triangles_list)
-                : lines_list(_lines_list), triangles_list(_triangles_list){ }
-std::vector<line_t> drawing_t::get_lines_list() { return lines_list; }
-std::vector<triangle_t> drawing_t::get_triangles_list() { return triangles_list; }
+drawing_t::drawing_t(std::vector <std::string> _drawing_list) : drawing_list(_drawing_list){ }
+std::vector<std::string> drawing_t::get_drawing_list() { return drawing_list; }
+void drawing_t::store_drawing(std::string s)
+{
+    std::string s1 = s + "\n";
+    drawing_list.push_back(s1);
+}
+void drawing_t::set_drawing_list(std::vector <std::string> _drawing_list)
+{
+    drawing_list.clear();
+    drawing_list = _drawing_list;
+    return;
+}
+void drawing_t::clear_drawing_list()
+{
+    drawing_list.clear();
+    return;
+}
 void drawing_t::draw(point_t **pixel_array, pen_t pen)
 {
-    for (int i = 0; i < lines_list.size(); i++)
+    std::string line;
+    std::string x1_s, y1_s;
+    std::vector<point_t> P;
+    int x1, y1;
+//        std::cout << "line 157 " << std::endl;
+    for (int i = 0; i < drawing_list.size(); i++)
     {
-        lines_list[i].draw(pixel_array, pen);
-    }
-    for (int i = 0; i < lines_list.size(); i++)
-    {
-        disp_point1(triangles_list[i].getA());
-        disp_point1(triangles_list[i].getB());
-        disp_point1(triangles_list[i].getC());
-        triangles_list[i].draw(pixel_array,pen);
+        int j = 0;
+        line = drawing_list[i];
+        P.clear();
+//        std::cout << "line 247 line=" << line <<std::endl;
+        if (line[j] == 't')
+        {
+            j++;
+            j++;
+            for(int k = 0; k < 3; k++)
+            {
+                x1_s.clear();
+                y1_s.clear();
+                while(line[j] != '\n')
+                {
+//                    std::cout << "line 259 line[j]=" << line[j] <<std::endl;
+                    x1_s += line[j];
+                    j++;
+                }
+//                std::cout << "line 259 x1_s=" << x1_s <<  std::endl;
+                x1 = std::stoi(x1_s);
+//                std::cout << "line 264 x1=" << x1 <<  std::endl;
+                j++;
+//                std::cout << "line 64 line[j]=" << line[j] << std::endl;
+                while(line[j] != '\n')
+                {
+                    y1_s += line[j];
+                    j++;
+                }
+                y1 = std::stoi(y1_s);
+                j++;
+                P.push_back(point_t(x1,y1));
+//                std::cout << "line 259 y1_s=" << y1_s <<  std::endl;
+            }
+//            std::cout << "line 278 y1_s=" << y1_s <<  std::endl;
+
+            triangle_t t1(P[0],P[1],P[2]);
+            t1.draw(pixel_array, pen);
+//            std::cout << "line 275" << std::endl;
+        }
+        else if (line[j] == 'l')
+        {
+            j++;
+            j++;
+            for(int k = 0; k < 2; k++)
+            {
+                x1_s.clear();
+                y1_s.clear();
+                while(line[j] != '\n')
+                {
+//                    std::cout << "line 259 line[j]=" << line[j] <<std::endl;
+                    x1_s += line[j];
+                    j++;
+                }
+//                std::cout << "line 259 x1_s=" << x1_s <<  std::endl;
+                x1 = std::stoi(x1_s);
+//                std::cout << "line 264 x1=" << x1 <<  std::endl;
+                j++;
+//                std::cout << "line 64 line[j]=" << line[j] << std::endl;
+                while(line[j] != '\n')
+                {
+                    y1_s += line[j];
+                    j++;
+                }
+                y1 = std::stoi(y1_s);
+                j++;
+                P.push_back(point_t(x1,y1));
+            }
+//            std::cout << "line 278 y1_s=" << y1_s <<  std::endl;
+            line_t l1(P[0],P[1]);
+            l1.draw(pixel_array,pen);
+//            std::cout << "line 275" << std::endl;
+        }
     }
     return;
 }
@@ -216,18 +369,21 @@ void drawing_t::draw(point_t **pixel_array, pen_t pen)
 // 8. canvas methods
 canvas_t::canvas_t() : width(640), height(480), background_color(white)
 {
+    current_drawing = new drawing_t();
     this->clear();
 }
 canvas_t::canvas_t(int _width, int _height) :width(_width), height(_height), background_color(white)
 {
+    current_drawing = new drawing_t();
     this->clear();
 }
 canvas_t::canvas_t(int _width, int _height, color_t _background_color)
             :width(_width), height(_height), background_color(_background_color)
 {
+    current_drawing = new drawing_t();
     this->clear();
 }
-canvas_t::canvas_t(int _width, int _height, drawing_t _current_drawing, color_t _background_color,
+canvas_t::canvas_t(int _width, int _height, drawing_t* _current_drawing, color_t _background_color,
                    point_t **_pixel_array)
                 :width(_width), height(_height), background_color(_background_color), pixel_array(_pixel_array){}
 
@@ -247,18 +403,27 @@ point_t** canvas_t::get_pixel_array() {return pixel_array; }
 int canvas_t::getW() { return width; }
 int canvas_t::getH() { return height; }
 color_t canvas_t::get_bgc() { return background_color; }
-canvas_t::canvas_t(drawing_t _current_drawing) :width(640), height(480), background_color(white),
+canvas_t::canvas_t(drawing_t* _current_drawing) :width(640), height(480), background_color(white),
             current_drawing(_current_drawing)
 {
     this->clear();
 }
-void canvas_t::set_back_color(color_t color, pen_t pen)
+void canvas_t::set_back_color(color_t init_back_color, color_t color, pen_t pen)
 {
     background_color = color;
-    this->clear();
-    //current_drawing.draw(pixel_array, pen);
+    for(int i = 0; i < height; i++)
+    {
+        for(int j = 0; j < width; j++)
+        {
+            if (pixel_array[i][j].checkIfSameColor(init_back_color))
+            {
+                pixel_array[i][j] = point_t(j,i, background_color);
+            }
+        }
+    }
+    current_drawing->draw(pixel_array,pen);
 }
-drawing_t canvas_t::get_current_drawing() { return current_drawing; }
+drawing_t* canvas_t::get_current_drawing() { return current_drawing; }
 
 ///BRESENHAM WORKING
 /////DONOT EDIT ANYTHING PLZZ

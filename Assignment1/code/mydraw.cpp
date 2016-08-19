@@ -13,7 +13,7 @@
 #include "related_functions.cpp"
 
 #define ESC 27
-
+int counter = 0;
 //Display callback
 void display( void )
 {
@@ -24,7 +24,14 @@ void display( void )
     for(int i = 20; i < 100; i++)
     {
         point_t a(i,i-10,red1);
-        a.draw(canvas->get_pixel_array(), pen1);
+       // std::string s = a.toString();
+      //  drawing->store_drawing(s);
+       a.draw(canvas->get_pixel_array(), pen1);
+    }
+    std::vector<std::string> vec = drawing->get_drawing_list();
+    for (int i = 0; i < vec.size(); i++)
+    {
+        std::cout << "line 34" << vec[i] << std::endl;
     }
     canvas->display_to_screen();
     std::cout << "next buffer " << std::endl;
@@ -82,6 +89,15 @@ void keyboard( unsigned char key, int x, int y ) {
         case 'S':
             save_drawing();
             break;
+        case 'L':
+            load_drawing();
+            break;
+        case 'G':
+            change_back_color();
+            break;
+        case 'F':
+            fill_triangle();
+            break;
         //Ignore all other keypresses
         default:
         break;
@@ -112,6 +128,17 @@ int main (int argc, char *argv[])
 //    disp_canv_array(canvas1);
 
     //disp_color_t(red1);
+
+    if (counter == 1)
+    {
+        win_width = 480;
+        win_height = 640;
+    }
+    if (counter == 0)
+    {
+        counter += 1;
+    }
+    std::cout << "counter=" << counter << std::endl;
   glutInit( &argc, argv );
   glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
   glutInitWindowSize( win_width, win_height );
@@ -122,7 +149,6 @@ int main (int argc, char *argv[])
   glutReshapeFunc( reshape );
   glutKeyboardFunc( keyboard );
   glutMouseFunc( mouse );
-
   glutMainLoop();
 
 }

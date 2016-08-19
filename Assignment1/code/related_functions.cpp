@@ -3,18 +3,23 @@
 //
 #include <GL/glut.h>
 #include "mydraw_class.hpp"
+#include <string>
 #include <iostream>
 #include <fstream>
 color_t red1 = color_t(1.0f,0.0f,0.0f);
+color_t mix1 = color_t(1.0f,1.0f,0.0f);
 pen_t *pen = new pen_t(0,red1,'d');
 std::vector<point_t> mouse_point_clicks;
 drawing_t* drawing = new drawing_t();
-canvas_t* canvas = new canvas_t(*drawing);
+canvas_t* canvas = new canvas_t(drawing);
 
 std::ofstream ofile;
+std::ifstream ifile;
 
 bool line_mode = false;
 bool triangle_mode = true;
+bool fill_mode = false;
+
 
 //Window width
 int win_width = 640;
@@ -60,6 +65,23 @@ void disp_canv_array(canvas_t* canv)
     }
     return;
 }
+void disp_string_vec(std::vector<std::string> s, bool to_file)
+{
+    if (to_file)
+    {
+        for (int i = 0; i < s.size(); i++)
+        {
+            ofile << s[i];
+        }
+    }
+    else
+    {
+        for (int i = 0; i < s.size(); i++)
+        {
+            std::cout << s[i];
+        }
+    }
+}
 color_t get_color_from_term()
 {
     float r,g,b;
@@ -72,6 +94,14 @@ int get_size_from_term()
     int s;
     std::cout << "Enter pen thickness: ";
     std::cin >> s;
+    return s;
+}
+std::string get_input_file_from_term()
+{
+    std::string s;
+    std::cout << "Enter the relative file path: ";
+    std::cin >> s;
+    std::cout << "The file path you have entered is: " << s << std::endl;
     return s;
 }
 void write_point_to_file(point_t p)
@@ -98,10 +128,13 @@ void change_pen_color()
 ///change back color not working completely
 void change_back_color()
 {
+    color_t init_back_color = canvas->get_bgc();
+    disp_color_t(init_back_color);
     color_t back_color = get_color_from_term();
-    canvas->set_back_color(back_color, *pen);
-    canvas->clear();
-    drawing->draw(canvas->get_pixel_array(),*pen);
+    disp_color_t(back_color);
+    canvas->set_back_color(init_back_color, back_color, *pen);
+//    canvas->clear();
+//    drawing->draw(canvas->get_pixel_array(),*pen);
     return;
 }
 void change_pen_width()
@@ -114,28 +147,54 @@ void save_drawing()
 {
     ofile.open("saved_drawing.txt");
     std::cout << "started writing to file" << std::endl;
-    ofile << "lets start"<< std::endl;
-    drawing_t drawing1 = canvas->get_current_drawing();
-    std::vector<line_t> l1 = drawing1.get_lines_list();
-    std::vector<triangle_t> t1 = drawing1.get_triangles_list();
-    for (int i = 0; i < l1.size(); i++)
-    {
-        ofile << "line" << i << " A=";
-        write_point_to_file(l1[i].getA());
-        ofile << "B=";
-        write_point_to_file(l1[i].getB());
-    }
-    for (int i = 0; i < t1.size(); i++)
-    {
-        ofile << "triangle" << i << " A=";
-        write_point_to_file(t1[i].getA());
-        ofile << "B=";
-        write_point_to_file(t1[i].getB());
-        ofile << "C=";
-        write_point_to_file(t1[i].getC());
-    }
-    ofile<<"ending";
+    std::vector<std::string> s = canvas->get_current_drawing()->get_drawing_list();
+    disp_string_vec(s,1);
     ofile.close();
+}
+void load_drawing()
+{
+    drawing->clear_drawing_list();
+    std::string file_name = get_input_file_from_term();
+    ifile.open(file_name);
+//    std::cout << "ifile.is_open() " << ifile.is_open() << std::endl;
+    if (!ifile.is_open())
+    {
+        std::cout << "file not found.";
+        return;
+    }
+    else
+    {
+        std::string line;
+        std::string s1;
+        while(std::getline(ifile, line))
+        {
+            s1.clear();
+            if (line == "t")
+            {
+                s1 = line + "\n";
+                for (int i = 0; i < 6; i++)
+                {
+                    std::getline(ifile, line);
+                    s1 += line + "\n";
+                }
+                drawing->store_drawing(s1);
+            }
+            if (line == "l")
+            {
+                s1 = line + "\n";
+                for (int i = 0; i < 4; i++)
+                {
+                    std::getline(ifile, line);
+                    s1 += line + "\n";
+                }
+                drawing->store_drawing(s1);
+            }
+        }
+        disp_string_vec(canvas->get_current_drawing()->get_drawing_list(), 0);
+        drawing->draw(canvas->get_pixel_array(), *pen);
+    }
+    std::cout << "returning" << std::endl;
+    return;
 }
 void disp_point(point_t p)
 {
@@ -152,8 +211,10 @@ void disp_mouse_pointer_click(std::vector<point_t> mouse_clicks)
     }
     return;
 }
-
-
+void fill_triangle()
+{
+    fill_mode = true;
+}
 void left_button_function(int x, int y)
 {
     if (pen->get_mode() == 'd')
@@ -175,7 +236,8 @@ void left_button_function(int x, int y)
                     mouse_point_clicks.pop_back();
                     line_t l1(a, b);
                     l1.draw(canvas->get_pixel_array(), *pen);
-                    drawing->lines_list.push_back(l1);
+                    //drawing->lines_list.push_back(l1);
+                    drawing->store_drawing(l1.toString());
                 }
             }
         }
@@ -196,8 +258,19 @@ void left_button_function(int x, int y)
                 mouse_point_clicks.pop_back();
                 triangle_t t1(a,b,c);
                 t1.draw(canvas->get_pixel_array(), *pen);
-                drawing->triangles_list.push_back(t1);
+                //drawing->triangles_list.push_back(t1);
+                drawing->store_drawing(t1.toString());
             }
+        }
+        if(fill_mode)
+        {
+            point_t centroid = mouse_point_clicks.back();
+            mouse_point_clicks.pop_back();
+            std::cout<<centroid.getY()<<" "<<centroid.getX()<<std::endl;
+            fill_t fillTriangle(red1);
+            fillTriangle.draw(canvas->get_bgc(), mix1, canvas->get_pixel_array(), centroid);
+            fill_mode = false;
+            return;
         }
     }
 }
