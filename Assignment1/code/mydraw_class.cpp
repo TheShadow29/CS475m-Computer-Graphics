@@ -48,6 +48,7 @@ float color_t::B(void) { return b; }
 pen_t::pen_t() : size(1), pen_color(red), mode('d'){};
 pen_t::pen_t(int _size, color_t _pen_color, char _mode)
         :size(2*_size+1), pen_color(_pen_color), mode(_mode) {}
+pen_t::pen_t(color_t _back_color) : size(1), pen_color(red), mode('d'), back_color(_back_color){ }
 pen_t::pen_t(int _size, color_t _pen_color, char _mode, color_t _back_color)
         :size(2*_size+1), pen_color(_pen_color), mode(_mode), back_color(_back_color){ }
 int pen_t::get_size()  { return size; }
@@ -57,11 +58,23 @@ void pen_t::set_back_color(color_t color) {back_color = color;}
 void pen_t::set_pen_color(color_t color) {pen_color = color; }
 color_t pen_t::get_back_color() {return back_color; }
 void pen_t::set_pen_size(int _size) { size = 2*_size + 1;}
+void pen_t::toggle_pen_mode()
+{
+    if (this->mode == 'd')
+    {
+        this->mode = 'e';
+    }
+    else
+    {
+        this->mode = 'd';
+    }
+    return;
+}
 
 //-----------------------
 // 3. fill_t methods
 fill_t::fill_t(color_t _current_fill_color) : current_fill_color(_current_fill_color) {};
-void fill_t::draw(color_t _background_color, color_t _fill_color, point_t** pixel_array, point_t node)
+void fill_t::draw(color_t _background_color, point_t** pixel_array, point_t node)
 {
     std::vector<point_t> pixels;
     pixels.push_back(node);
@@ -92,7 +105,7 @@ void fill_t::draw(color_t _background_color, color_t _fill_color, point_t** pixe
         }
         for(int var = w; var<=e; var++)
         {
-            pixel_array[y][var].set_point_color(_fill_color);
+            pixel_array[y][var].set_point_color(current_fill_color);
             if(pixel_array[y+1][var].checkIfSameColor(_background_color))
                 pixels.push_back(pixel_array[y+1][var]);
             if(pixel_array[y-1][var].checkIfSameColor(_background_color));
@@ -101,7 +114,7 @@ void fill_t::draw(color_t _background_color, color_t _fill_color, point_t** pixe
         std::cout<<pixels.size()<<std::endl;
         pixels.erase(pixels.begin());
         counter++;
-        std::cout<<"line 180:"<<counter<<" "<<pixels.size()<<std::endl;
+//        std::cout<<"line 180:"<<counter<<" "<<pixels.size()<<std::endl;
     }
 }
 
@@ -144,9 +157,9 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
     {
        color = pen.get_pen_color();
     }
-    else
+    else if (pen.get_mode() == 'e')
     {
-        color = pen.get_pen_color();
+        color = pen.get_back_color();
     }
 
     int y_min = (y - thick > 0)?(y-thick):0;

@@ -36,7 +36,9 @@ public:
     pen_t();
     pen_t(int _size, color_t _pen_color, char _mode);
     pen_t(int _size, color_t _pen_color, char _mode, color_t _back_color);
+    pen_t(color_t _back_color);
     int get_size();
+    void toggle_pen_mode();
     color_t get_pen_color();
     color_t get_back_color();
     void set_back_color(color_t color);
@@ -74,7 +76,7 @@ private:
     color_t current_fill_color;
 public:
     fill_t(color_t _current_fill_color);
-    void draw(color_t _background_color, color_t _fill_color, point_t** pixel_array, point_t node);
+    void draw(color_t _background_color, point_t** pixel_array, point_t node);
 };
 
 

@@ -8,11 +8,11 @@
 #include <fstream>
 color_t red1 = color_t(1.0f,0.0f,0.0f);
 color_t mix1 = color_t(1.0f,1.0f,0.0f);
-pen_t *pen = new pen_t(0,red1,'d');
+
 std::vector<point_t> mouse_point_clicks;
 drawing_t* drawing = new drawing_t();
 canvas_t* canvas = new canvas_t(drawing);
-
+pen_t *pen = new pen_t(0,red1,'d', canvas->get_bgc());
 std::ofstream ofile;
 std::ifstream ifile;
 
@@ -133,6 +133,7 @@ void change_back_color()
     color_t back_color = get_color_from_term();
     disp_color_t(back_color);
     canvas->set_back_color(init_back_color, back_color, *pen);
+    pen->set_back_color(back_color);
 //    canvas->clear();
 //    drawing->draw(canvas->get_pixel_array(),*pen);
     return;
@@ -142,6 +143,10 @@ void change_pen_width()
     int size = get_size_from_term();
     pen->set_pen_size(size);
     return;
+}
+void change_fill_color()
+{
+    mix1 = get_color_from_term();
 }
 void save_drawing()
 {
@@ -217,8 +222,9 @@ void fill_triangle()
 }
 void left_button_function(int x, int y)
 {
-    if (pen->get_mode() == 'd')
+    if (true)
     {
+        disp_color_t(pen->get_back_color());
         if (!triangle_mode)
         {
             if (line_mode)
@@ -264,11 +270,20 @@ void left_button_function(int x, int y)
         }
         if(fill_mode)
         {
+            point_t *tmp = new point_t(x, win_height - y, canvas->get_pixel_array()[y][x].get_point_color());
+            //            disp_mouse_pointer_click(mouse_point_clicks);
+            mouse_point_clicks.push_back(*tmp);
+            delete tmp;
+
             point_t centroid = mouse_point_clicks.back();
+            std::cout << "line 274" ;
+            disp_color_t(centroid.get_point_color());
+            std::cout << std::endl;
+            mouse_point_clicks.pop_back();
             mouse_point_clicks.pop_back();
             std::cout<<centroid.getY()<<" "<<centroid.getX()<<std::endl;
-            fill_t fillTriangle(red1);
-            fillTriangle.draw(canvas->get_bgc(), mix1, canvas->get_pixel_array(), centroid);
+            fill_t fillTriangle(mix1);
+            fillTriangle.draw(centroid.get_point_color(), canvas->get_pixel_array(), centroid);
             fill_mode = false;
             return;
         }

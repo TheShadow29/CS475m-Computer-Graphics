@@ -93,10 +93,13 @@ void keyboard( unsigned char key, int x, int y ) {
             load_drawing();
             break;
         case 'G':
-            change_back_color();
+            change_fill_color();
             break;
         case 'F':
             fill_triangle();
+            break;
+        case 'P':
+            pen->toggle_pen_mode();
             break;
         //Ignore all other keypresses
         default:
