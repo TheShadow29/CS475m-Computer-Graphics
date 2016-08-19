@@ -14,13 +14,14 @@ class color_t
 private:
   float r,g,b;
 public:
-  color_t();
-    color_t(const float _r, const float _g, const float _b);
+    color_t();
+    color_t(float _r, float _g, float _b);
 
-  void set(const float _r, const float _g, const float _b);
-  float R(void);
-  float G(void);
-  float B(void);
+    void set(const float _r, const float _g, const float _b);
+    float R(void);
+    float G(void);
+    float B(void);
+    std::string toString();
 };
 //------------------
 //2. pen_t class
@@ -39,12 +40,14 @@ public:
     pen_t(color_t _back_color);
     int get_size();
     void toggle_pen_mode();
+    void set_pen_mode(char a);
     color_t get_pen_color();
     color_t get_back_color();
     void set_back_color(color_t color);
     void set_pen_color(color_t color);
     void set_pen_size(int _size);
     char get_mode();
+    std::string toString();
 };
 
 //-----------------------------
@@ -77,6 +80,7 @@ private:
 public:
     fill_t(color_t _current_fill_color);
     void draw(color_t _background_color, point_t** pixel_array, point_t node);
+    std::string toString(color_t color, point_t point);
 };
 
 
@@ -124,7 +128,7 @@ public:
 public:
     drawing_t();
     drawing_t(std::vector<std::string> _drawing_list);
-    void draw(point_t** pixel_array, pen_t pen);
+    void draw(point_t** pixel_array, pen_t* pen);
     std::vector<std::string> get_drawing_list();
     void set_drawing_list(std::vector<std::string> _drawing_list);
     void clear_drawing_list();

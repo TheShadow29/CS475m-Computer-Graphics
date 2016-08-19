@@ -123,6 +123,7 @@ void change_pen_color()
 {
     color_t pen_color = get_color_from_term();
     pen->set_pen_color(pen_color);
+    drawing->store_drawing(pen->toString());
     return;
 }
 ///change back color not working completely
@@ -142,6 +143,7 @@ void change_pen_width()
 {
     int size = get_size_from_term();
     pen->set_pen_size(size);
+    drawing->store_drawing(pen->toString());
     return;
 }
 void change_fill_color()
@@ -159,7 +161,8 @@ void save_drawing()
 void load_drawing()
 {
     drawing->clear_drawing_list();
-    std::string file_name = get_input_file_from_term();
+//    std::string file_name = get_input_file_from_term();
+    std::string file_name = "saved_drawing.txt";
     ifile.open(file_name);
 //    std::cout << "ifile.is_open() " << ifile.is_open() << std::endl;
     if (!ifile.is_open())
@@ -194,9 +197,29 @@ void load_drawing()
                 }
                 drawing->store_drawing(s1);
             }
+            if (line == "P")
+            {
+                s1 = line + "\n";
+                for (int i = 0; i < 5; i++)
+                {
+                    std::getline(ifile, line);
+                    s1 += line + "\n";
+                }
+                drawing->store_drawing(s1);
+            }
+            if (line == "F")
+            {
+                s1 = line + "\n";
+                for (int i = 0; i < 5; i++)
+                {
+                    std::getline(ifile, line);
+                    s1 += line + "\n";
+                }
+                drawing->store_drawing(s1);
+            }
         }
         disp_string_vec(canvas->get_current_drawing()->get_drawing_list(), 0);
-        drawing->draw(canvas->get_pixel_array(), *pen);
+        drawing->draw(canvas->get_pixel_array(), pen);
     }
     std::cout << "returning" << std::endl;
     return;
@@ -283,6 +306,7 @@ void left_button_function(int x, int y)
             mouse_point_clicks.pop_back();
             std::cout<<centroid.getY()<<" "<<centroid.getX()<<std::endl;
             fill_t fillTriangle(mix1);
+            drawing->store_drawing(fillTriangle.toString(mix1, centroid));
             fillTriangle.draw(centroid.get_point_color(), canvas->get_pixel_array(), centroid);
             fill_mode = false;
             return;

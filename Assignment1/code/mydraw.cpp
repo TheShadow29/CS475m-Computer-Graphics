@@ -21,13 +21,7 @@ void display( void )
     glClear(GL_COLOR_BUFFER_BIT);
 //    disp_canv_array(canvas);
     pen_t pen1(5,red1,'d');
-    for(int i = 20; i < 100; i++)
-    {
-        point_t a(i,i-10,red1);
-       // std::string s = a.toString();
-      //  drawing->store_drawing(s);
-       a.draw(canvas->get_pixel_array(), pen1);
-    }
+    disp_string_vec(drawing->get_drawing_list(),0);
     std::vector<std::string> vec = drawing->get_drawing_list();
     for (int i = 0; i < vec.size(); i++)
     {

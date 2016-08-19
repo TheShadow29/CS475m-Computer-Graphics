@@ -1,4 +1,5 @@
 #include "mydraw_class.hpp"
+//#include "related_functions.cpp"
 #include <iostream>
 #include <string>
 #define sgn(x) (x>0)?1:((x<0)?-1:0)
@@ -31,7 +32,7 @@ int abs(int x)
 // 1. color_t methods
 
 color_t::color_t() :r(0.0f), g(0.0f), b(0.0f){ }
-color_t::color_t(const float _r, const float _g, const float _b)
+color_t::color_t(float _r, float _g, float _b)
 		 :r(_r),g(_g),b(_b) { }
 
 void color_t::set(const float _r, const float _g, const float _b)
@@ -42,22 +43,31 @@ void color_t::set(const float _r, const float _g, const float _b)
 float color_t::R(void) { return r; }
 float color_t::G(void) { return g; }
 float color_t::B(void) { return b; }
-
+//std::string color_t::toString()
+//{
+//    std::string s = "C\n";
+//    s += std::string(this->r);
+//    s += std::string(this->g);
+//    s += std::string(this->b);
+//    s += "\n";
+//    return s;
+//}
 //---------------------
 // 2. pen_t methods
 pen_t::pen_t() : size(1), pen_color(red), mode('d'){};
 pen_t::pen_t(int _size, color_t _pen_color, char _mode)
-        :size(2*_size+1), pen_color(_pen_color), mode(_mode) {}
+        :size(2*_size - 1), pen_color(_pen_color), mode(_mode) {}
 pen_t::pen_t(color_t _back_color) : size(1), pen_color(red), mode('d'), back_color(_back_color){ }
 pen_t::pen_t(int _size, color_t _pen_color, char _mode, color_t _back_color)
-        :size(2*_size+1), pen_color(_pen_color), mode(_mode), back_color(_back_color){ }
+        :size(2*_size-1), pen_color(_pen_color), mode(_mode), back_color(_back_color){ }
 int pen_t::get_size()  { return size; }
 color_t pen_t::get_pen_color()  { return pen_color; }
 char pen_t::get_mode() { return mode; }
 void pen_t::set_back_color(color_t color) {back_color = color;}
 void pen_t::set_pen_color(color_t color) {pen_color = color; }
 color_t pen_t::get_back_color() {return back_color; }
-void pen_t::set_pen_size(int _size) { size = 2*_size + 1;}
+void pen_t::set_pen_size(int _size) { size = 2*_size - 1;}
+void pen_t::set_pen_mode(char a) {mode = a;}
 void pen_t::toggle_pen_mode()
 {
     if (this->mode == 'd')
@@ -70,10 +80,42 @@ void pen_t::toggle_pen_mode()
     }
     return;
 }
+std::string pen_t::toString()
+{
+    //mode, color RGB, size
+    std::string s = "P\n";
+    if (this->mode == 'd'){s += "1";}
+    else{s += "0";}
+    s += "\n";
+    s += std::to_string(this->get_size());
+    s += "\n";
+    s += std::to_string(this->pen_color.R());
+    s += "\n";
+    s += std::to_string(this->pen_color.G());
+    s += "\n";
+    s += std::to_string(this->pen_color.B());
+    s += "\n";
+    return s;
+}
 
 //-----------------------
 // 3. fill_t methods
 fill_t::fill_t(color_t _current_fill_color) : current_fill_color(_current_fill_color) {};
+std::string fill_t::toString(color_t color, point_t point)
+{
+    std::string s ="F\n";
+    s += std::to_string(color.R());
+    s+= "\n";
+    s += std::to_string(color.G());
+    s+= "\n";
+    s += std::to_string(color.B());
+    s+= "\n";
+    s += std::to_string(point.getX());
+    s+= "\n";
+    s += std::to_string(point.getY());
+    s+= "\n";
+    return s;
+}
 void fill_t::draw(color_t _background_color, point_t** pixel_array, point_t node)
 {
     std::vector<point_t> pixels;
@@ -294,19 +336,22 @@ void drawing_t::clear_drawing_list()
     drawing_list.clear();
     return;
 }
-void drawing_t::draw(point_t **pixel_array, pen_t pen)
+void drawing_t::draw(point_t **pixel_array, pen_t* pen)
 {
     std::string line;
     std::string x1_s, y1_s;
     std::vector<point_t> P;
+    std::vector<float> P_f;
+    std::vector<int> P_i;
     int x1, y1;
-//        std::cout << "line 157 " << std::endl;
+    float x2;
     for (int i = 0; i < drawing_list.size(); i++)
     {
         int j = 0;
         line = drawing_list[i];
         P.clear();
-//        std::cout << "line 247 line=" << line <<std::endl;
+        P_f.clear();
+        P_i.clear();
         if (line[j] == 't')
         {
             j++;
@@ -317,15 +362,11 @@ void drawing_t::draw(point_t **pixel_array, pen_t pen)
                 y1_s.clear();
                 while(line[j] != '\n')
                 {
-//                    std::cout << "line 259 line[j]=" << line[j] <<std::endl;
                     x1_s += line[j];
                     j++;
                 }
-//                std::cout << "line 259 x1_s=" << x1_s <<  std::endl;
                 x1 = std::stoi(x1_s);
-//                std::cout << "line 264 x1=" << x1 <<  std::endl;
                 j++;
-//                std::cout << "line 64 line[j]=" << line[j] << std::endl;
                 while(line[j] != '\n')
                 {
                     y1_s += line[j];
@@ -334,13 +375,11 @@ void drawing_t::draw(point_t **pixel_array, pen_t pen)
                 y1 = std::stoi(y1_s);
                 j++;
                 P.push_back(point_t(x1,y1));
-//                std::cout << "line 259 y1_s=" << y1_s <<  std::endl;
             }
-//            std::cout << "line 278 y1_s=" << y1_s <<  std::endl;
 
             triangle_t t1(P[0],P[1],P[2]);
-            t1.draw(pixel_array, pen);
-//            std::cout << "line 275" << std::endl;
+            std::cout << "line 362" << pen->get_pen_color().G() << std::endl;
+            t1.draw(pixel_array, *pen);
         }
         else if (line[j] == 'l')
         {
@@ -352,15 +391,11 @@ void drawing_t::draw(point_t **pixel_array, pen_t pen)
                 y1_s.clear();
                 while(line[j] != '\n')
                 {
-//                    std::cout << "line 259 line[j]=" << line[j] <<std::endl;
                     x1_s += line[j];
                     j++;
                 }
-//                std::cout << "line 259 x1_s=" << x1_s <<  std::endl;
                 x1 = std::stoi(x1_s);
-//                std::cout << "line 264 x1=" << x1 <<  std::endl;
                 j++;
-//                std::cout << "line 64 line[j]=" << line[j] << std::endl;
                 while(line[j] != '\n')
                 {
                     y1_s += line[j];
@@ -370,10 +405,71 @@ void drawing_t::draw(point_t **pixel_array, pen_t pen)
                 j++;
                 P.push_back(point_t(x1,y1));
             }
-//            std::cout << "line 278 y1_s=" << y1_s <<  std::endl;
             line_t l1(P[0],P[1]);
-            l1.draw(pixel_array,pen);
-//            std::cout << "line 275" << std::endl;
+            l1.draw(pixel_array,*pen);
+        }
+        else if (line[j] == 'P')
+        {
+            std::cout << "line395 " << line << std::endl;
+            ++j;
+            if(line[++j] == '1')//j=2
+            {pen->set_pen_mode('d');}
+            else{pen->set_pen_mode('e');}
+            j++;//j=3
+            x1_s="";
+            while (line[++j] != '\n')
+            {
+                x1_s += line[j];
+            }
+
+            y1 = std::stoi(x1_s);
+            pen->set_pen_size(y1);
+            for(int k = 0; k < 3; k++)
+            {
+                x1_s.clear();
+                ++j;
+                while(line[j] != '\n')
+                {
+                    x1_s += line[j++];
+                }
+                std::cout << "line 417: " << x1_s<< std::endl;
+                x2 = std::stof(x1_s);
+                std::cout<<"check x2: "<<x2<<std::endl;
+                P_f.push_back(x2);
+            }
+            color_t color1 = color_t(P_f[0], P_f[1],P_f[2]);
+            pen->set_pen_color(color1);
+        }
+        else if (line[j] == 'F')
+        {
+            ++j;
+            for(int k = 0; k < 3; k++)
+            {
+                x1_s.clear();
+                while (line[++j] != '\n')
+                {
+                    x1_s += line[j];
+                }
+                x2 = std::stof(x1_s);
+                P_f.push_back(x2);
+            }
+
+            color_t* col = new color_t(P_f[0], P_f[1], P_f[2]);
+            for(int k = 0; k < 2; k++)
+            {
+                y1_s.clear();
+                while (line[++j] != '\n')
+                {
+                    y1_s += line[j];
+                }
+                y1 = std::stoi(y1_s);
+                P_i.push_back(y1);
+            }
+            point_t* poi = new point_t(P_i[0], P_i[1]);
+            fill_t fi1(*col);
+            fi1.draw(pixel_array[poi->getY()][poi->getX()].get_point_color(), pixel_array,*poi);
+            delete poi;
+            delete col;
         }
     }
     return;
@@ -434,7 +530,7 @@ void canvas_t::set_back_color(color_t init_back_color, color_t color, pen_t pen)
             }
         }
     }
-    current_drawing->draw(pixel_array,pen);
+    current_drawing->draw(pixel_array,&pen);
 }
 drawing_t* canvas_t::get_current_drawing() { return current_drawing; }
 
