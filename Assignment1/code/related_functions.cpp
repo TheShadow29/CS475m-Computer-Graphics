@@ -11,21 +11,21 @@ color_t mix1 = color_t(1.0f,1.0f,0.0f);
 
 std::vector<point_t> mouse_point_clicks;
 drawing_t* drawing = new drawing_t();
-canvas_t* canvas = new canvas_t(drawing);
-pen_t *pen = new pen_t(0,red1,'d', canvas->get_bgc());
+
 std::ofstream ofile;
 std::ifstream ifile;
 
 bool line_mode = false;
-bool triangle_mode = true;
+bool triangle_mode = false;
 bool fill_mode = false;
 
 
 //Window width
-int win_width = 640;
+int win_width = 1024;
 //Window height
-int win_height = 480;
-
+int win_height = 768;
+canvas_t* canvas = new canvas_t(win_width, win_height,drawing);
+pen_t *pen = new pen_t(0,red1,'d', canvas->get_bgc());
 void canvas_t::display_to_screen()
 {
     GLubyte checkImage[this->height][this->width][3];
@@ -130,13 +130,9 @@ void change_pen_color()
 void change_back_color()
 {
     color_t init_back_color = canvas->get_bgc();
-    disp_color_t(init_back_color);
     color_t back_color = get_color_from_term();
-    disp_color_t(back_color);
     canvas->set_back_color(init_back_color, back_color, *pen);
     pen->set_back_color(back_color);
-//    canvas->clear();
-//    drawing->draw(canvas->get_pixel_array(),*pen);
     return;
 }
 void change_pen_width()
@@ -217,8 +213,18 @@ void load_drawing()
                 }
                 drawing->store_drawing(s1);
             }
+            if (line == "C")
+            {
+                s1 = line + "\n";
+                for (int i = 0; i < 6; i++)
+                {
+                    std::getline(ifile, line);
+                    s1 += line + "\n";
+                }
+                drawing->store_drawing(s1);
+            }
         }
-        disp_string_vec(canvas->get_current_drawing()->get_drawing_list(), 0);
+//        disp_string_vec(canvas->get_current_drawing()->get_drawing_list(), 0);
         drawing->draw(canvas->get_pixel_array(), pen);
     }
     std::cout << "returning" << std::endl;
@@ -245,9 +251,7 @@ void fill_triangle()
 }
 void left_button_function(int x, int y)
 {
-    if (true)
-    {
-        disp_color_t(pen->get_back_color());
+//        disp_color_t(pen->get_back_color());
         if (!triangle_mode)
         {
             if (line_mode)
@@ -272,10 +276,10 @@ void left_button_function(int x, int y)
         }
         else
         {
-            std::cout << "line 119" << std::endl;
+//            std::cout << "line 119" << std::endl;
             point_t* tmp = new point_t(x, win_height - y, pen->get_pen_color());
             mouse_point_clicks.push_back(*tmp);
-            disp_mouse_pointer_click(mouse_point_clicks);
+//            disp_mouse_pointer_click(mouse_point_clicks);
             delete tmp;
             if (mouse_point_clicks.size()%3 == 0)
             {
@@ -299,17 +303,17 @@ void left_button_function(int x, int y)
             delete tmp;
 
             point_t centroid = mouse_point_clicks.back();
-            std::cout << "line 274" ;
-            disp_color_t(centroid.get_point_color());
-            std::cout << std::endl;
+//            std::cout << "line 274" ;
+//            disp_color_t(centroid.get_point_color());
+//            std::cout << std::endl;
             mouse_point_clicks.pop_back();
             mouse_point_clicks.pop_back();
-            std::cout<<centroid.getY()<<" "<<centroid.getX()<<std::endl;
+//            std::cout<<centroid.getY()<<" "<<centroid.getX()<<std::endl;
             fill_t fillTriangle(mix1);
             drawing->store_drawing(fillTriangle.toString(mix1, centroid));
             fillTriangle.draw(centroid.get_point_color(), canvas->get_pixel_array(), centroid);
             fill_mode = false;
             return;
         }
-    }
+
 }

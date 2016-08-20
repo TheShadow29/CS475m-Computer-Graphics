@@ -43,15 +43,7 @@ void color_t::set(const float _r, const float _g, const float _b)
 float color_t::R(void) { return r; }
 float color_t::G(void) { return g; }
 float color_t::B(void) { return b; }
-//std::string color_t::toString()
-//{
-//    std::string s = "C\n";
-//    s += std::string(this->r);
-//    s += std::string(this->g);
-//    s += std::string(this->b);
-//    s += "\n";
-//    return s;
-//}
+
 //---------------------
 // 2. pen_t methods
 pen_t::pen_t() : size(1), pen_color(red), mode('d'){};
@@ -153,7 +145,7 @@ void fill_t::draw(color_t _background_color, point_t** pixel_array, point_t node
             if(pixel_array[y-1][var].checkIfSameColor(_background_color));
             pixels.push_back(pixel_array[y-1][var]);
         }
-        std::cout<<pixels.size()<<std::endl;
+//        std::cout<<pixels.size()<<std::endl;
         pixels.erase(pixels.begin());
         counter++;
 //        std::cout<<"line 180:"<<counter<<" "<<pixels.size()<<std::endl;
@@ -191,7 +183,6 @@ bool point_t::checkIfSameColor(color_t color_compare)
 }
 void point_t::draw(point_t** pixel_array, pen_t pen)
 {
-
     pixel_array[y][x] = *this;
     int thick = pen.get_size()/2;
     color_t color;
@@ -211,10 +202,6 @@ void point_t::draw(point_t** pixel_array, pen_t pen)
     {
         for (int j = x_min; j <= x + thick; j++)
         {
-//            std::cout << "line 59 " << "pen_size" << pen.get_size() << std::endl;
-//            std::cout << "line 68 " << "i=" << i << " j=" << j << std::endl;
-//            std::cout << "line 69 " << "x_min=" << x_min << " y_min=" << y_min << std::endl;
-//            std::cout << "line 69 " << "x+thick=" << x + thick << " y+thick=" << y+thick << std::endl;
             point_t* c = new point_t(j,i,color);
             c->draw_direct(pixel_array);
             delete c;
@@ -249,14 +236,14 @@ void line_t::draw(point_t** pixel_array, pen_t pen)
     int delX = abs(x2 - x1);
     int delY = abs(y2 - y1);
     bool is_steep = delY > delX;
-    std::cout << "line 103 a_x=" << x1 << " a_y=" << y1 << std::endl;
-    std::cout << "line 104 b_x=" << x2 << " b_y=" << y2 << std::endl;
-    std::cout << "line 105 delX=" << delX << std::endl;
-    std::cout << "line 106 delY=" << delY << std::endl ;
-    std::cout << "line 107 is_steep" << is_steep << std::endl;
+//    std::cout << "line 103 a_x=" << x1 << " a_y=" << y1 << std::endl;
+//    std::cout << "line 104 b_x=" << x2 << " b_y=" << y2 << std::endl;
+//    std::cout << "line 105 delX=" << delX << std::endl;
+//    std::cout << "line 106 delY=" << delY << std::endl ;
+//    std::cout << "line 107 is_steep" << is_steep << std::endl;
     int x11 = x1, y11 = y1;
-    std::cout << "line 119 x11=" << x11 << std::endl;
-    std::cout << "line 120 y11=" << y11 << std::endl;
+//    std::cout << "line 119 x11=" << x11 << std::endl;
+//    std::cout << "line 120 y11=" << y11 << std::endl;
     s1 = sgn(x2 - x1);
     int s2 = sgn(y2 - y1);
     int slope_dir = sgn(s1 * s2);
@@ -282,7 +269,7 @@ void line_t::draw(point_t** pixel_array, pen_t pen)
         }
         else
         {
-            std::cout << "line 129" << std::endl;
+//            std::cout << "line 129" << std::endl;
             bresenham_octant_negative(y1 - y2,x1 - x2,b.getY(),b.getX(),pen,pixel_array,is_steep);
         }
     }
@@ -312,10 +299,7 @@ void triangle_t::draw(point_t **pixel_array, pen_t pen)
     delete l2;
     delete l3;
 }
-//std::String triangle_t::toString()
-//{
-//}
-//-------------------------------
+
 // 7. drawing_t methods
 drawing_t::drawing_t(){}
 drawing_t::drawing_t(std::vector <std::string> _drawing_list) : drawing_list(_drawing_list){ }
@@ -378,7 +362,7 @@ void drawing_t::draw(point_t **pixel_array, pen_t* pen)
             }
 
             triangle_t t1(P[0],P[1],P[2]);
-            std::cout << "line 362" << pen->get_pen_color().G() << std::endl;
+//            std::cout << "line 362" << pen->get_pen_color().G() << std::endl;
             t1.draw(pixel_array, *pen);
         }
         else if (line[j] == 'l')
@@ -410,7 +394,7 @@ void drawing_t::draw(point_t **pixel_array, pen_t* pen)
         }
         else if (line[j] == 'P')
         {
-            std::cout << "line395 " << line << std::endl;
+//            std::cout << "line395 " << line << std::endl;
             ++j;
             if(line[++j] == '1')//j=2
             {pen->set_pen_mode('d');}
@@ -432,9 +416,9 @@ void drawing_t::draw(point_t **pixel_array, pen_t* pen)
                 {
                     x1_s += line[j++];
                 }
-                std::cout << "line 417: " << x1_s<< std::endl;
+//                std::cout << "line 417: " << x1_s<< std::endl;
                 x2 = std::stof(x1_s);
-                std::cout<<"check x2: "<<x2<<std::endl;
+//                std::cout<<"check x2: "<<x2<<std::endl;
                 P_f.push_back(x2);
             }
             color_t color1 = color_t(P_f[0], P_f[1],P_f[2]);
@@ -471,6 +455,35 @@ void drawing_t::draw(point_t **pixel_array, pen_t* pen)
             delete poi;
             delete col;
         }
+        else if (line[j] == 'C')
+        {
+            ++j;
+            for(int k = 0; k < 3; k++)
+            {
+                x1_s.clear();
+                while (line[++j] != '\n')
+                {
+                    x1_s += line[j];
+                }
+                x2 = std::stof(x1_s);
+                P_f.push_back(x2);
+            }
+            color_t* init_col = new color_t(P_f[0], P_f[1], P_f[2]);
+            P_f.clear();
+            for(int k = 0; k < 2; k++)
+            {
+                y1_s.clear();
+                while (line[++j] != '\n')
+                {
+                    y1_s += line[j];
+                }
+                y1 = std::stoi(y1_s);
+                P_i.push_back(y1);
+            }
+            color_t* new_col = new color_t(P_f[0], P_f[1], P_f[2]);
+//            can->set_back_color(*init_col, *new_col, *pen);
+        }
+
     }
     return;
 }
@@ -517,6 +530,28 @@ canvas_t::canvas_t(drawing_t* _current_drawing) :width(640), height(480), backgr
 {
     this->clear();
 }
+canvas_t::canvas_t(int _width, int _height, drawing_t *_current_drawing) :width(_width), height(_height),
+                 current_drawing(_current_drawing), background_color(white)
+{
+    this->clear();
+}
+std::string canvas_t::toString(color_t init_color, color_t new_color)
+{
+    std::string s ="C\n";
+    s += std::to_string(init_color.R());
+    s+= "\n";
+    s += std::to_string(init_color.G());
+    s+= "\n";
+    s += std::to_string(init_color.B());
+    s+= "\n";
+    s += std::to_string(new_color.R());
+    s+= "\n";
+    s += std::to_string(new_color.G());
+    s+= "\n";
+    s += std::to_string(new_color.B());
+    s+= "\n";
+    return s;
+}
 void canvas_t::set_back_color(color_t init_back_color, color_t color, pen_t pen)
 {
     background_color = color;
@@ -530,7 +565,7 @@ void canvas_t::set_back_color(color_t init_back_color, color_t color, pen_t pen)
             }
         }
     }
-    current_drawing->draw(pixel_array,&pen);
+//    current_drawing->draw(pixel_array,&pen);
 }
 drawing_t* canvas_t::get_current_drawing() { return current_drawing; }
 
@@ -569,10 +604,10 @@ void bresenham_octant_negative(int delX, int delY, int x11, int y11, pen_t pen, 
 {
     int eps_dash = 0;
     color_t color = pen.get_pen_color();
-    std::cout << "line 219 delX=" << delX << std::endl;
-    std::cout << "line 219 delY=" << delY << std::endl;
-    std::cout << "line 238 x11=" << x11 << std::endl;
-    std::cout << "line 239 y11=" << y11 << std::endl;
+//    std::cout << "line 219 delX=" << delX << std::endl;
+//    std::cout << "line 219 delY=" << delY << std::endl;
+//    std::cout << "line 238 x11=" << x11 << std::endl;
+//    std::cout << "line 239 y11=" << y11 << std::endl;
     for (int i = 0; i < delX; ++i)
     {
 

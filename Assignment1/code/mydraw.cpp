@@ -20,15 +20,15 @@ void display( void )
     //This clears the colorbuffer (current window)
     glClear(GL_COLOR_BUFFER_BIT);
 //    disp_canv_array(canvas);
-    pen_t pen1(5,red1,'d');
-    disp_string_vec(drawing->get_drawing_list(),0);
-    std::vector<std::string> vec = drawing->get_drawing_list();
-    for (int i = 0; i < vec.size(); i++)
-    {
-        std::cout << "line 34" << vec[i] << std::endl;
-    }
+//    pen_t pen1(5,red1,'d');
+//    disp_string_vec(drawing->get_drawing_list(),0);
+//    std::vector<std::string> vec = drawing->get_drawing_list();
+//    for (int i = 0; i < vec.size(); i++)
+//    {
+//        std::cout << "line 34" << vec[i] << std::endl;
+//    }
     canvas->display_to_screen();
-    std::cout << "next buffer " << std::endl;
+//    std::cout << "next buffer " << std::endl;
     //Flush the framebuffer to the screen
     glutSwapBuffers();
 }
@@ -60,40 +60,59 @@ void keyboard( unsigned char key, int x, int y ) {
             break;
         //Do something when 'C' is pressed
         case 'N':
+        std::cout << "Initializing a new canvas" << std::endl;
             InitCanvas();
             break;
         case 'C':
+        std::cout << "Clearing the canvas" << std::endl;
             canvas->clear();
             break;
         case '1':
             line_mode = !line_mode;
+            if (line_mode){ std::cout << "Entering line mode" << std::endl;}
+            else{ std::cout << "Exiting line mode" << std::endl;}
             break;
         case '2':
             triangle_mode = !triangle_mode;
+            if (triangle_mode){ std::cout << "Entering triangle mode" << std::endl;}
+            else{ std::cout << "Exiting triangle mode" << std::endl;}
             break;
         case 'H':
+        std::cout << "Changing Pen color" << std::endl;
+        std::cout << "Select New pen color" << std::endl;
             change_pen_color();
             break;
         case 'I':
+            std::cout << "Changing Background color" << std::endl;
+            std::cout << "Select New Background color" << std::endl;
             change_back_color();
             break;
         case 'J':
+            std::cout << "Changing Pen Width" << std::endl;
+            std::cout << "Select New Pen Width" << std::endl;
             change_pen_width();
             break;
         case 'S':
+            std::cout << "Saving the current drawing" << std::endl;
             save_drawing();
             break;
         case 'L':
+        std::cout << "Load drawing" << std::endl;
             load_drawing();
             break;
         case 'G':
+            std::cout << "Changing Fill Color" << std::endl;
+            std::cout << "Select New Fill Color" << std::endl;
             change_fill_color();
             break;
         case 'F':
+        std::cout << "Select any point inside the triangle to be filled" << std::endl;
             fill_triangle();
             break;
         case 'P':
             pen->toggle_pen_mode();
+            if (pen->get_mode() == 'd'){ std::cout << "Pen in draw mode" << std::endl;}
+            else{ std::cout << "Pen in eraser mode" << std::endl;}
             break;
         //Ignore all other keypresses
         default:
@@ -125,17 +144,6 @@ int main (int argc, char *argv[])
 //    disp_canv_array(canvas1);
 
     //disp_color_t(red1);
-
-    if (counter == 1)
-    {
-        win_width = 480;
-        win_height = 640;
-    }
-    if (counter == 0)
-    {
-        counter += 1;
-    }
-    std::cout << "counter=" << counter << std::endl;
   glutInit( &argc, argv );
   glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
   glutInitWindowSize( win_width, win_height );
