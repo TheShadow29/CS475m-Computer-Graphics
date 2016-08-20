@@ -21,7 +21,7 @@ bool fill_mode = false;
 
 
 //Window width
-int win_width = 1024;
+int win_width = 640;
 //Window height
 int win_height = 768;
 canvas_t* canvas = new canvas_t(win_width, win_height,drawing);
@@ -157,8 +157,8 @@ void save_drawing()
 void load_drawing()
 {
     drawing->clear_drawing_list();
-//    std::string file_name = get_input_file_from_term();
-    std::string file_name = "saved_drawing.txt";
+    std::string file_name = get_input_file_from_term();
+//    std::string file_name = "saved_drawing.txt";
     ifile.open(file_name);
 //    std::cout << "ifile.is_open() " << ifile.is_open() << std::endl;
     if (!ifile.is_open())
@@ -262,7 +262,7 @@ void left_button_function(int x, int y)
                 delete tmp;
                 if (mouse_point_clicks.size() % 2 == 0)
                 {
-                    std::cout << "line 97" << std::endl;
+//                    std::cout << "line 97" << std::endl;
                     point_t b = mouse_point_clicks.back();
                     mouse_point_clicks.pop_back();
                     point_t a = mouse_point_clicks.back();

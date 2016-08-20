@@ -61,21 +61,27 @@ void keyboard( unsigned char key, int x, int y ) {
         //Do something when 'C' is pressed
         case 'N':
         std::cout << "Initializing a new canvas" << std::endl;
+            mouse_point_clicks.clear();
             InitCanvas();
             break;
         case 'C':
         std::cout << "Clearing the canvas" << std::endl;
+            mouse_point_clicks.clear();
             canvas->clear();
             break;
         case '1':
             line_mode = !line_mode;
-            if (line_mode){ std::cout << "Entering line mode" << std::endl;}
-            else{ std::cout << "Exiting line mode" << std::endl;}
+            if (line_mode){ std::cout << "Entering line mode" << std::endl; mouse_point_clicks.clear();}
+            else{ std::cout << "Exiting line mode" << std::endl; mouse_point_clicks.clear();}
             break;
         case '2':
             triangle_mode = !triangle_mode;
-            if (triangle_mode){ std::cout << "Entering triangle mode" << std::endl;}
-            else{ std::cout << "Exiting triangle mode" << std::endl;}
+            if (triangle_mode)
+            {
+                std::cout << "Entering triangle mode" << std::endl;
+                mouse_point_clicks.clear();
+            }
+            else{ std::cout << "Exiting triangle mode" << std::endl; mouse_point_clicks.clear();}
             break;
         case 'H':
         std::cout << "Changing Pen color" << std::endl;
@@ -131,7 +137,8 @@ void mouse(int button, int state, int x, int y)
         }
         if (button == GLUT_RIGHT_BUTTON)
         {
-            mouse_point_clicks.pop_back();
+            if(!mouse_point_clicks.empty())
+            {mouse_point_clicks.pop_back();}
         }
     }
    glutPostRedisplay();
