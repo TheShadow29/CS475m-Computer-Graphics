@@ -219,6 +219,7 @@ std::string line_t::toString()
     std::string s = "l\n" + a.toString() + b.toString();
     return  s;
 }
+
 void line_t::draw(point_t** pixel_array, pen_t pen)
 {
     color_t color = pen.get_pen_color();
