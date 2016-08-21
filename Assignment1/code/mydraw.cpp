@@ -117,6 +117,7 @@ void keyboard( unsigned char key, int x, int y ) {
             break;
         case 'P':
             pen->toggle_pen_mode();
+            drawing->store_drawing(pen->toString());
             if (pen->get_mode() == 'd'){ std::cout << "Pen in draw mode" << std::endl;}
             else{ std::cout << "Pen in eraser mode" << std::endl;}
             break;

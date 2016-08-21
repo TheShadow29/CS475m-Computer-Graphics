@@ -79,7 +79,7 @@ std::string pen_t::toString()
     if (this->mode == 'd'){s += "1";}
     else{s += "0";}
     s += "\n";
-    s += std::to_string(this->get_size());
+    s += std::to_string(this->(get_size()+1)/2);
     s += "\n";
     s += std::to_string(this->pen_color.R());
     s += "\n";
