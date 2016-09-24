@@ -26,7 +26,7 @@ void init_structures()
     struct_pedals();
     bic_frame->set_glist(frame1);
     bic_pedals->set_glist(pedals);
-    bic_pedals->change_params(2.0f, 0,0,0,0,0);
+    bic_pedals->change_params(1.5f, 0,-0.5f,0,0,0);
     bic_frame->add_child(bic_pedals);
 }
 
