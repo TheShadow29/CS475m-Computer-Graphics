@@ -1,7 +1,10 @@
 #include "bicycle_class.hpp"
 using namespace std;
-
-bic_node::bic_node(bic_node *_parent, int _glist, char _shape) : glist(_glist), shape(_shape)
+bic_node::bic_node()
+{
+    tx = ty =tz = rx = ry = rz = 0;
+}
+bic_node::bic_node(bic_node *_parent, int _glist) : glist(_glist)
 {
     if (_parent != NULL)
     {
@@ -9,6 +12,19 @@ bic_node::bic_node(bic_node *_parent, int _glist, char _shape) : glist(_glist), 
     }
     tx = ty =tz = rx = ry = rz = 0;
 }
+void bic_node::set_parent(bic_node *_parent)
+{
+    if (_parent != NULL)
+    {
+        parent = _parent;
+    }
+}
+
+void bic_node::set_glist(int _glist)
+{
+    glist = _glist;
+}
+
 void bic_node::add_child(bic_node *_child)
 {
     children.push_back(_child);
@@ -62,6 +78,7 @@ void bic_node::render_tree()
     render();
     for (int i = 0; i < children.size(); ++i)
     {
+        cout << "line 81" << endl;
         children[i]->render_tree();
     }
     glPopMatrix();

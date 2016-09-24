@@ -10,12 +10,14 @@ class bic_node
 private:
     float tx, ty, tz;
     float rx, ry, rz;
-    char shape;     // 'r' for cuboid, 'c' for cylinder
     int glist;
     std::vector<bic_node*> children;
     bic_node* parent;
 public:
-    bic_node (bic_node* _parent, int _glist, char _shape);
+    bic_node();
+    bic_node (bic_node* _parent, int _glist);
+    void set_parent(bic_node* _parent);
+    void set_glist(int _glist);
     void add_child(bic_node* _child);
     void render();
     void render_tree();

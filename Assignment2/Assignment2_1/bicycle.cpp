@@ -4,14 +4,13 @@
 #include <math.h>
 #include <GL/glut.h>
 #include <stdlib.h>
-#include "bicycle_class.hpp"
 #include "all_lists.cpp"
 
 
 /* Create display list with Torus and initialize state*/
 void init(void)
 {
-    struct_frame();
+    init_structures();
     glClearColor(0.0, 0.0, 0.0, 0.0);
 }
 
@@ -40,16 +39,35 @@ void keyboard(unsigned char key, int x, int y)
 {
     switch (key)
     {
-
+        case 'x':
+        case 'X':
+            glRotatef(30.0,1.0,0.0,0.0);
+            glutPostRedisplay();
+            break;
+        case 'y':
+        case 'Y':
+            glRotatef(30.,0.0,1.0,0.0);
+            glutPostRedisplay();
+            break;
+        case 'i':
+        case 'I':
+            glLoadIdentity();
+            gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+            glutPostRedisplay();
+            break;
+        case 27:
+            exit(0);
+            break;
     }
 }
 
 int main(int argc, char **argv)
 {
-    glutInitWindowSize(200, 200);
+    glutInitWindowSize(win_width, win_height);
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutCreateWindow(argv[0]);
+//    glutFullScreen();
     init();
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
