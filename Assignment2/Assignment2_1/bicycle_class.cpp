@@ -4,6 +4,10 @@ bic_node::bic_node()
 {
     tx = ty =tz = rx = ry = rz = 0;
 }
+void bic_node::set_color(color_t color1)
+{
+    color = color1;
+}
 bic_node::bic_node(bic_node *_parent, int _glist) : glist(_glist)
 {
     if (_parent != NULL)
@@ -83,3 +87,16 @@ void bic_node::render_tree()
     }
     glPopMatrix();
 }
+
+color_t::color_t() :r(0.0f), g(0.0f), b(0.0f){ }
+color_t::color_t(float _r, float _g, float _b)
+:r(_r),g(_g),b(_b) { }
+
+void color_t::set(const float _r, const float _g, const float _b)
+{
+    r=_r; g=_g; b=_b;
+}
+
+float color_t::R(void) { return r; }
+float color_t::G(void) { return g; }
+float color_t::B(void) { return b; }

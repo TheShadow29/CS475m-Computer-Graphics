@@ -9,6 +9,25 @@ using namespace std;
 //Our function for processing ASCII keys
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
+        case 'x':
+        case 'X':
+            glRotatef(30.0,1.0,0.0,0.0);
+            glutPostRedisplay();
+            break;
+        case 'y':
+        case 'Y':
+            glRotatef(30.,0.0,1.0,0.0);
+            glutPostRedisplay();
+            break;
+        case 'i':
+        case 'I':
+            glLoadIdentity();
+            gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+            glutPostRedisplay();
+            break;
+        case 27:
+            exit(0);
+            break;
         // case '1':
         //   curr=0;
         //   break;
@@ -52,7 +71,9 @@ void processSpecialKeys(int key, int x, int y) {
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     draw_cycle();
+
     glutSwapBuffers();
 }
 
@@ -73,7 +94,6 @@ void init(void)
 
 int main(int argc, char **argv)
 {
-
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400,400);
@@ -81,6 +101,7 @@ int main(int argc, char **argv)
     glutDisplayFunc(display);
     glutKeyboardFunc(processNormalKeys);
     glutSpecialFunc(processSpecialKeys);
+    glutFullScreen();
     init();
     init_structures();
     glutMainLoop();

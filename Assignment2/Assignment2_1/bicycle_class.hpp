@@ -4,6 +4,21 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <vector>
+class color_t
+{
+private:
+    float r,g,b;
+public:
+    color_t();
+    color_t(float _r, float _g, float _b);
+
+    void set(const float _r, const float _g, const float _b);
+    float R(void);
+    float G(void);
+    float B(void);
+    std::string toString();
+};
+
 
 class bic_node
 {
@@ -11,11 +26,13 @@ private:
     float tx, ty, tz;
     float rx, ry, rz;
     int glist;
+    color_t color;
     std::vector<bic_node*> children;
     bic_node* parent;
 public:
     bic_node();
     bic_node (bic_node* _parent, int _glist);
+    void set_color(color_t color1);
     void set_parent(bic_node* _parent);
     void set_glist(int _glist);
     void add_child(bic_node* _child);
@@ -29,5 +46,7 @@ public:
     void dec_ry();
     void dec_rz();
 };
+
+
 
 #endif
