@@ -9,14 +9,23 @@ using namespace std;
 //Our function for processing ASCII keys
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
+        case 't':
+            bic_frame2->inc_ry();
+            glutPostRedisplay();
+            break;
         case 'x':
         case 'X':
-            glRotatef(30.0,1.0,0.0,0.0);
+            glRotatef(1.0,1.0,0.0,0.0);
             glutPostRedisplay();
             break;
         case 'y':
         case 'Y':
-            glRotatef(30.,0.0,1.0,0.0);
+            glRotatef(1.,0.0,1.0,0.0);
+            glutPostRedisplay();
+            break;
+        case 'z':
+        case 'Z':
+            glRotatef(30.,0.0,0.0,1.0);
             glutPostRedisplay();
             break;
         case 'i':
@@ -70,6 +79,7 @@ void processSpecialKeys(int key, int x, int y) {
 
 void display(void)
 {
+    glClearColor(1,1,1,1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     draw_cycle();
