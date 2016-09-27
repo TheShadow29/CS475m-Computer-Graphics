@@ -1,4 +1,5 @@
 #include <cmath>
+#include <math.h>
 #include <cstdlib>
 #include <iostream>
 #include <GL/glut.h>
@@ -14,6 +15,8 @@
  	GLint  	slices,
  	GLint  	stacks);
  */
+
+#define PI 3.14159265
 
 GLuint frame1;
 GLuint frame2;
@@ -37,16 +40,20 @@ void init_structures();
 
 float len_frame1 = 5.601f;
 float len_frame2 = 2.52f;
-float len_frame3 = 4.818f;
-float horizontal_tilt_frame1 = 16.17f;
+float len_frame3 = 5.801;
+float horizontal_tilt_frame1 = 10.17f;
 float angle_frame2_1 = 85.0f;
+float angle_frame3_1 = 90.0f;
+float angle_frame4_3 = 60.0f;
+float dist_frame4_1 = 2.0f;
+float len_frame4 = len_frame1/(sin(angle_frame4_3 * PI/180));
 
 void init_structures()
 {
     struct_frame();
     struct_pedals();
     bic_frame1->set_glist(frame1);
-    bic_frame1->change_params(0,0,0,0,0,-horizontal_tilt_frame1);
+    bic_frame1->change_params(0,2.0f,0,0,0,-horizontal_tilt_frame1);
 //    bic_pedals->set_glist(pedals);
 //    bic_pedals->change_params(1.5f, 0,-0.5f,0,0,0);
     bic_frame_main->add_child(bic_frame1);
@@ -69,9 +76,16 @@ void struct_frame1()
     glRotatef(angle_frame2_1,0,0,1.0f);
     horizontal_cylinder(len_frame2);
     glPopMatrix();
-    glTranslatef(len_frame1/2,0,0);
-    glRotatef(90.0f,0,0,1.0f);
+
+    glPushMatrix();
+    glTranslatef(len_frame1/2,-1.5f,0);
+    glRotatef(angle_frame3_1,0,0,1.0f);
     horizontal_cylinder(len_frame3);
+    glPopMatrix();
+
+    glTranslatef(0,-dist_frame4_1,0);
+    glRotatef(90-angle_frame4_3,0,0,-1.0f);
+    horizontal_cylinder(len_frame4);
     glEndList();
 }
 void struct_frame2()
