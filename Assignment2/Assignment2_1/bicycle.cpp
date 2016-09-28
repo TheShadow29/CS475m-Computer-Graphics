@@ -9,6 +9,10 @@ using namespace std;
 //Our function for processing ASCII keys
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
+        case 'r':
+            bic_front_wheel->inc_rz();
+            glutPostRedisplay();
+            break;
         case 't':
             bic_frame2->inc_ry();
             glutPostRedisplay();
