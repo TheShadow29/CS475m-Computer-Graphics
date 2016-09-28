@@ -23,6 +23,10 @@ GLuint frame2;
 GLuint frame3;
 GLuint frame4;
 GLuint frame5;
+GLuint frame6;
+GLuint frame7;
+GLuint frame8;
+GLuint frame9;
 GLuint fwp1;
 GLuint wheel1;
 GLuint wheel2;
@@ -44,6 +48,10 @@ bic_node* bic_frame2 = new bic_node(bic_frame1, frame2);
 bic_node* bic_frame3 = new bic_node(bic_frame1,frame3);
 bic_node* bic_frame4 = new bic_node(bic_frame1,frame4);
 bic_node* bic_frame5 = new bic_node(bic_frame1,frame5);
+bic_node* bic_frame6 = new bic_node(bic_frame5,frame6);
+bic_node* bic_frame7 = new bic_node(bic_frame5,frame6);
+bic_node* bic_frame8 = new bic_node(bic_frame5,frame8);
+bic_node* bic_frame9 = new bic_node(bic_frame5,frame8);
 bic_node* bic_front_wheel_pad = new bic_node(bic_frame1,fwp1);
 bic_node* bic_front_wheel = new bic_node(bic_front_wheel_pad,wheel1);
 bic_node* bic_back_wheel = new bic_node(bic_frame5,wheel1);
@@ -70,7 +78,8 @@ void struct_frame2();
 void struct_frame3();
 void struct_frame4();
 void struct_frame5();
-
+void struct_frame6();
+void struct_frame8();
 void struct_front_wheel_pad1();
 void struct_wheel();
 void struct_pedal_rod();
@@ -83,8 +92,10 @@ void struct_handle_bar();
 void struct_seat();
 void struct_handle();
 
+
 void tri(float, float, float);
 void horizontal_cylinder(float);
+
 void normal_cylinder(float,float);
 void normal_cube(float, float, float);
 void spoke();
@@ -95,13 +106,17 @@ void init_structures();
 float len_frame1 = 5.601f;
 float len_frame2 = 3.05f;
 float len_frame3 = 5.801;
-float len_frame5 =  4.20f;
+float len_frame5 =  2.10f;
+float len_frame5a =  0.0f;
+float len_frame8 = 2.10f;
 float dist_frame5 = 4.10f;
+float len_frame6 = 2.56f;
 float horizontal_tilt_frame1 = 10.17f;
 float angle_frame2_1 = 85.0f;
 float angle_frame3_1 = 90.0f;
 float angle_frame4_3 = 60.0f;
 float angle_frame5 = 50.0f;
+float angle_frame6 = 120.0f;
 float dist_frame4_1 = 2.0f;
 float len_frame4 = len_frame1/(sin(angle_frame4_3 * PI/180));
 float wheel_pad = .25f;
@@ -113,6 +128,8 @@ float pedal_rod_l = 0.1f;
 float pedal_rod_b = 1.5f;
 float pedal_rod_h = 0.1f;
 float len_spoke = 0.01f;
+float dist_frame6x = 1.42f;
+float dist_frame6y = -1.2f;
 float dist_of_pedal_rod_from_frame = 0.5f;
 float len_pedal_shaft = 1.0f;
 float pedal_l = 0.05f;
@@ -124,6 +141,9 @@ float seat_l = 0.8f;
 float seat_b = 0.5f;
 float seat_c = 0.8f;
 float len_handle = 0.65f;
+float frame8x = 4.62f;
+float frame8y = 2.38f;
+
 
 void init_structures()
 {
@@ -133,6 +153,10 @@ void init_structures()
     bic_frame3->set_glist(frame3);
     bic_frame4->set_glist(frame4);
     bic_frame5->set_glist(frame5);
+    bic_frame6->set_glist(frame6);
+    bic_frame7->set_glist(frame6);
+    bic_frame8->set_glist(frame8);
+    bic_frame9->set_glist(frame8);
     bic_front_wheel->set_glist(wheel1);
     bic_back_wheel->set_glist(wheel1);
     bic_front_wheel_pad->set_glist(fwp1);
@@ -173,12 +197,16 @@ void init_structures()
 //    bic_pedals->change_params(1.5f, 0,-0.5f,0,0,0);
 
     bic_frame2->change_params(-len_frame1/2,0,0,0,0,0);
-    bic_frame3->change_params(len_frame1/2,-1.5f,0,0,0,0);
-    bic_frame5->change_params(dist_frame5,-1.6f,0,0,0,0);
+    bic_frame3->change_params(len_frame1/2,-1.5f,0,0,0,0);    
     bic_frame4->change_params(0,-dist_frame4_1,0,0,0,0);
+    bic_frame5->change_params(dist_frame5,-1.6f,0,0,0,0);
+    bic_frame6->change_params(dist_frame6x,dist_frame6y,wheel_pad/2,0,0,0);
+    bic_frame7->change_params(dist_frame6x,dist_frame6y,-wheel_thickness-wheel_pad/2,0,0,0);
+    bic_frame8->change_params(frame8x,-frame8y,wheel_pad/2,0,0,0);
+    bic_frame9->change_params(frame8x,-frame8y,-wheel_pad/2,0,0,0);
     bic_front_wheel_pad->change_params(-len_frame2,0,wheel_pad/2,0,0,0);
     bic_front_wheel->change_params(-len_wheel_pad/2,0,-wheel_pad/2,0,0,0);
-    bic_back_wheel->change_params(dist_back_wheel,0.0f,-wheel_pad/2,0,0,0);
+    bic_back_wheel->change_params(dist_back_wheel,0.0f,0,0,0,0);
     bic_back_wheel_axel->change_params(0,0,0,0,0,0);
     bic_pedal_rod->change_params(-len_frame3/2,0,dist_of_pedal_rod_from_frame,0,0,0);
     bic_pedal_rod2->change_params(0,0,-2*dist_of_pedal_rod_from_frame,0,0,180);
@@ -192,6 +220,10 @@ void init_structures()
     bic_frame1->add_child(bic_frame3);
     bic_frame1->add_child(bic_frame4);
     bic_frame1->add_child(bic_frame5);
+    bic_frame5->add_child(bic_frame6);
+    bic_frame5->add_child(bic_frame7);
+    bic_frame1->add_child(bic_frame8);
+    bic_frame1->add_child(bic_frame9);
     bic_frame2->add_child(bic_front_wheel_pad);
     bic_frame2->add_child(bic_handle_bar);
     bic_front_wheel_pad->add_child(bic_front_wheel);
@@ -215,6 +247,8 @@ void struct_frame()
     struct_frame3();
     struct_frame4();
     struct_frame5();
+    struct_frame6();
+    struct_frame8();
     struct_wheel();
     struct_front_wheel_pad1();
     struct_pedals();
@@ -297,11 +331,33 @@ void struct_frame5()
 {
     frame5 = glGenLists(1);
     glNewList(frame5, GL_COMPILE);
-//    glTranslatef(0,-dist_frame4_1,0);
+   //glTranslatef(0.52f,0.78f,0);
     glRotatef(angle_frame5,0,0,-1.0f);
     horizontal_cylinder(len_frame5);
     glEndList();
 }
+
+void struct_frame6()
+{
+    frame6 = glGenLists(1);
+    glNewList(frame6, GL_COMPILE);
+//    glTranslatef(0,-dist_frame4_1,0);
+    glRotatef(angle_frame6,0,0,-1.0f);
+    horizontal_cylinder(len_frame6);
+    glEndList();
+}
+
+void struct_frame8()
+{
+    frame8 = glGenLists(1);
+    glNewList(frame8, GL_COMPILE);
+//    glTranslatef(0,-dist_frame4_1,0);
+    glRotatef(angle_frame5,0,0,-1.0f);
+    horizontal_cylinder(len_frame8);
+    glEndList();
+}
+
+
 
 void struct_wheel()
 {
@@ -453,6 +509,7 @@ void horizontal_cylinder(float len_cylinder)
     gluCylinder(f1,0.1f,0.1f,len_cylinder,32,32);
     glPopMatrix();
 }
+
 
 void normal_cylinder(float radius, float thickness)
 {
