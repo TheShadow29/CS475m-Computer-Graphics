@@ -25,6 +25,7 @@ GLuint frame4;
 GLuint fwp1;
 GLuint wheel1;
 GLuint pedals;
+GLuint pedal_rod1;
 
 bic_node* bic_frame_main = new bic_node ();
 bic_node* bic_frame1 = new bic_node(bic_frame_main, frame1);
@@ -33,6 +34,8 @@ bic_node* bic_frame3 = new bic_node(bic_frame1,frame3);
 bic_node* bic_frame4 = new bic_node(bic_frame1,frame4);
 bic_node* bic_front_wheel_pad = new bic_node(bic_frame1,fwp1);
 bic_node* bic_front_wheel = new bic_node(bic_front_wheel_pad,wheel1);
+bic_node* bic_pedal_rod = new bic_node(bic_frame3,pedal_rod1);
+bic_node* bic_pedal_rod2 = new bic_node(bic_pedal_rod,pedal_rod1);
 bic_node* bic_pedals = new bic_node(bic_frame_main, pedals);
 
 int win_width = 640;
@@ -52,6 +55,8 @@ void struct_pedals();
 void tri(float, float, float);
 void horizontal_cylinder(float);
 void normal_cylinder(float,float);
+void normal_cube(float, float, float);
+
 void bicycle_frame();
 void init_structures();
 
@@ -64,9 +69,13 @@ float angle_frame3_1 = 90.0f;
 float angle_frame4_3 = 60.0f;
 float dist_frame4_1 = 2.0f;
 float len_frame4 = len_frame1/(sin(angle_frame4_3 * PI/180));
-float wheel_pad = 1.0f;
-float wheel_radius = 1.52;
+float wheel_pad = .25f;
+float len_wheel_pad = 5.0f;
+float wheel_radius = 0.8f;
 float wheel_thickness = 2.0f;
+float pedal_rod_l = 0.1f;
+float pedal_rod_b = 1.5f;
+float pedal_rod_h = 0.1f;
 
 void init_structures()
 {
@@ -77,6 +86,8 @@ void init_structures()
     bic_frame4->set_glist(frame4);
     bic_front_wheel->set_glist(wheel1);
     bic_front_wheel_pad->set_glist(fwp1);
+    bic_pedal_rod->set_glist(pedal_rod1);
+    bic_pedal_rod2->set_glist(pedal_rod1);
     bic_pedals->set_glist(pedals);
 
     bic_frame1->change_params(0,2.0f,0,0,0,-horizontal_tilt_frame1);
@@ -87,18 +98,18 @@ void init_structures()
     bic_frame3->change_params(len_frame1/2,-1.5f,0,0,0,0);
     bic_frame4->change_params(0,-dist_frame4_1,0,0,0,0);
     bic_front_wheel_pad->change_params(-len_frame2/2,0,wheel_pad/2,0,0,0);
-    bic_front_wheel->change_params(-len_frame2,0,0,0,0,0);
+    bic_front_wheel->change_params(-len_wheel_pad/2,0,-wheel_pad/2,0,0,0);
+    bic_pedal_rod->change_params(-len_frame3/2,0,0.5f,0,0,0);
+    bic_pedal_rod2->change_params(0,0,-1.0f,0,0,180);
 
     bic_frame_main->add_child(bic_frame1);
     bic_frame1->add_child(bic_frame2);
     bic_frame1->add_child(bic_frame3);
     bic_frame1->add_child(bic_frame4);
     bic_frame2->add_child(bic_front_wheel_pad);
-//    bic_front_wheel_pad->add_child(bic_front_wheel);
-    bic_frame2->add_child(bic_front_wheel);
-    
-    
-
+    bic_front_wheel_pad->add_child(bic_front_wheel);
+    bic_frame3->add_child(bic_pedal_rod);
+    bic_pedal_rod->add_child(bic_pedal_rod2);
 }
 
 void struct_frame()
@@ -110,6 +121,7 @@ void struct_frame()
     struct_wheel();
     struct_front_wheel_pad1();
     struct_pedals();
+    struct_pedal_rod();
 }
 
 void struct_frame1()
@@ -126,7 +138,7 @@ void struct_front_wheel_pad1()
     glNewList(fwp1,GL_COMPILE);
 //    glTranslatef(-len_frame2/2,0,0.5f);
 //    glRotatef(90,1,0,0);
-    horizontal_cylinder(2.0f);
+    horizontal_cylinder(len_wheel_pad);
     glEndList();
 }
 
@@ -165,7 +177,18 @@ void struct_wheel()
     wheel1 = glGenLists(1);
     glNewList(wheel1, GL_COMPILE);
 //    glTranslatef(-len_frame2,0,0);
-    normal_cylinder(wheel_radius, wheel_thickness);
+    //normal_cylinder(wheel_radius, wheel_thickness);
+    glColor3f(0,0,0);
+    glutSolidTorus(0.05,2.0,32,32);
+    glEndList();
+}
+
+void struct_pedal_rod()
+{
+    pedal_rod1 = glGenLists(1);
+    glNewList(pedal_rod1,GL_COMPILE);
+    //glColor3f(0,0,0);
+    normal_cube(pedal_rod_l,pedal_rod_b,pedal_rod_h);
     glEndList();
 }
 
@@ -200,6 +223,17 @@ void normal_cylinder(float radius, float thickness)
     glPopMatrix();
 }
 
+void normal_cube(float l, float b, float h)
+{
+    glPushMatrix();
+    glColor3f(0,0,0);
+    glScalef(l,b,h);
+    glTranslatef(-0.5f,-0.5f,0);
+    glutSolidCube(1);
+//    glutWireCube(1);
+    glPopMatrix();
+}
+
 void tri(float r, float g, float b)
 {
     glBegin(GL_POLYGON);				// start drawing a polygon
@@ -212,7 +246,10 @@ void tri(float r, float g, float b)
 
 void draw_cycle()
 {
-    bic_frame_main->render_tree();
+   bic_frame_main->render_tree();
+//    glColor3f(0,0,0);
+   // bic_pedal_rod->render_tree();
+    //normal_cube(1,1,1);
 //    normal_cylinder(wheel_radius,wheel_thickness);
 //    bic_frame2->render_tree();
 }

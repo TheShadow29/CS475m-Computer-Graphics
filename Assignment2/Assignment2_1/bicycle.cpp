@@ -13,6 +13,10 @@ void processNormalKeys(unsigned char key, int x, int y) {
             bic_frame2->inc_ry();
             glutPostRedisplay();
             break;
+        case 'w':
+            bic_pedal_rod->inc_rz();
+            glutPostRedisplay();
+            break;
         case 'x':
         case 'X':
             glRotatef(1.0,1.0,0.0,0.0);
@@ -25,7 +29,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
             break;
         case 'z':
         case 'Z':
-            glRotatef(30.,0.0,0.0,1.0);
+            glRotatef(1,0.0,0.0,1.0);
             glutPostRedisplay();
             break;
         case 'i':
