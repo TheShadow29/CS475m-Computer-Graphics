@@ -24,10 +24,11 @@ GLuint frame3;
 GLuint frame4;
 GLuint fwp1;
 GLuint wheel1;
-GLuint pedals;
 GLuint spoke1;
 GLuint pedal_rod1;
 GLuint wheel_axle1;
+GLuint pedal_shaft1;
+GLuint pedals1;
 
 const int num_spokes = 12;
 
@@ -42,7 +43,9 @@ bic_node* bic_front_wheel_axel = new bic_node(bic_front_wheel,wheel_axle1);
 bic_node* bic_pedal_rod = new bic_node(bic_frame3,pedal_rod1);
 bic_node* bic_pedal_rod2 = new bic_node(bic_pedal_rod,pedal_rod1);
 bic_node* bic_spokes[num_spokes];
-bic_node* bic_pedals = new bic_node(bic_frame_main, pedals);
+bic_node* bic_pedals1 = new bic_node(bic_pedal_rod, pedals1);
+bic_node* bic_pedals2 = new bic_node(bic_pedal_rod2,pedals1);
+bic_node* bic_pedal_shaft = new bic_node(bic_pedal_rod,pedal_shaft1);
 
 int win_width = 640;
 int win_height = 480;
@@ -59,6 +62,7 @@ void struct_pedal_rod();
 void struct_pedals();
 void struct_wheel_axel();
 void struct_spoke();
+void struct_pedal_shaft();
 
 void tri(float, float, float);
 void horizontal_cylinder(float);
@@ -70,7 +74,7 @@ void bicycle_frame();
 void init_structures();
 
 float len_frame1 = 5.601f;
-float len_frame2 = 2.52f;
+float len_frame2 = 3.05f;
 float len_frame3 = 5.801;
 float horizontal_tilt_frame1 = 10.17f;
 float angle_frame2_1 = 85.0f;
@@ -79,13 +83,18 @@ float angle_frame4_3 = 60.0f;
 float dist_frame4_1 = 2.0f;
 float len_frame4 = len_frame1/(sin(angle_frame4_3 * PI/180));
 float wheel_pad = .25f;
-float len_wheel_pad = 5.0f;
+float len_wheel_pad = 3.2f;
 float wheel_radius = 2.0f;
 float wheel_thickness = 0.05f;
 float pedal_rod_l = 0.1f;
 float pedal_rod_b = 1.5f;
 float pedal_rod_h = 0.1f;
 float len_spoke = 0.01f;
+float dist_of_pedal_rod_from_frame = 0.5f;
+float len_pedal_shaft = 1.0f;
+float pedal_l = 0.05f;
+float pedal_b = 0.05f;
+float pedal_c = 0.5f;
 
 void init_structures()
 {
@@ -98,8 +107,8 @@ void init_structures()
     bic_front_wheel_pad->set_glist(fwp1);
     bic_pedal_rod->set_glist(pedal_rod1);
     bic_pedal_rod2->set_glist(pedal_rod1);
-    bic_pedals->set_glist(pedals);
     bic_front_wheel_axel->set_glist(wheel_axle1);
+    bic_pedal_shaft->set_glist(pedal_shaft1);
 //    bic_spokes[0]->set_glist(spoke1);
     for(int i = 0; i < num_spokes; i++)
     {
@@ -109,6 +118,8 @@ void init_structures()
         bic_front_wheel_axel->add_child(bic_spokes[i]);
         bic_spokes[i]->change_params(0,0,0,0,0,30*i);
     }
+    bic_pedals1->set_glist(pedals1);
+    bic_pedals2->set_glist(pedals1);
 
     bic_frame1->change_params(0,2.0f,0,0,0,-horizontal_tilt_frame1);
 //    bic_frame_main->change_params(0,2.0f,0,0,0,-horizontal_tilt_frame1);
@@ -117,10 +128,12 @@ void init_structures()
     bic_frame2->change_params(-len_frame1/2,0,0,0,0,0);
     bic_frame3->change_params(len_frame1/2,-1.5f,0,0,0,0);
     bic_frame4->change_params(0,-dist_frame4_1,0,0,0,0);
-    bic_front_wheel_pad->change_params(-len_frame2/2,0,wheel_pad/2,0,0,0);
+    bic_front_wheel_pad->change_params(-len_frame2,0,wheel_pad/2,0,0,0);
     bic_front_wheel->change_params(-len_wheel_pad/2,0,-wheel_pad/2,0,0,0);
-    bic_pedal_rod->change_params(-len_frame3/2,0,0.5f,0,0,0);
-    bic_pedal_rod2->change_params(0,0,-1.0f,0,0,180);
+    bic_pedal_rod->change_params(-len_frame3/2,0,dist_of_pedal_rod_from_frame,0,0,0);
+    bic_pedal_rod2->change_params(0,0,-2*dist_of_pedal_rod_from_frame,0,0,180);
+    bic_pedals1->change_params(0,-pedal_rod_b,pedal_c,0,0,0);
+    bic_pedals2->change_params(0,-pedal_rod_b,0,0,0,0);
 
     bic_frame_main->add_child(bic_frame1);
     bic_frame1->add_child(bic_frame2);
@@ -132,6 +145,9 @@ void init_structures()
 //    bic_front_wheel->add_child(bic_spokes[0]);
     bic_frame3->add_child(bic_pedal_rod);
     bic_pedal_rod->add_child(bic_pedal_rod2);
+    bic_pedal_rod->add_child(bic_pedal_shaft);
+    bic_pedal_rod->add_child(bic_pedals1);
+    bic_pedal_rod2->add_child(bic_pedals2);
 }
 
 void struct_frame()
@@ -146,6 +162,7 @@ void struct_frame()
     struct_pedal_rod();
     struct_spoke();
     struct_wheel_axel();
+    struct_pedal_shaft();
 }
 
 void struct_frame1()
@@ -162,7 +179,26 @@ void struct_front_wheel_pad1()
     glNewList(fwp1,GL_COMPILE);
 //    glTranslatef(-len_frame2/2,0,0.5f);
 //    glRotatef(90,1,0,0);
-    horizontal_cylinder(len_wheel_pad);
+//    horizontal_cylinder(len_wheel_pad);
+//    glTranslatef(0,-len_frame2/2,0);
+    glPushMatrix();
+    glColor3f(0.0f,1.0f,0.0f);
+    GLUquadricObj *f1;
+    f1 = gluNewQuadric();
+    glTranslatef(-len_wheel_pad/2,0.0f,0.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    gluCylinder(f1,0.1f,0.1f,len_wheel_pad,32,32);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0.0f,1.0f,0.0f);
+    GLUquadricObj *f2;
+    f2 = gluNewQuadric();
+    glTranslatef(0,0,-.25f);
+    glTranslatef(-len_wheel_pad/2,0.0f,0.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    gluCylinder(f2,0.1f,0.1f,len_wheel_pad,32,32);
+    glPopMatrix();
     glEndList();
 }
 
@@ -216,11 +252,35 @@ void struct_pedal_rod()
     glEndList();
 }
 
+void struct_pedal_shaft()
+{
+    pedal_shaft1 = glGenLists(1);
+    glNewList(pedal_shaft1,GL_COMPILE);
+    //normal_cube(dist_of_pedal_rod_from_frame*2,1,1);
+    //normal_cylinder(0.1f, dist_of_pedal_rod_from_frame);
+    glPushMatrix();
+    glColor3f(0,0,0);
+    GLUquadricObj* f2;
+    f2 = gluNewQuadric();
+    glTranslatef(0,0,-dist_of_pedal_rod_from_frame*2);
+    gluCylinder(f2,0.1f,0.1f,dist_of_pedal_rod_from_frame*2,32,32);
+    glPopMatrix();
+    //tri(0,0,0);
+    glEndList();
+}
+
 void struct_pedals()
 {
-    pedals = glGenLists(1);
-    glNewList(pedals, GL_COMPILE);
-//    tri(0,0,0);
+    pedals1 = glGenLists(1);
+    glNewList(pedals1, GL_COMPILE);
+//    normal_cube(pedal_l,pedal_b,pedal_c);
+    glPushMatrix();
+    glColor3f(0,0,0);
+    glScalef(pedal_l,pedal_b,pedal_c);
+    glTranslatef(-0.5f,-0.5f,-0.5f);
+    glutSolidCube(1);
+//    glutWireCube(1);
+    glPopMatrix();
     glEndList();
 }
 
