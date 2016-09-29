@@ -106,11 +106,11 @@ void init_structures();
 float len_frame1 = 5.601f;
 float len_frame2 = 3.05f;
 float len_frame3 = 5.801;
-float len_frame5 =  2.10f;
-float len_frame5a =  0.0f;
-float len_frame8 = 2.10f;
-float dist_frame5 = 4.10f;
-float len_frame6 = 2.56f;
+float len_frame5 =  1.60f;
+float len_frame8 = 2.35f;
+float dist_frame5x = 3.30f; // 4.10 - 0.8
+float len_frame6 = 2.55f;
+float dist_frame5y = 0.7f; 
 float horizontal_tilt_frame1 = 10.17f;
 float angle_frame2_1 = 85.0f;
 float angle_frame3_1 = 90.0f;
@@ -123,13 +123,13 @@ float wheel_pad = .25f;
 float len_wheel_pad = 3.2f;
 float wheel_radius = 2.0f;
 float wheel_thickness = 0.05f;
-float dist_back_wheel = 2.1f;
+float dist_back_wheel = 3.1f; // 2.1 + 1.0
 float pedal_rod_l = 0.1f;
 float pedal_rod_b = 1.5f;
 float pedal_rod_h = 0.1f;
 float len_spoke = 0.01f;
-float dist_frame6x = 1.42f;
-float dist_frame6y = -1.2f;
+float dist_frame6x = 2.47f; // 1.05 + 1.42
+float dist_frame6y = -1.15f; // -1.2+ 0.05
 float dist_of_pedal_rod_from_frame = 0.5f;
 float len_pedal_shaft = 1.0f;
 float pedal_l = 0.05f;
@@ -141,8 +141,8 @@ float seat_l = 0.8f;
 float seat_b = 0.5f;
 float seat_c = 0.8f;
 float len_handle = 0.65f;
-float frame8x = 4.62f;
-float frame8y = 2.38f;
+float frame8x = 4.57f; // 0.52 + 4.10 - 0.05
+float frame8y = 2.22f; // 0.78 + 1.60 - 0.16
 
 
 void init_structures()
@@ -199,11 +199,13 @@ void init_structures()
     bic_frame2->change_params(-len_frame1/2,0,0,0,0,0);
     bic_frame3->change_params(len_frame1/2,-1.5f,0,0,0,0);    
     bic_frame4->change_params(0,-dist_frame4_1,0,0,0,0);
-    bic_frame5->change_params(dist_frame5,-1.6f,0,0,0,0);
+    bic_frame5->change_params(dist_frame5x,-dist_frame5y ,0,0,0,0);
+
+
     bic_frame6->change_params(dist_frame6x,dist_frame6y,wheel_pad/2,0,0,0);
     bic_frame7->change_params(dist_frame6x,dist_frame6y,-wheel_thickness-wheel_pad/2,0,0,0);
-    bic_frame8->change_params(frame8x,-frame8y,wheel_pad/2,0,0,0);
-    bic_frame9->change_params(frame8x,-frame8y,-wheel_pad/2,0,0,0);
+    bic_frame8->change_params(frame8x ,-frame8y ,wheel_pad/2,0,0,0);
+    bic_frame9->change_params(frame8x ,-frame8y ,-wheel_pad/2,0,0,0);
     bic_front_wheel_pad->change_params(-len_frame2,0,wheel_pad/2,0,0,0);
     bic_front_wheel->change_params(-len_wheel_pad/2,0,-wheel_pad/2,0,0,0);
     bic_back_wheel->change_params(dist_back_wheel,0.0f,0,0,0,0);
