@@ -68,6 +68,18 @@ void bic_node::inc_rz()
     rz++;
     if (rz > 360){rz -= 360;}
 }
+float bic_node::get_rx()
+{
+    return rx;
+}
+float bic_node::get_ry()
+{
+    return ry;
+}
+float bic_node::get_rz()
+{
+    return rz;
+}
 void bic_node::render()
 {
     glTranslatef(tx,ty,tz);
@@ -82,7 +94,7 @@ void bic_node::render_tree()
     render();
     for (int i = 0; i < children.size(); ++i)
     {
-        cout << "line 81" << endl;
+        //cout << "line 81" << endl;
         children[i]->render_tree();
     }
     glPopMatrix();

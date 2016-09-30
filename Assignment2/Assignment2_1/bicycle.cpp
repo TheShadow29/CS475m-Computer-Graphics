@@ -13,12 +13,19 @@ void processNormalKeys(unsigned char key, int x, int y) {
             bic_front_wheel->inc_rz();
             glutPostRedisplay();
             break;
+        case 'b':
+            bic_back_wheel->inc_rz();
+            glutPostRedisplay();
+            break;
         case 't':
             bic_frame2->inc_ry();
             glutPostRedisplay();
             break;
         case 'w':
             bic_pedal_rod->inc_rz();
+            update_bic_rider_angles();
+            bic_front_wheel->inc_rz();
+            bic_back_wheel->inc_rz();
             glutPostRedisplay();
             break;
         case 'x':
@@ -119,7 +126,7 @@ int main(int argc, char **argv)
     glutDisplayFunc(display);
     glutKeyboardFunc(processNormalKeys);
     glutSpecialFunc(processSpecialKeys);
-    glutFullScreen();
+//    glutFullScreen();
     init();
     init_structures();
     glutMainLoop();

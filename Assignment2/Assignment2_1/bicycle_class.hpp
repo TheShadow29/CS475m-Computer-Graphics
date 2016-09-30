@@ -45,6 +45,9 @@ public:
     void dec_rx();
     void dec_ry();
     void dec_rz();
+    float get_rx();
+    float get_ry();
+    float get_rz();
 };
 
 
