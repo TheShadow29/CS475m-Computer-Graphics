@@ -528,11 +528,11 @@ void update_bic_rider_angles()
     float del_theta1;
     float del_theta2;
     float ped_rad = pedal_rod_b;
-    float omega = 1;
+    float omega = -1;
     del_theta1 = (ped_rad * omega * sin((phi_pedal - rider_theta2)* PI/180)) / (rider_up_l * sin((rider_theta1 + rider_theta2))* PI/180);
     del_theta2 = -(ped_rad * omega * sin((rider_theta1 + phi_pedal)* PI/180))/(rider_down_l * sin((rider_theta1 + rider_theta2)* PI/180));
-    del_theta1 =1;
-    del_theta2 = 1;
+   // del_theta1 =1;
+    //del_theta2 = 1;
     rider_theta1 += del_theta1;
     rider_theta2 += del_theta2;
     for(int i = 0; i < 2; i++)
@@ -546,7 +546,7 @@ void update_bic_rider_angles()
 //        bic_rider[i]->change_params(0,0,0,0,0,-rider_theta1);
         bic_rider_leg[i]->change_params(rider_up_l,0,0,0,0,90-rider_theta2);
     }
-    if (rider_theta1 > 180)
+   /*if (rider_theta1 > 180)
     {
         rider_theta1 = rider_theta1 - 360;
     }
@@ -569,7 +569,7 @@ void update_bic_rider_angles()
     if (phi_pedal < 180)
     {
         phi_pedal = phi_pedal - 360;
-    }
+    }*/
 }
 
 void horizontal_cylinder(float len_cylinder)

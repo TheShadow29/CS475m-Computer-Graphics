@@ -10,18 +10,18 @@ using namespace std;
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
         case 'r':
-            bic_front_wheel->inc_rz();
+            bic_front_wheel->inc_rz(); // rotate the front wheel  only
             glutPostRedisplay();
             break;
-        case 'b':
+        case 'b':                     // rotate the back wheel only
             bic_back_wheel->inc_rz();
             glutPostRedisplay();
             break;
         case 't':
-            bic_frame2->inc_ry();
+            bic_frame2->inc_ry();  // move the front the wheel 
             glutPostRedisplay();
             break;
-        case 'w':
+        case 'w':                      // move the wheels and rider pedals the bicycle
             bic_pedal_rod->inc_rz();
             update_bic_rider_angles();
             bic_front_wheel->inc_rz();
@@ -29,38 +29,29 @@ void processNormalKeys(unsigned char key, int x, int y) {
             glutPostRedisplay();
             break;
         case 'x':
-        case 'X':
+        case 'X':                  // rotate the along the x axis to view the cycle from different angles
             glRotatef(1.0,1.0,0.0,0.0);
             glutPostRedisplay();
             break;
         case 'y':
-        case 'Y':
+        case 'Y':                     // rotate the along the y axis to view the cycle from different angles
             glRotatef(1.,0.0,1.0,0.0);
             glutPostRedisplay();
             break;
         case 'z':
-        case 'Z':
+        case 'Z':                    // rotate the along the z axis to view the cycle from different angles
             glRotatef(1,0.0,0.0,1.0);
             glutPostRedisplay();
             break;
         case 'i':
-        case 'I':
+        case 'I':                  // change the look at vector
             glLoadIdentity();
             gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
             glutPostRedisplay();
             break;
-        case 27:
+        case 27:           // exit
             exit(0);
             break;
-        // case '1':
-        //   curr=0;
-        //   break;
-        // case '2':
-        //   curr=1;
-        //   break;
-        // case '3':
-        //   curr=2;
-        //   break;
     }
     if (key == 27)
         exit(0);
@@ -69,26 +60,8 @@ void processNormalKeys(unsigned char key, int x, int y) {
 //Our function for processing Non-ASCII keys
 void processSpecialKeys(int key, int x, int y) {
     switch(key) {
-        // case GLUT_KEY_LEFT :
-        // node[curr]->dec_ry();
-        // break;
-        // case GLUT_KEY_RIGHT :
-        // node[curr]->inc_ry();
-        // break;
-        // case GLUT_KEY_UP :
-        // node[curr]->dec_rx();
-        // break;
-        // case GLUT_KEY_DOWN :
-        // node[curr]->inc_rx();
-        // break;
-        // case GLUT_KEY_PAGE_UP :
-        // node[curr]->dec_rz();
-        // break;
-        // case GLUT_KEY_PAGE_DOWN :
-        // node[curr]->inc_rz();
-        // break;
-    }
-    //Redraw
+            }
+    
     glutPostRedisplay();
 }
 
@@ -126,7 +99,6 @@ int main(int argc, char **argv)
     glutDisplayFunc(display);
     glutKeyboardFunc(processNormalKeys);
     glutSpecialFunc(processSpecialKeys);
-//    glutFullScreen();
     init();
     init_structures();
     glutMainLoop();

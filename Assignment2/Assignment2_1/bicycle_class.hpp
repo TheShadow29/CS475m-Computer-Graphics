@@ -4,6 +4,8 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <vector>
+
+/* create class for handling colors*/
 class color_t
 {
 private:
@@ -19,7 +21,7 @@ public:
     std::string toString();
 };
 
-
+/*template class for the elements of the bicycle*/
 class bic_node
 {
 private:
