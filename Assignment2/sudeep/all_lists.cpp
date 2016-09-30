@@ -16,6 +16,8 @@
  	GLint  	stacks);
  */
 
+using namespace std;
+
 #define PI 3.14159265
 
 GLuint frame1;
@@ -39,6 +41,8 @@ GLuint pedals1;
 GLuint handle_bar1;
 GLuint seat1;
 GLuint handle2;
+GLuint rider1;
+GLuint rider_legs1;
 
 const int num_spokes = 12;
 
@@ -68,6 +72,8 @@ bic_node* bic_handle_bar = new bic_node(bic_frame2,handle_bar1);
 bic_node* bic_seat = new bic_node(bic_frame4,seat1);
 bic_node* bic_handle_right = new bic_node(bic_handle_bar,handle2);
 bic_node* bic_handle_left = new bic_node(bic_handle_bar,handle2);
+bic_node* bic_rider[2];
+bic_node* bic_rider_leg[2];
 
 int win_width = 640;
 int win_height = 480;
@@ -91,6 +97,9 @@ void struct_pedal_shaft();
 void struct_handle_bar();
 void struct_seat();
 void struct_handle();
+void struct_bic_rider();
+void struct_bic_rider_legs();
+
 
 
 void tri(float, float, float);
@@ -99,6 +108,8 @@ void horizontal_cylinder(float);
 void normal_cylinder(float,float);
 void normal_cube(float, float, float);
 void spoke();
+void rider_up();
+void rider_down();
 
 void bicycle_frame();
 void init_structures();
@@ -144,6 +155,16 @@ float len_handle = 0.65f;
 float frame8x = 4.57f; // 0.52 + 4.10 - 0.05
 float frame8y = 2.22f; // 0.78 + 1.60 - 0.16
 
+float rider_up_l = 3.0f;
+float rider_down_l = 3.85f;
+float rider_theta1[2] = {90.0f, 90.0f};   // 122.522
+float rider_theta2[2] = {0.0f, 0.0f};
+//rider_theta1[0] = 90.0f ;
+//rider_theta1[1] = 90.0f;
+//rider_theta2[1] = 0.0f;
+//rider_theta2[0] = 0.0f;  // 57.8542
+float phi_pedal = 0.0f;
+
 
 void init_structures()
 {
@@ -188,6 +209,21 @@ void init_structures()
         bic_back_wheel_axel->add_child(bic_spokes1[i]);
         bic_spokes1[i]->change_params(0,0,0,0,0,30*i);
     }
+    for(int i = 0; i < 2; i++)
+    {
+        bic_rider[i] = new bic_node();
+        bic_rider[i]->set_parent(bic_seat);
+        bic_seat->add_child(bic_rider[i]);
+        bic_rider[i]->set_glist(rider1);
+        bic_rider_leg[i] = new bic_node();
+        bic_rider_leg[i]->set_parent(bic_rider[i]);
+        bic_rider_leg[i]->set_glist(rider_legs1);
+        bic_rider[i]->add_child(bic_rider_leg[i]);
+        cout << "line 194 " << rider_theta1[i] << endl;
+        bic_rider[i]->change_params(0,0,(0.5-i)*1.5f,0,0,-rider_theta1[i]);
+//        bic_rider[i]->change_params(0,0,0,0,0,-rider_theta1);
+        bic_rider_leg[i]->change_params(rider_up_l,0,0,0,0,rider_theta2[i]);
+    }
     bic_pedals1->set_glist(pedals1);
 
     bic_pedals2->set_glist(pedals1);
@@ -210,7 +246,7 @@ void init_structures()
     bic_front_wheel->change_params(-len_wheel_pad/2,0,-wheel_pad/2,0,0,0);
     bic_back_wheel->change_params(dist_back_wheel,0.0f,0,0,0,0);
     bic_back_wheel_axel->change_params(0,0,0,0,0,0);
-    bic_pedal_rod->change_params(-len_frame3/2,0,dist_of_pedal_rod_from_frame,0,0,0);
+    bic_pedal_rod->change_params(-len_frame3/2,0,dist_of_pedal_rod_from_frame,0,0,00);
     bic_pedal_rod2->change_params(0,0,-2*dist_of_pedal_rod_from_frame,0,0,180);
     bic_pedals1->change_params(0,-pedal_rod_b,pedal_c,0,0,0);
     bic_pedals2->change_params(0,-pedal_rod_b,0,0,0,0);
@@ -261,6 +297,8 @@ void struct_frame()
     struct_handle_bar();
     struct_seat();
     struct_handle();
+    struct_bic_rider();
+    struct_bic_rider_legs();
 }
 
 void struct_frame1()
@@ -499,6 +537,127 @@ void spoke()
     gluCylinder(f1,0.01f,0.01f,wheel_radius,32,32);
     glPopMatrix();
 }
+
+void struct_bic_rider()
+{
+    rider1 = glGenLists(1);
+    glNewList(rider1,GL_COMPILE);
+    rider_up();
+    glEndList();
+}
+
+
+void struct_bic_rider_legs()
+{
+    rider_legs1 = glGenLists(1);
+    glNewList(rider_legs1,GL_COMPILE);
+    rider_down();
+    glEndList();
+}
+
+void rider_up()
+{
+    glPushMatrix();
+    glColor3f(0.0f,0.0f,1.0f);
+    GLUquadricObj *f1;
+    f1 = gluNewQuadric();
+//    glTranslatef(-len_cylinder/2,0.0f,0.0f);
+//    glRotatef(45.0f,0,0,1.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    gluCylinder(f1,0.3f,0.5f,rider_up_l,32,32);
+    glPopMatrix();
+}
+void rider_down()
+{
+    glPushMatrix();
+    glColor3f(0,0,1);
+//    glTranslatef(rider_up_l,0,0.0f);
+//    tri(0,0,0);
+    GLUquadricObj *f1;
+    f1 = gluNewQuadric();
+//    glTranslatef(-rider_up_l/2,0,0.0f);
+//    glRotatef(-45.0f,0,0,1.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    gluCylinder(f1,0.5f,0.3f,rider_down_l,32,32);
+    glPopMatrix();
+}
+
+
+void update_bic_rider_angles()
+{
+    phi_pedal = 90- bic_pedal_rod->get_rz() ;
+    float del_theta1[2];
+    float del_theta2[2];
+    float ped_rad = pedal_rod_b;
+    float omega = 1;
+    float theta1[2];
+    float theta2[2];
+    for(int i = 0; i<2; i++)
+    {
+        theta1[i] =  rider_theta1[i] - 90 ;     // 90 - rider_theta1
+        theta2[i] = rider_theta2[i] - theta1[i];
+        float num1 = sin((phi_pedal + theta2[i])* PI/180);
+        float num2 = sin((phi_pedal - theta1[i])* PI/180);
+        float num3 = sin((theta1[i] + theta2[i])* PI/180);
+        if( abs(num3) < 0.001)
+        {
+            del_theta1[i] = (ped_rad*omega*(2*(0.5-i)))/rider_up_l;
+            del_theta2[i] = (ped_rad*omega*(2*(0.5-i)))/rider_down_l;
+        }
+        else
+        {
+            del_theta1[i] = (ped_rad*omega*(2*(0.5-i))*num1)/(rider_up_l*num3);
+            del_theta2[i] = (ped_rad*omega*(2*(0.5-i))*num2)/(rider_down_l*num3);
+        }
+    
+    
+   // del_theta1 = (ped_rad * omega * sin((phi_pedal - rider_theta2)* PI/180)) / (rider_up_l * sin((rider_theta1 + rider_theta2))* PI/180);
+    //del_theta2 = -(ped_rad * omega * sin((rider_theta1 + phi_pedal)* PI/180))/(rider_down_l * sin((rider_theta1 + rider_theta2)* PI/180));
+    //del_theta1 =1;
+    //del_theta2 = 1;
+    theta1[i] += del_theta1[i];
+    theta2[i]+= del_theta2[i];
+    rider_theta1[i] = 90 + theta1[i];
+    rider_theta2[i] = theta1[i] +theta2[i];
+    //for(int i = 0; i < 2; i++)
+    //{
+        cout << "line 614 th1 " << rider_theta1[i] << endl;
+        cout << "line 615 th2 " << rider_theta2[i] << endl;
+        //cout << "line 616 phi " << phi_pedal << endl;
+        cout << "line 617 delt1 " << del_theta1[i] << endl;
+        cout << "line 618 delt2 " << del_theta2[i] << endl;
+        cout << "line 619 num3" << num3 << endl;
+        bic_rider[i]->change_params(0,0,(0.5-i)*1.5f,0,0,-rider_theta1[i]);
+//        bic_rider[i]->change_params(0,0,0,0,0,-rider_theta1);
+        bic_rider_leg[i]->change_params(rider_up_l,0,0,0,0,rider_theta2[i]);
+    }
+    //}
+    /*if (rider_theta1 > 180)
+    {
+        rider_theta1 = rider_theta1 - 360;
+    }
+    if (rider_theta1 < -180)
+    {
+        rider_theta1 = rider_theta1 - 360;
+    }
+    if (rider_theta2 > 180)
+    {
+        rider_theta2 = rider_theta2 - 360;
+    }
+    if (rider_theta2 < -180)
+    {
+        rider_theta2 = rider_theta2 - 360;
+    }
+    if (phi_pedal > 180)
+    {
+        phi_pedal = phi_pedal - 360;
+    }
+    if (phi_pedal < 180)
+    {
+        phi_pedal = phi_pedal - 360;
+    }*/
+}
+
 
 void horizontal_cylinder(float len_cylinder)
 {

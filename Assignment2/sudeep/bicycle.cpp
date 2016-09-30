@@ -23,6 +23,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
             break;
         case 'w':
             bic_pedal_rod->inc_rz();
+            update_bic_rider_angles();
             bic_front_wheel->inc_rz();
             bic_back_wheel->inc_rz();
             glutPostRedisplay();
