@@ -29,6 +29,8 @@ void draw_quad_room();
 void draw();
 void inp_texture();
 void gen_texture();
+void tri(float, float, float);
+
 
 void inp_texture()
 {
@@ -113,37 +115,65 @@ void gen_texture()
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glBindTexture(GL_TEXTURE_2D, texName);
-    // glRotatef(180, 0.0 , 1.0 , 0.0);
+
     glPushMatrix();
     glScalef(10,10,15);
 
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,1);
-    glTexCoord2f(0.0, 1.0); glVertex3f(1,-1,1);
-    glTexCoord2f(1.0, 1.0); glVertex3f(1,-1,-1);
-    glTexCoord2f(1.0, 0.0); glVertex3f(-1,-1,-1);
-    glDisable(GL_TEXTURE_2D);
-    glColor3ub(1,1,1);
-    glVertex3f(-1,1,-1);
-    glVertex3f(1,1,-1);
-    glVertex3f(1,1,1);
-    glVertex3f(-1,1,1);
-/* Walls */
-    glVertex3f(-1,-1,1);
-    glVertex3f(1,-1,1);
-    glVertex3f(1,1,1);
-    glVertex3f(-1,1,1);
 
+        glBegin(GL_QUADS);
+        /*floor*/
+        glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,1);
+        glTexCoord2f(0.0, 1.0); glVertex3f(1,-1,1);
+        glTexCoord2f(1.0, 1.0); glVertex3f(1,-1,-1);
+        glTexCoord2f(1.0, 0.0); glVertex3f(-1,-1,-1);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+        /*Ceiling*/
+        glColor3f(1,1,0);
+        glBegin(GL_QUADS);
+        glVertex3f(-1,1,-1);
+        glVertex3f(1,1,-1);
+        glVertex3f(1,1,1);
+        glVertex3f(-1,1,1);
+        glEnd();
+
+/* Walls */
+    glPushMatrix();
+
+    glColor3f(0,1,0);
+    glBegin(GL_QUADS);
     glVertex3f(-1,-1,-1);
     glVertex3f(1,-1,-1);
     glVertex3f(1,1,-1);
     glVertex3f(-1,1,-1);
+    glEnd();
 
+    loadBMP_custom("./pic_frame.bmp");
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glBindTexture(GL_TEXTURE_2D, texName);
+
+    glColor3f(0,0,1);
+    glScalef(0.1,0.1,0.1);
+    glBegin(GL_QUADS);          //box for picture frame
+    glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-1);
+    glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-1);
+    glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-1);
+    glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-1);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+    glPopMatrix();
+
+    glColor3f(1,0,0);
+    glBegin(GL_QUADS);
     glVertex3f(1,1,1);
     glVertex3f(1,-1,1);
     glVertex3f(1,-1,-1);
     glVertex3f(1,1,-1);
+    glEnd();
 
+    glBegin(GL_QUADS);
     glVertex3f(-1,1,1);
     glVertex3f(-1,-1,1);
     glVertex3f(-1,-1,-1);
@@ -207,11 +237,20 @@ void draw_cube_room()
     glutWireCube(1);
     glPopMatrix();
 }
-
+void tri(float r, float g, float b)
+{
+    glBegin(GL_TRIANGLES);				// start drawing a polygon
+    glColor3f(r,g,b);
+    glVertex3f( 0.0f, 1.0f, 0.0f);		// Top
+    glVertex3f( 1.0f,-1.0f, 0.0f);		// Bottom Right
+    glVertex3f(-1.0f,-1.0f, 0.0f);		// Bottom Left
+    glEnd();
+}
 void draw()
 {
    // inp_texture();
+    draw_quad_room(10,10,15);
     gen_texture();
-    //draw_quad_room(10,10,15);
+
 //    draw_cube_room();
 }
