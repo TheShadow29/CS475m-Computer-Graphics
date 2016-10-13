@@ -1,5 +1,5 @@
 BIN = lighting 
-GLLIBS = -lGL -lGLU -lglut -lSOIL
+GLLIBS = -lGL -lGLU -lglut 
 
 .SUFFIXES: .cpp .hpp
 
