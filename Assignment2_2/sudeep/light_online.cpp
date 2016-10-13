@@ -7,12 +7,16 @@ void init(void)
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat mat_shininess[] = { 50.0 };
    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+   GLfloat light_diffuse[] = {0.7, 0.7, 0.5, 1.0};
+    GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
 
    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+   glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
+    glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
 
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
@@ -22,6 +26,9 @@ void init(void)
 void display(void)
 {
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   glColorMaterial(GL_FRONT, GL_DIFFUSE);
+   glEnable(GL_COLOR_MATERIAL);
+   glColor3f(1.0,0.0,0.0);
    glutSolidSphere (1.0, 20, 16);
    glFlush ();
 }
