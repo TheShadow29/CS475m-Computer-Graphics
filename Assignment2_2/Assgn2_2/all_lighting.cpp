@@ -6,8 +6,9 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <SOIL/SOIL.h>
+// #include <SOIL/SOIL.h>
 #include "lighting_class.hpp"
+#include "./bicycle/all_lists.cpp"
 
 using namespace std;
 
@@ -30,11 +31,12 @@ void draw();
 void inp_texture();
 void gen_texture();
 void tri(float, float, float);
+void light_init(void);
 
 
 void inp_texture()
 {
-    texture_image = SOIL_load_image("wooden_texture.jpg", &width_text_img, &heigh_text_img, 0, SOIL_LOAD_RGB);
+   // texture_image = SOIL_load_image("wooden_texture.jpg", &width_text_img, &heigh_text_img, 0, SOIL_LOAD_RGB);
 }
 //void mytexture(int k) {
 //    int i, j, c;
@@ -129,6 +131,10 @@ void gen_texture()
         glEnd();
         glDisable(GL_TEXTURE_2D);
         /*Ceiling*/
+        //GLfloat mat_specular1[] = { 0.5, 0.3, 1.0, 1.0 };
+        //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular1);
+        glColorMaterial(GL_FRONT, GL_AMBIENT);
+        glEnable(GL_COLOR_MATERIAL);
         glColor3f(1,1,0);
         glBegin(GL_QUADS);
         glVertex3f(-1,1,-1);
@@ -140,6 +146,10 @@ void gen_texture()
 /* Walls */
     glPushMatrix();
 
+    //GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+   // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glColorMaterial(GL_FRONT, GL_AMBIENT);
+    glEnable(GL_COLOR_MATERIAL);
     glColor3f(0,1,0);
     glBegin(GL_QUADS);
     glVertex3f(-1,-1,-1);
@@ -156,10 +166,10 @@ void gen_texture()
     glColor3f(0,0,1);
     glScalef(0.1,0.1,0.1);
     glBegin(GL_QUADS);          //box for picture frame
-    glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-1);
-    glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-1);
-    glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-1);
-    glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-1);
+    glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-9.9);
+    glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-9.9);
+    glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-9.9);
+    glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-9.9);
     glEnd();
     glDisable(GL_TEXTURE_2D);
 
@@ -203,10 +213,17 @@ void draw_quad_room(float l, float b, float h)
     glVertex3f(1,1,1);
     glVertex3f(-1,1,1);
 /* Walls */
-    glVertex3f(-1,-1,1);
-    glVertex3f(1,-1,1);
-    glVertex3f(1,1,1);
+    // glVertex3f(-1,-1,1);
+    // glVertex3f(1,-1,1);
+    // glVertex3f(1,1,1);
+    // glVertex3f(-1,1,1);
+   // ********************************** //
+
     glVertex3f(-1,1,1);
+    glVertex3f(1,1,1);
+    glVertex3f(1,-1,1);
+    glVertex3f(-1,-1,1);
+    // ******************************* //
 
     glVertex3f(-1,-1,-1);
     glVertex3f(1,-1,-1);
@@ -237,19 +254,62 @@ void draw_cube_room()
     glutWireCube(1);
     glPopMatrix();
 }
-void tri(float r, float g, float b)
+
+
+void light_init(void)
 {
-    glBegin(GL_TRIANGLES);				// start drawing a polygon
-    glColor3f(r,g,b);
-    glVertex3f( 0.0f, 1.0f, 0.0f);		// Top
-    glVertex3f( 1.0f,-1.0f, 0.0f);		// Bottom Right
-    glVertex3f(-1.0f,-1.0f, 0.0f);		// Bottom Left
-    glEnd();
+    // GLfloat light_position[] = {1.0, 1.0, 1.0, 1.0};
+    // GLfloat light_diffuse[] = {0.7, 0.7, 0.5, 1.0};
+    // GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
+    // GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    // glEnable(GL_LIGHTING);
+    // glEnable(GL_LIGHT0);
+    // glShadeModel(GL_SMOOTH);
+    // glEnable(GL_DEPTH_TEST);
+    // glLightfv ( GL_LIGHT0 , GL_POSITION , light_position );
+    // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 50.0 };
+    GLfloat light_position[] = { 0.0, 0.0, 1.0, 1.0 };
+    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
+    GLfloat light_ambient[] = {0.8,0.5,0.1,1.0};
+   // glClearColor (0.0, 0.0, 0.0, 0.0);
+    glShadeModel (GL_SMOOTH);
+
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    //glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv ( GL_LIGHT0 , GL_POSITION , light_position );
+    glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
+    glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
+    glLightfv ( GL_LIGHT0 , GL_AMBIENT , light_ambient );
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_DEPTH_TEST);
+
 }
+
 void draw()
 {
-   // inp_texture();
+    // inp_texture(
+    // GLfloat light_position[] = {1.0, 1.0, 1.0, 1.0};
+    // GLfloat light_diffuse[] = {0.7, 0.7, 0.5, 1.0};
+    // GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
+    // GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    // glEnable(GL_LIGHTING);
+    // glEnable(GL_LIGHT0);
+    // glShadeModel(GL_SMOOTH);
+    // glEnable(GL_DEPTH_TEST);
+    // glLightfv ( GL_LIGHT0 , GL_POSITION , light_position );
+    // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
+    // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
+    init_structures();
     draw_quad_room(10,10,15);
+    draw_cycle();
     gen_texture();
 
 //    draw_cube_room();
