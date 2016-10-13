@@ -8,6 +8,7 @@
 #include <GL/glu.h>
 // #include <SOIL/SOIL.h>
 #include "lighting_class.hpp"
+#include "./bicycle/all_lists.cpp"
 
 using namespace std;
 
@@ -253,36 +254,7 @@ void draw_cube_room()
     glutWireCube(1);
     glPopMatrix();
 }
-void tri(float r, float g, float b)
-{
-    glBegin(GL_TRIANGLES);				// start drawing a polygon
-    glColor3f(r,g,b);
-    glVertex3f( 0.0f, 1.0f, 0.0f);		// Top
-    glVertex3f( 1.0f,-1.0f, 0.0f);		// Bottom Right
-    glVertex3f(-1.0f,-1.0f, 0.0f);		// Bottom Left
-    glEnd();
-}
-void draw()
-{
-   // inp_texture(
-    // GLfloat light_position[] = {1.0, 1.0, 1.0, 1.0};
-    // GLfloat light_diffuse[] = {0.7, 0.7, 0.5, 1.0};
-    // GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
-    // GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    // glEnable(GL_LIGHTING);
-    // glEnable(GL_LIGHT0);
-    // glShadeModel(GL_SMOOTH);
-    // glEnable(GL_DEPTH_TEST);
-    // glLightfv ( GL_LIGHT0 , GL_POSITION , light_position );
-    // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
-    // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
-    draw_quad_room(10,10,15);
-    gen_texture();
 
-
-//    draw_cube_room();
-}
 
 void light_init(void)
 {
@@ -318,4 +290,27 @@ void light_init(void)
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
 
+}
+
+void draw()
+{
+    // inp_texture(
+    // GLfloat light_position[] = {1.0, 1.0, 1.0, 1.0};
+    // GLfloat light_diffuse[] = {0.7, 0.7, 0.5, 1.0};
+    // GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
+    // GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    // glEnable(GL_LIGHTING);
+    // glEnable(GL_LIGHT0);
+    // glShadeModel(GL_SMOOTH);
+    // glEnable(GL_DEPTH_TEST);
+    // glLightfv ( GL_LIGHT0 , GL_POSITION , light_position );
+    // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
+    // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
+    init_structures();
+    draw_quad_room(10,10,15);
+    draw_cycle();
+    gen_texture();
+
+//    draw_cube_room();
 }
