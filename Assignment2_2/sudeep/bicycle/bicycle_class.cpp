@@ -104,10 +104,35 @@ void bic_node::dec_tz()
     tz -= 0.1;
     //if (rz > 360){rz -= 360;}
 }
-void bic_node::dec_angle(float angle)
+
+
+void bic_node::dec_angle(float angle, float orientation)
 {
-    tx = tx-0.1*cos(angle*PI/180);
-    tz = tz-0.1*sin(angle*PI/180);
+    float sign;
+    cout << orientation << endl;
+    
+    if (orientation >180 && orientation < 360)
+    {
+        sign = -1;
+    }
+    else if (orientation > 0 && orientation < 180)
+    {
+        sign = 1;
+    }
+    if(orientation != 0 && orientation != 360)
+    {   
+        float tan_theta = tan(orientation*PI/180);
+        tan_theta = tan_theta < 0? -1*tan_theta : tan_theta;
+        float radius = 12.3255 / tan_theta;
+        cout<< "tan: " << tan_theta;
+        cout << "radius :" << radius << endl ;
+        tx = tx  - (radius*PI/180)*cos(angle*PI/180);
+        tz = tz + sign*(radius*PI/180)*sin(angle*PI/180);
+    }
+    else
+    {
+        tx -= 0.1;
+    }
 }
 
 

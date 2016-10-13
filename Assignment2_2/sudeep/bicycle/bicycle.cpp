@@ -19,7 +19,8 @@ void processNormalKeys(unsigned char key, int x, int y) {
             glutPostRedisplay();
             break;
         case 't':
-            bic_frame2->inc_ry();
+
+            bic_frame2->dec_ry();
             //glRotatef(0.0,1.0,0.0,1.0);
             cout << bic_frame2->get_ry() << endl;
             glutPostRedisplay();
@@ -27,7 +28,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
         case 'w':
 
             bic_pedal_rod->inc_rz();
-            //pdate_bic_rider_angles();
+            //update_bic_rider_angles();
             bic_front_wheel->inc_rz();
             bic_back_wheel->inc_rz();
             bic_frame_main ->  inc_tx();
@@ -41,10 +42,14 @@ void processNormalKeys(unsigned char key, int x, int y) {
         //pdate_bic_rider_angles();
         bic_front_wheel->inc_rz();
         bic_back_wheel->inc_rz();
-        bic_frame_main ->  dec_angle(angle);
+        bic_frame_main ->  dec_angle(angle, bic_frame2->get_ry());
         angle ++;
-        //glRotatef(1.0,0.0,1.0,0.0);
-        bic_frame_main ->  dec_ry();
+        bic_pedal_rod->inc_rz();
+        //pdate_bic_rider_angles();
+        bic_front_wheel->inc_rz();
+        bic_back_wheel->inc_rz();
+            
+        //bic_frame_main ->  dec_ry();
         glutPostRedisplay();
         break;
 
@@ -92,16 +97,43 @@ void processNormalKeys(unsigned char key, int x, int y) {
 
 //Our function for processing Non-ASCII keys
 void processSpecialKeys(int key, int x, int y) {
+    float angle = bic_frame2->get_ry();
     switch(key) {
-        // case GLUT_KEY_LEFT :
-        // node[curr]->dec_ry();
-        // break;
-        // case GLUT_KEY_RIGHT :
-        // node[curr]->inc_ry();
-        // break;
-        // case GLUT_KEY_UP :
-        // node[curr]->dec_rx();
-        // break;
+        case GLUT_KEY_LEFT :            
+            if( angle < 60 || angle >= 300)
+            bic_frame2->inc_ry();
+            cout << bic_frame2->get_ry() << endl;
+            glutPostRedisplay();
+        break;
+
+        case GLUT_KEY_RIGHT : 
+            //float angle1 = bic_frame2->get_ry();
+            if( angle <= 60 || angle > 300)
+            bic_frame2->dec_ry();
+            cout << bic_frame2->get_ry() << endl;
+            glutPostRedisplay();
+        break;
+        case GLUT_KEY_UP :
+            bic_pedal_rod->inc_rz();
+        
+            bic_front_wheel->inc_rz();
+            bic_back_wheel->inc_rz();
+            float orientation = bic_frame2->get_ry();
+            bic_frame_main ->  dec_angle(angle, orientation);
+            angle ++;
+            bic_pedal_rod->inc_rz();
+            //pdate_bic_rider_angles();
+            bic_front_wheel->inc_rz();
+            bic_back_wheel->inc_rz();
+                
+            if(orientation != 0 && orientation != 360)
+            {
+                bic_frame_main ->  dec_ry();
+            }
+
+            
+            glutPostRedisplay();
+        break;
         // case GLUT_KEY_DOWN :
         // node[curr]->inc_rx();
         // break;
