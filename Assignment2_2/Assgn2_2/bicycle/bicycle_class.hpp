@@ -23,13 +23,13 @@ public:
 class bic_node
 {
 private:
-    float tx, ty, tz;
-    float rx, ry, rz;
     int glist;
     color_t color;
     std::vector<bic_node*> children;
     bic_node* parent;
 public:
+    float tx, ty, tz;
+    float rx, ry, rz;
     bic_node();
     bic_node (bic_node* _parent, int _glist);
     void set_color(color_t color1);

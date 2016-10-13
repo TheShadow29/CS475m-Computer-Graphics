@@ -15,6 +15,7 @@ using namespace std;
 GLuint tex_buff_id;     //create buffer to hold the image
 GLfloat *uvs;
 GLuint texName;
+float cam1_x = 4, cam1_z = 0, cam1_rx, cam1_ry, cam1_rz;
 //GLubyte checkImage[checkImageHeight][checkImageWidth][4];
 
 //GLuint tex_coord_id;    //id of texture coordinate variable in the shader
@@ -24,6 +25,7 @@ GLuint texName;
 unsigned char* texture_image;
 int width_text_img;
 int heigh_text_img;
+float l=10,b=10,h=15;
 
 void draw_cube_room();
 void draw_quad_room();
@@ -32,7 +34,7 @@ void inp_texture();
 void gen_texture();
 void tri(float, float, float);
 void light_init(void);
-
+void camera_pos(char);
 
 void inp_texture()
 {
@@ -113,13 +115,13 @@ void loadBMP_custom(const char * imagepath){
 
 void gen_texture()
 {
-    loadBMP_custom("./wooden_texture2.bmp");
+    loadBMP_custom("./wooden_texture1.bmp");
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glBindTexture(GL_TEXTURE_2D, texName);
 
     glPushMatrix();
-    glScalef(10,10,15);
+    glScalef(l,b,h);
 
 
         glBegin(GL_QUADS);
@@ -158,7 +160,7 @@ void gen_texture()
     glVertex3f(-1,1,-1);
     glEnd();
 
-    loadBMP_custom("./pic_frame.bmp");
+    loadBMP_custom("./pic_frame1.bmp");
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glBindTexture(GL_TEXTURE_2D, texName);
@@ -289,7 +291,28 @@ void light_init(void)
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
+}
 
+void camera_pos(char key)
+{
+    //gluLookAt => eye, center, up
+    switch (key)
+    {
+        case '1':
+            glLoadIdentity();
+            cout << "line 302 tx " << cam1_rx << " tz " << cam1_rz <<endl;
+            cout << "line 304 cam1_rx " << cam1_rx << " cam1_rz " << cam1_rz << endl;
+            gluLookAt(cam1_x, 0, cam1_z,cam1_rx,0, cam1_rz, 0, 1, 0);
+            //glutPostRedisplay();
+            break;
+        case '2':
+            break;
+        case '3':
+            glLoadIdentity();
+            gluLookAt(0.9*l, 0.9*b, -0.9*h, 0, 0, 0, 0, 1, 0);
+            glutPostRedisplay();
+            break;
+    }
 }
 
 void draw()
@@ -307,9 +330,14 @@ void draw()
     // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
     // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
-    init_structures();
+
     draw_quad_room(10,10,15);
+    glPushMatrix();
+
+    glScalef(0.5,0.5,0.5);
+    glTranslatef(0,-5,0);
     draw_cycle();
+    glPopMatrix();
     gen_texture();
 
 //    draw_cube_room();
