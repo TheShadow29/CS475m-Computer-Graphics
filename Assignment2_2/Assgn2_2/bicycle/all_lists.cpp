@@ -20,6 +20,8 @@ using namespace std;
 
 #define PI 3.14159265
 
+GLuint texName1;
+
 GLuint frame1;
 GLuint frame2;
 GLuint frame3;
@@ -165,6 +167,111 @@ float rider_theta2[2] = {0.0f, 0.0f};
 //rider_theta2[0] = 0.0f;  // 57.8542
 float phi_pedal = 0.0f;
 
+void loadBMP_custom1(const char * imagepath){
+
+    // Data read from the header of the BMP file
+    unsigned char header[54]; // Each BMP file begins by a 54-bytes header
+    unsigned int dataPos;     // Position in the file where the actual data begins
+    unsigned int width, height;
+    unsigned int imageSize;   // = width*height*3
+    // Actual RGB data
+    unsigned char * data;
+
+    //  glClearColor (0.0, 0.0, 0.0, 0.0);
+    glShadeModel(GL_FLAT);
+    glEnable(GL_DEPTH_TEST);
+    // Open the file
+    FILE * file = fopen(imagepath,"rb");
+    if (!file){printf("Image could not be opened\n"); return;}
+
+    if (fread(header, 1 , 54, file)!=54 ){ // If not 54 bytes read : problem
+        printf("Not a correct BMP file\n");
+        return;
+    }
+
+    if ( header[0]!='B' || header[1]!='M' ){
+        printf("Not a correct BMP file\n");
+        return;
+    }
+
+    dataPos    = *(int*)&(header[0x0A]);
+    imageSize  = *(int*)&(header[0x22]);
+    width      = *(int*)&(header[0x12]);
+    height     = *(int*)&(header[0x16]);
+    // width = 225;
+    // height = 225;
+    if (imageSize==0)    imageSize=width*height*3; // 3 : one byte for each Red, Green and Blue component
+    if (dataPos==0)      dataPos=54; // The BMP header is done that way
+
+    // Create a buffer
+    data = new unsigned char [imageSize];
+
+
+    // Read the actual data from the file into the buffer
+    fread(data,1,imageSize,file);
+
+    //Everything is in memory now, the file can be closed
+    fclose(file);
+
+    // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glGenTextures(1, &texName1);
+    glBindTexture(GL_TEXTURE_2D, texName1);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                    GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width,
+                 height, 0, GL_BGR, GL_UNSIGNED_BYTE,
+                 data);
+}
+void cylinder_texture1(float len_cylinder)
+{
+    glPushMatrix();
+    float r = 0.1f;
+    /* radius */
+    // double r=5.0;
+    // double height=4.0;
+    /* number of side faces */
+    int faces=360;
+    /* Choose neutral color (white)*/
+    glColor3d(1,1,1);
+    loadBMP_custom1("./rock.bmp");
+    /* Enable 2D Texture*/
+    glEnable(GL_TEXTURE_2D);
+    /* set current working texture */
+    glBindTexture(GL_TEXTURE_2D, texName1);
+
+    /* Disabling these is not necessary in this example,
+    * BUT if you have previously enabled GL_TEXTURE_GEN_
+    * for other textures,then you need these lines
+    */
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+
+    glTranslatef(len_cylinder/2,0.0f,0.0f);
+    glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
+    glBegin(GL_QUAD_STRIP);
+    double x, y, z;
+    y=len_cylinder;
+    for (int i =0; i <= faces; i++) {
+         double u = i/ (double) faces;
+         x = r*cos(2*M_PI*u);
+         z = r*sin(2*M_PI*u);
+         /* Bottom vertex*/
+         glTexCoord2d(u, 1.0); glVertex3d( x, 0, z );
+         /* Top vertex*/
+         glTexCoord2d(u, 0.0); glVertex3d( x, y, z );
+    }
+    glEnd();
+        glDisable(GL_TEXTURE_2D);
+
+        glPopMatrix();
+}
+
 
 void init_structures()
 {
@@ -278,6 +385,7 @@ void init_structures()
     bic_handle_bar->add_child(bic_handle_left);
 }
 
+
 void struct_frame()
 {
     struct_frame1();
@@ -305,7 +413,7 @@ void struct_frame1()
 {
     frame1 = glGenLists(1);
     glNewList(frame1, GL_COMPILE);
-    horizontal_cylinder(len_frame1);
+    cylinder_texture1(len_frame1);
     glEndList();
 }
 
@@ -344,7 +452,7 @@ void struct_frame2()
     glNewList(frame2,GL_COMPILE);
 //    glTranslatef(-len_frame1/2,0,0);
     glRotatef(angle_frame2_1,0,0,1.0f);
-    horizontal_cylinder(len_frame2);
+    cylinder_texture1(len_frame2);
     glEndList();
 }
 
@@ -354,7 +462,7 @@ void struct_frame3()
     glNewList(frame3, GL_COMPILE);
 //    glTranslatef(len_frame1/2,-1.5f,0);
     glRotatef(angle_frame3_1,0,0,1.0f);
-    horizontal_cylinder(len_frame3);
+    cylinder_texture1(len_frame3);
     glEndList();
 }
 
@@ -364,7 +472,7 @@ void struct_frame4()
     glNewList(frame4, GL_COMPILE);
 //    glTranslatef(0,-dist_frame4_1,0);
     glRotatef(90-angle_frame4_3,0,0,-1.0f);
-    horizontal_cylinder(len_frame4);
+    cylinder_texture1(len_frame4);
     glEndList();
 }
 void struct_frame5()
@@ -373,7 +481,7 @@ void struct_frame5()
     glNewList(frame5, GL_COMPILE);
    //glTranslatef(0.52f,0.78f,0);
     glRotatef(angle_frame5,0,0,-1.0f);
-    horizontal_cylinder(len_frame5);
+    cylinder_texture1(len_frame5);
     glEndList();
 }
 
@@ -383,7 +491,7 @@ void struct_frame6()
     glNewList(frame6, GL_COMPILE);
 //    glTranslatef(0,-dist_frame4_1,0);
     glRotatef(angle_frame6,0,0,-1.0f);
-    horizontal_cylinder(len_frame6);
+    cylinder_texture1(len_frame6);
     glEndList();
 }
 
@@ -393,7 +501,7 @@ void struct_frame8()
     glNewList(frame8, GL_COMPILE);
 //    glTranslatef(0,-dist_frame4_1,0);
     glRotatef(angle_frame5,0,0,-1.0f);
-    horizontal_cylinder(len_frame8);
+    cylinder_texture1(len_frame8);
     glEndList();
 }
 

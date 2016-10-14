@@ -41,6 +41,24 @@ void processNormalKeys(unsigned char key, int x, int y) {
           gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
           glutPostRedisplay();
           break;
+      case 'l':
+      case 'L':
+        L_check = !L_check;
+        cout << "check: " << L_check << endl;
+        if (L_check)
+        {
+          light_ambient[0] = 0.8;
+          light_ambient[1] = 0.5;
+          light_ambient[2] = 0.1;
+        }
+        else
+        {
+          light_ambient[0] = 0.0;
+          light_ambient[1] = 0.0;
+          light_ambient[2] = 0.0;
+        }
+        glutPostRedisplay();
+      break;
     case 27:           // exit
       exit(0);
           break;
@@ -53,27 +71,28 @@ void processNormalKeys(unsigned char key, int x, int y) {
 void processSpecialKeys(int key, int x, int y) {
   switch(key) {
       case GLUT_KEY_LEFT :
-          if( angle < 60 || angle >= 300)
+          if( bic_frame2->ry < 60 || bic_frame2->ry >= 300)
               bic_frame2->inc_ry();
-          cout << bic_frame2->get_ry() << endl;
+//          cout << bic_frame2->get_ry() << endl;
           glutPostRedisplay();
           break;
 
       case GLUT_KEY_RIGHT :
           //float angle1 = bic_frame2->get_ry();
-          if( angle <= 60 || angle > 300)
+          if( bic_frame2->ry <= 60 || bic_frame2->ry > 300)
               bic_frame2->dec_ry();
-          cout << bic_frame2->get_ry() << endl;
+//          cout << bic_frame2->get_ry() << endl;
           glutPostRedisplay();
           break;
       case GLUT_KEY_UP :
+
           bic_pedal_rod->inc_rz();
 
           bic_front_wheel->inc_rz();
           bic_back_wheel->inc_rz();
           float orientation = bic_frame2->get_ry();
           bic_frame_main ->  dec_angle(angle, orientation);
-          angle ++;
+          //angle ++;
           bic_pedal_rod->inc_rz();
           //pdate_bic_rider_angles();
           bic_front_wheel->inc_rz();
@@ -81,9 +100,21 @@ void processSpecialKeys(int key, int x, int y) {
 
           if(orientation != 0 && orientation != 360)
           {
-              bic_frame_main ->  dec_ry();
+              if( orientation < 360  && orientation > 180)
+                  bic_frame_main ->  dec_ry();
+              if (orientation > 0 && orientation < 180)
+                  bic_frame_main -> inc_ry();
+          }
+          if (cam1_set)
+          {
+              update_cam1();
+          }
+          if(cam2_set)
+          {
+              update_cam2();
           }
           glutPostRedisplay();
+
           break;
   }
   glutPostRedisplay();
