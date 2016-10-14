@@ -15,7 +15,9 @@ using namespace std;
 GLuint tex_buff_id;     //create buffer to hold the image
 GLfloat *uvs;
 GLuint texName;
-float cam1_x = 4, cam1_z = 0, cam1_rx, cam1_ry, cam1_rz;
+float cam1_rx = 0, cam1_rz = 0;
+float cam1_ex = 0, cam1_ey = 0;
+float angle = 0.0;
 //GLubyte checkImage[checkImageHeight][checkImageWidth][4];
 
 //GLuint tex_coord_id;    //id of texture coordinate variable in the shader
@@ -35,6 +37,9 @@ void gen_texture();
 void tri(float, float, float);
 void light_init(void);
 void camera_pos(char);
+void rect(float w, float h, int num);
+void draw_rect_room(float, float , float);
+void update_cam1();
 
 void inp_texture()
 {
@@ -123,7 +128,8 @@ void gen_texture()
     glPushMatrix();
     glScalef(l,b,h);
 
-
+    glColorMaterial(GL_FRONT, GL_AMBIENT);
+    glEnable(GL_COLOR_MATERIAL);
         glBegin(GL_QUADS);
         /*floor*/
         glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,1);
@@ -160,7 +166,7 @@ void gen_texture()
     glVertex3f(-1,1,-1);
     glEnd();
 
-    loadBMP_custom("./pic_frame1.bmp");
+    loadBMP_custom("./scenery1.bmp");
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glBindTexture(GL_TEXTURE_2D, texName);
@@ -168,10 +174,10 @@ void gen_texture()
     glColor3f(0,0,1);
     glScalef(0.1,0.1,0.1);
     glBegin(GL_QUADS);          //box for picture frame
-    glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-9.9);
-    glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-9.9);
-    glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-9.9);
-    glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-9.9);
+    glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-9.99);
+    glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-9.99);
+    glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-9.99);
+    glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-9.99);
     glEnd();
     glDisable(GL_TEXTURE_2D);
 
@@ -248,6 +254,62 @@ void draw_quad_room(float l, float b, float h)
     glPopMatrix();
 }
 
+void draw_rect_room(float l, float b, float h)
+{
+    glPushMatrix();
+    glColor3f(0,0,0);
+    glScalef(l,b,h);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//    glRotatef(90,1,0,0);
+    glPushMatrix();
+    //back walll
+    glTranslatef(0, 0, -1.01);
+    rect(2,2,100);
+    glPopMatrix();
+
+    glPushMatrix();
+    //floor
+    glTranslatef(0,-1.01,0);
+    glRotatef(90, 1,0,0);
+    rect(2,2,100);
+    glPopMatrix();
+
+    glPushMatrix();
+    //ceiling
+    glTranslatef(0,1.01,0);
+    glRotatef(90,1,0,0);
+    rect(2,2,100);
+    glPopMatrix();
+
+    glPushMatrix();
+    //left wall
+    glColor3f(1,0,0);
+    glTranslatef(-1.01,0,0);
+    glRotatef(90,0,1,0);
+    rect(2,2,100);
+    glPopMatrix();
+
+    glPushMatrix();
+    //right wall
+    glColor3f(1,0,0);
+    glTranslatef(1.01,0,0);
+    glRotatef(90,0,-1,0);
+    rect(2,2,100);
+    glPopMatrix();
+
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glPopMatrix();
+}
+
+void update_cam1()
+{
+    cam1_ex = bic_frame_main->tx;
+    cam1_ey = bic_frame_main->ty;
+    cam1_rx = -cos((angle + bic_frame_main->ry) * PI / 180);
+    cam1_rz = -sin((angle + bic_frame_main->ry) * PI / 180);
+}
+
 void draw_cube_room()
 {
     glPushMatrix();
@@ -300,10 +362,8 @@ void camera_pos(char key)
     {
         case '1':
             glLoadIdentity();
-            cout << "line 302 tx " << cam1_x << " tz " << cam1_z <<endl;
-            cout << "line 304 cam1_rx " << cam1_rx << " cam1_rz " << cam1_rz << endl;
 
-//            gluLookAt(cam1_x, 0, cam1_z,-0.2f+cam1_x,0, -0.2f+cam1_z, 0, 1, 0);
+            gluLookAt(bic_frame_main->tx, 0, bic_frame_main->tz,cam1_rx,0, cam1_rz, 0, 1, 0);
 //            gluLookAt(cam1_x, 0, cam1_z,1,0, 1, 0, 1, 0);
             glutPostRedisplay();
             break;
@@ -311,10 +371,31 @@ void camera_pos(char key)
             break;
         case '3':
             glLoadIdentity();
-            gluLookAt(0.9*l, 0.9*b, -0.9*h, 0, 0, 0, 0, 1, 0);
+            gluLookAt(0.9*l, 0.9*b, 0.9*h, 0, 0, 0, 0, 1, 0);
             glutPostRedisplay();
             break;
     }
+}
+
+void rect(float w, float h, int num)
+{
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glTranslatef(-w/2,-h/2,0);
+    for (float w1 = 0; w1 < w; w1+=w/num)
+    {
+        for (float h1 = 0; h1 < h; h1+=h/num)
+        {
+            cout << "line 328 w1 " << w1 << " h1 " << h1 << endl;
+            glBegin(GL_QUADS);
+            glVertex3f(w1, h1, 0);
+            glVertex3f(w1, h1 + h/num, 0);
+            glVertex3f(w1 + w/num, h1 + h/num, 0);
+            glVertex3f(w1 + w/num, h1, 0);
+            glEnd();
+        }
+    }
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 }
 
 void draw()
@@ -333,9 +414,11 @@ void draw()
     // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
     // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
 
-    draw_quad_room(10,10,15);
-    glPushMatrix();
 
+    light_init();
+    draw_rect_room(10,10,15);
+    //draw_quad_room(10,10,15);
+    glPushMatrix();
     glScalef(0.5,0.5,0.5);
     glTranslatef(0,-5,0);
     draw_cycle();
