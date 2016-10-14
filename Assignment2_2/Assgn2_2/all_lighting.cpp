@@ -385,7 +385,7 @@ void rect(float w, float h, int num)
     {
         for (float h1 = 0; h1 < h; h1+=h/num)
         {
-            cout << "line 328 w1 " << w1 << " h1 " << h1 << endl;
+            // cout << "line 328 w1 " << w1 << " h1 " << h1 << endl;
             glBegin(GL_QUADS);
             glVertex3f(w1, h1, 0);
             glVertex3f(w1, h1 + h/num, 0);

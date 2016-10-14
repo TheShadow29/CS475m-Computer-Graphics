@@ -113,6 +113,8 @@ void rider_down();
 
 void bicycle_frame();
 void init_structures();
+void cylinder_texture(float);
+
 
 float len_frame1 = 5.601f;
 float len_frame2 = 3.05f;
@@ -305,7 +307,8 @@ void struct_frame1()
 {
     frame1 = glGenLists(1);
     glNewList(frame1, GL_COMPILE);
-    horizontal_cylinder(len_frame1);
+    // horizontal_cylinder(len_frame1);
+    cylinder_texture(len_frame1);
     glEndList();
 }
 
@@ -671,6 +674,47 @@ void horizontal_cylinder(float len_cylinder)
     glPopMatrix();
 }
 
+void cylinder_texture(float len_cylinder)
+{
+    glPushMatrix();
+    float r = 0.1f;
+    /* radius */
+    // double r=5.0;
+    // double height=4.0;
+    /* number of side faces */
+    int faces=360;
+    /* Choose neutral color (white)*/
+    glColor3d(1,1,1);
+    loadBMP_custom("./stone.bmp");
+    /* Enable 2D Texture*/
+    glEnable(GL_TEXTURE_2D);
+    /* set current working texture */
+    glBindTexture(GL_TEXTURE_2D, texName);
+
+    /* Disabling these is not necessary in this example,
+    * BUT if you have previously enabled GL_TEXTURE_GEN_
+    * for other textures,then you need these lines
+    */
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+
+    glTranslatef(-len_cylinder/2,0.0f,0.0f);
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glBegin(GL_QUAD_STRIP);
+    double x, y, z;
+    y=height;
+    for (int i =0; i <= faces; i++) {
+         double u = i/ (double) faces;
+         x = r*cos(2*M_PI*u);
+         z = r*sin(2*M_PI*u);
+         /* Bottom vertex*/
+         glTexCoord2d(u, 1.0); glVertex3d( x, 0, z );
+         /* Top vertex*/
+         glTexCoord2d(u, 0.0); glVertex3d( x, y, z );
+    }
+    glEnd();
+        glPopMatrix();
+}
 
 void normal_cylinder(float radius, float thickness)
 {

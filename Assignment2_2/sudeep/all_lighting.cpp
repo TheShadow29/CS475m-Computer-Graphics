@@ -387,6 +387,8 @@ void light_init(void)
 
 }
 
+
+
 void draw()
 {
     // inp_texture(
@@ -402,12 +404,13 @@ void draw()
     // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
     // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
-   // init_structures();
+   //init_structures();
     draw_quad_room(10,10,15);
-   // draw_cycle();
+    //draw_cycle();
     gen_texture();
     gen_texture2();
     gen_texture3();
+    // cylinder_texture();
 
 //    draw_cube_room();
 }
