@@ -33,18 +33,20 @@ void processNormalKeys(unsigned char key, int x, int y) {
           bic_front_wheel->inc_rz();
           bic_back_wheel->inc_rz();
           bic_frame_main ->  dec_angle(angle);
-          angle ++;
+
           //glRotatef(1.0,0.0,1.0,0.0);
           bic_frame_main ->  dec_ry();
-          cam1_x = 4 + bic_frame_main->tx;
+          cam1_x = 4+bic_frame_main->tx;
           cam1_z = bic_frame_main->tz;
 //          cam1_rx = sin((bic_frame_main->rx)* PI/180);
 //          cam1_ry = sin((bic_frame_main->ry) * PI/180);
 //          cam1_rz = sin((bic_frame_main->rz)* PI/180);
-          cam1_rx = -1*cos((bic_frame_main->ry)* PI/180);
-          cam1_rz = sin((bic_frame_main->ry)* PI/180);
+          cam1_rx = 1*cos(angle* PI/180);
+          cam1_rz = -1*sin(angle* PI/180);
 ////          cout << "line 302 tx" << cam1_x << " tz" << bic_frame_main->tz <<endl;
+          cout << "line 47 angle " << angle << endl;
           glutPostRedisplay();
+          angle ++;
 //          break;
       case '1':
           camera_pos('1');

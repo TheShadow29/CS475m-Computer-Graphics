@@ -300,10 +300,12 @@ void camera_pos(char key)
     {
         case '1':
             glLoadIdentity();
-            cout << "line 302 tx " << cam1_rx << " tz " << cam1_rz <<endl;
+            cout << "line 302 tx " << cam1_x << " tz " << cam1_z <<endl;
             cout << "line 304 cam1_rx " << cam1_rx << " cam1_rz " << cam1_rz << endl;
-            gluLookAt(cam1_x, 0, cam1_z,cam1_rx,0, cam1_rz, 0, 1, 0);
-            //glutPostRedisplay();
+
+//            gluLookAt(cam1_x, 0, cam1_z,-0.2f+cam1_x,0, -0.2f+cam1_z, 0, 1, 0);
+//            gluLookAt(cam1_x, 0, cam1_z,1,0, 1, 0, 1, 0);
+            glutPostRedisplay();
             break;
         case '2':
             break;
