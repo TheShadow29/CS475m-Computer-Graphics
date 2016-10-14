@@ -31,7 +31,26 @@ void processNormalKeys(unsigned char key, int x, int y) {
           gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
           glutPostRedisplay();
           break;
-    case 27:           // exit
+      case 'l':
+      case 'L':
+        L_check = !L_check;
+        cout << "check: " << L_check << endl;
+        if (L_check)
+        {
+          light_ambient[0] = 0.8;
+          light_ambient[1] = 0.5;
+          light_ambient[2] = 0.1;
+        }
+        else
+        {
+          light_ambient[0] = 0.0;
+          light_ambient[1] = 0.0;
+          light_ambient[2] = 0.0;
+        }
+        glutPostRedisplay();
+      break;
+
+      case 27:           // exit
       exit(0);
           break;
   }
