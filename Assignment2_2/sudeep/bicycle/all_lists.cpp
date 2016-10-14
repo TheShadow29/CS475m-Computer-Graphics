@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "bicycle_class.hpp"
+#include "bicycle_class.cpp"
 
 /*
  * void gluCylinder(	GLUquadric*  	quad,

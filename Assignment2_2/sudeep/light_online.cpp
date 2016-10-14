@@ -8,7 +8,9 @@ void init(void)
    GLfloat mat_shininess[] = { 50.0 };
    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
    GLfloat light_diffuse[] = {0.7, 0.7, 0.5, 1.0};
-    GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
+   GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
+   GLfloat spot_direction[] = {1.0,-1.0,-1.0};
+   GLfloat spot_light_position[] = { -1.0, 1.0, 1.0, 0.0 };
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
 
@@ -17,9 +19,13 @@ void init(void)
    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
    glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
     glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
+    glLightfv(GL_LIGHT1, GL_POSITION, spot_light_position);
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction);
+    glLightfv ( GL_LIGHT1 , GL_SPECULAR , light_specular );
 
    glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
+   //glEnable(GL_LIGHT0);
+   glEnable(GL_LIGHT1);
    glEnable(GL_DEPTH_TEST);
 }
 

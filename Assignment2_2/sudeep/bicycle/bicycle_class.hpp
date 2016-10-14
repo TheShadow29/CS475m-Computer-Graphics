@@ -58,7 +58,9 @@ public:
     void dec_ty();
     void dec_tz();
 
-    void dec_angle(float angle);
+    void dec_angle(float angle, float orientation);
+
+    
     
 };
 
