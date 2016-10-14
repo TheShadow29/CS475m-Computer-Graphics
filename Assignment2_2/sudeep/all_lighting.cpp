@@ -36,6 +36,7 @@ void gen_texture();
 void gen_texture2();
 void tri(float, float, float);
 void light_init(void);
+void gen_texture3();
 
 
 void inp_texture()
@@ -115,12 +116,12 @@ void loadBMP_custom(const char * imagepath){
                  data);
 }
 
-void gen_texture2()
+void gen_texture3()
 {
     glPushMatrix();
-    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-    //glEnable(GL_COLOR_MATERIAL);
-    loadBMP_custom("./wooden_texture1.bmp");
+        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+        glEnable(GL_COLOR_MATERIAL);
+    loadBMP_custom("./pic_frame.bmp");
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -128,25 +129,25 @@ void gen_texture2()
 
     
     glScalef(10,10,15);
-
-
+        glScalef(0.1,0.1,1);
         glBegin(GL_QUADS);
         /*floor*/
         glColor3f(1,1,1);
-        glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,-1);
-        glTexCoord2f(0.0, 1.0); glVertex3f(-1,1,-1);
-        glTexCoord2f(1.0, 1.0); glVertex3f(1,1,-1);
-        glTexCoord2f(1.0, 0.0); glVertex3f(1,-1,-1);
+        glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,-0.9);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-1,1,-0.9);
+        glTexCoord2f(1.0, 1.0); glVertex3f(1,1,-0.9);
+        glTexCoord2f(1.0, 0.0); glVertex3f(1,-1,-0.9);
         glEnd();
         glDisable(GL_TEXTURE_2D);
+
     glPopMatrix();
 }
 
-void gen_texture()
+void gen_texture2()
 {
     glPushMatrix();
-    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-    //glEnable(GL_COLOR_MATERIAL);
+        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+        glEnable(GL_COLOR_MATERIAL);
     loadBMP_custom("./wooden_texture1.bmp");
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
@@ -155,8 +156,6 @@ void gen_texture()
 
     
     glScalef(10,10,15);
-
-
         glBegin(GL_QUADS);
         /*floor*/
         glColor3f(1,1,1);
@@ -167,51 +166,85 @@ void gen_texture()
         glEnd();
         glDisable(GL_TEXTURE_2D);
 
-        glColor3f(1,1,0);
-        glBegin(GL_QUADS);
-        glVertex3f(-1,1,-1);
-        glVertex3f(1,1,-1);
-        glVertex3f(1,1,1);
-        glVertex3f(-1,1,1);
-        glEnd();
-
-/* Walls */
-    glPushMatrix();
-
-   //  //GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   // // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-   //  // glColorMaterial(GL_FRONT, GL_AMBIENT);
-   //  // glEnable(GL_COLOR_MATERIAL);
-    glColor3f(0,1,0);
-    glBegin(GL_QUADS);
-    glVertex3f(-1,-1,-1);
-    glVertex3f(1,-1,-1);
-    glVertex3f(1,1,-1);
-    glVertex3f(-1,1,-1);
-    glEnd();
-
-    // glColorMaterial(GL_FRONT, GL_DIFFUSE);
-    // glEnable(GL_COLOR_MATERIAL);
-    // loadBMP_custom("./pic_frame.bmp");
-    // glEnable(GL_TEXTURE_2D);
-    // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    // //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    // glBindTexture(GL_TEXTURE_2D, texName);
-
-    // // glColorMaterial(GL_FRONT, GL_AMBIENT);
-    // // glEnable(GL_COLOR_MATERIAL);
-    // // glColor3f(0,0,1);
-    // glScalef(0.1,0.1,0.1);
-    // glBegin(GL_QUADS);    
-    // glColor3f(1,1,1);      //box for picture frame
-    // glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-9.9);
-    // glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-9.9);
-    // glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-9.9);
-    // glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-9.9);
-    // glEnd();
-    // glDisable(GL_TEXTURE_2D);
-
     glPopMatrix();
+}
+
+void gen_texture()
+{
+//     glPushMatrix();
+//     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+//     //glEnable(GL_COLOR_MATERIAL);
+//     loadBMP_custom("./wooden_texture1.bmp");
+//     glEnable(GL_TEXTURE_2D);
+//     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+//     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//     glBindTexture(GL_TEXTURE_2D, texName);
+
+    
+//     glScalef(10,10,15);
+
+
+//         glBegin(GL_QUADS);
+//         /*floor*/
+//         glColor3f(1,1,1);
+//         glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,1);
+//         glTexCoord2f(0.0, 1.0); glVertex3f(1,-1,1);
+//         glTexCoord2f(1.0, 1.0); glVertex3f(1,-1,-1);
+//         glTexCoord2f(1.0, 0.0); glVertex3f(-1,-1,-1);
+//         glEnd();
+//         glDisable(GL_TEXTURE_2D);
+
+//         glColor3f(1,1,0);
+//         glBegin(GL_QUADS);
+//         glVertex3f(-1,1,-1);
+//         glVertex3f(1,1,-1);
+//         glVertex3f(1,1,1);
+//         glVertex3f(-1,1,1);
+//         glEnd();
+
+// /* Walls */
+//     glPushMatrix();
+
+//     glColor3f(0,1,0);
+//     glBegin(GL_QUADS);
+//     glVertex3f(-1,-1,-1);
+//     glVertex3f(1,-1,-1);
+//     glVertex3f(1,1,-1);
+//     glVertex3f(-1,1,-1);
+//     glEnd();
+
+//     glColorMaterial(GL_FRONT, GL_DIFFUSE);
+//     glEnable(GL_COLOR_MATERIAL);
+//     loadBMP_custom("./pic_frame.bmp");
+//     glEnable(GL_TEXTURE_2D);
+//     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//     //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//     glBindTexture(GL_TEXTURE_2D, texName);
+
+//     // glColorMaterial(GL_FRONT, GL_AMBIENT);
+//     // glEnable(GL_COLOR_MATERIAL);
+//     // glColor3f(0,0,1);
+//     glScalef(0.1,0.1,0.1);
+//     glBegin(GL_QUADS);    
+//     glColor3f(1,1,1);      //box for picture frame
+//     glTexCoord2f(0.1, 0.1);glVertex3f(-1,-1,-9.9);
+//     glTexCoord2f(0.1, 0.9);glVertex3f(1,-1,-9.9);
+//     glTexCoord2f(0.9, 0.9);glVertex3f(1,1,-9.9);
+//     glTexCoord2f(0.9, 0.1);glVertex3f(-1,1,-9.9);
+//     glEnd();
+//     glDisable(GL_TEXTURE_2D);
+
+//     glPopMatrix();
+    glPushMatrix();
+    glScalef(10,10,15);
+
+    glColor3f(1,1,0);
+    glBegin(GL_QUADS);
+    glVertex3f(-1,1,-1);
+    glVertex3f(1,1,-1);
+    glVertex3f(1,1,1);
+    glVertex3f(-1,1,1);
+    glEnd();
 
     glColor3f(0,1,0);
     glBegin(GL_QUADS);
@@ -374,6 +407,7 @@ void draw()
    // draw_cycle();
     gen_texture();
     gen_texture2();
+    gen_texture3();
 
 //    draw_cube_room();
 }
