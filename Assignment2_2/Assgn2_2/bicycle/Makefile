@@ -11,6 +11,6 @@ clean:
 	rm -f *~
 
 bicycle: clean
-	g++ bicycle.cpp -o $@ $(GLLIBS)
+	g++ bicycle.cpp  -o $@ $(GLLIBS)
 
 

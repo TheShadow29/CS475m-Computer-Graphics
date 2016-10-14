@@ -23,6 +23,7 @@ public:
 class bic_node
 {
 private:
+
     int glist;
     color_t color;
     std::vector<bic_node*> children;
@@ -58,7 +59,9 @@ public:
     void dec_ty();
     void dec_tz();
 
-    void dec_angle(float angle);
+    void dec_angle(float angle, float orientation);
+
+    
     
 };
 

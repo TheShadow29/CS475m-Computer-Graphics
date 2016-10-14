@@ -5,7 +5,7 @@
 
 using namespace std;
 
-float angle = 0.0;
+
 
 //Our function for processing ASCII keys
 void processNormalKeys(unsigned char key, int x, int y) {
@@ -26,28 +26,6 @@ void processNormalKeys(unsigned char key, int x, int y) {
           glRotatef(1,0.0,0.0,1.0);
           glutPostRedisplay();
           break;
-      case 'p':
-
-          bic_pedal_rod->inc_rz();
-          //pdate_bic_rider_angles();
-          bic_front_wheel->inc_rz();
-          bic_back_wheel->inc_rz();
-          bic_frame_main ->  dec_angle(angle);
-
-          //glRotatef(1.0,0.0,1.0,0.0);
-          bic_frame_main ->  dec_ry();
-          cam1_x = 4+bic_frame_main->tx;
-          cam1_z = bic_frame_main->tz;
-//          cam1_rx = sin((bic_frame_main->rx)* PI/180);
-//          cam1_ry = sin((bic_frame_main->ry) * PI/180);
-//          cam1_rz = sin((bic_frame_main->rz)* PI/180);
-          cam1_rx = 1*cos(angle* PI/180);
-          cam1_rz = -1*sin(angle* PI/180);
-////          cout << "line 302 tx" << cam1_x << " tz" << bic_frame_main->tz <<endl;
-          cout << "line 47 angle " << angle << endl;
-          glutPostRedisplay();
-          angle ++;
-//          break;
       case '1':
           camera_pos('1');
           break;
@@ -74,7 +52,39 @@ void processNormalKeys(unsigned char key, int x, int y) {
 //Our function for processing Non-ASCII keys
 void processSpecialKeys(int key, int x, int y) {
   switch(key) {
+      case GLUT_KEY_LEFT :
+          if( angle < 60 || angle >= 300)
+              bic_frame2->inc_ry();
+          cout << bic_frame2->get_ry() << endl;
+          glutPostRedisplay();
+          break;
 
+      case GLUT_KEY_RIGHT :
+          //float angle1 = bic_frame2->get_ry();
+          if( angle <= 60 || angle > 300)
+              bic_frame2->dec_ry();
+          cout << bic_frame2->get_ry() << endl;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_UP :
+          bic_pedal_rod->inc_rz();
+
+          bic_front_wheel->inc_rz();
+          bic_back_wheel->inc_rz();
+          float orientation = bic_frame2->get_ry();
+          bic_frame_main ->  dec_angle(angle, orientation);
+          angle ++;
+          bic_pedal_rod->inc_rz();
+          //pdate_bic_rider_angles();
+          bic_front_wheel->inc_rz();
+          bic_back_wheel->inc_rz();
+
+          if(orientation != 0 && orientation != 360)
+          {
+              bic_frame_main ->  dec_ry();
+          }
+          glutPostRedisplay();
+          break;
   }
   glutPostRedisplay();
 }
@@ -84,7 +94,7 @@ void display(void)
   glClearColor(1,1,1,1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   //draw_cycle();
-  light_init();
+
   draw();
   glutSwapBuffers();
 }
