@@ -15,8 +15,8 @@ using namespace std;
 GLuint tex_buff_id;     //create buffer to hold the image
 GLfloat *uvs;
 GLuint texName;
-float cam1_rx = 0; cam1_rz = 0;
-float cam1_ex = 0; cam1_ey = 0;
+float cam1_rx = 0, cam1_rz = 0;
+float cam1_ex = 0, cam1_ey = 0;
 float angle = 0.0;
 //GLubyte checkImage[checkImageHeight][checkImageWidth][4];
 

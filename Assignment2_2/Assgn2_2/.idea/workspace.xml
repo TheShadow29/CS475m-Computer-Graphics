@@ -34,8 +34,8 @@
       <file leaf-file-name="all_lighting.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/all_lighting.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="307" column="33" selection-start-line="307" selection-start-column="33" selection-end-line="307" selection-end-column="33" />
+            <state relative-caret-position="210">
+              <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
               <folding>
                 <element signature="e#179#208#0" expanded="true" />
               </folding>
@@ -491,8 +491,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/all_lighting.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="307" column="33" selection-start-line="307" selection-start-column="33" selection-end-line="307" selection-end-column="33" />
+        <state relative-caret-position="210">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
           <folding>
             <element signature="e#179#208#0" expanded="true" />
           </folding>
