@@ -11,6 +11,6 @@ clean:
 	rm -f *~
 
 lighting: clean
-	g++ lighting_class.cpp lighting.cpp -o $@ $(GLLIBS)
+	g++ lighting_class.cpp lighting.cpp  -o $@ $(GLLIBS)
 
 

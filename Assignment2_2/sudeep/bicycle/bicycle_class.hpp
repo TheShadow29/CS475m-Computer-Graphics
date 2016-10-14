@@ -60,7 +60,7 @@ public:
 
     void dec_angle(float angle, float orientation);
 
-    float sgn (float n);
+    
     
 };
 

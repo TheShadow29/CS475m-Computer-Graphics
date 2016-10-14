@@ -271,7 +271,7 @@ void light_init(void)
 
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
-    GLfloat light_position[] = { 0.0, 0.0, 1.0, 1.0 };
+    GLfloat light_position[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
     GLfloat light_ambient[] = {0.8,0.5,0.1,1.0};

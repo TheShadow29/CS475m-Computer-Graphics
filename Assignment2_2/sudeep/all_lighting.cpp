@@ -8,7 +8,7 @@
 #include <GL/glu.h>
 // #include <SOIL/SOIL.h>
 #include "lighting_class.hpp"
-#include "./bicycle/all_lists.cpp"
+//#include "./bicycle/all_lists.cpp"
 
 using namespace std;
 
@@ -307,9 +307,9 @@ void draw()
     // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     // // glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
     // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
-    init_structures();
+   // init_structures();
     draw_quad_room(10,10,15);
-    draw_cycle();
+   // draw_cycle();
     gen_texture();
 
 //    draw_cube_room();
