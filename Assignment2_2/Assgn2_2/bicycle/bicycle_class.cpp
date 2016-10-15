@@ -65,7 +65,7 @@ void bic_node::inc_rx()
 void bic_node::inc_ry()
 {
     ry++;
-    if (ry > 360){ry -= 360;}
+    if (ry >= 360){ry -= 360;}
 }
 void bic_node::inc_rz()
 {

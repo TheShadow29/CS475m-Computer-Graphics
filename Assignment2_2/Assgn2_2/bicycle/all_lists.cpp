@@ -426,16 +426,20 @@ void struct_front_wheel_pad1()
 //    horizontal_cylinder(len_wheel_pad);
 //    glTranslatef(0,-len_frame2/2,0);
     glPushMatrix();
-    glColor3f(0.0f,1.0f,0.0f);
+
+//    glColor3f(0.0f,1.0f,0.0f);
     GLUquadricObj *f1;
     f1 = gluNewQuadric();
     glTranslatef(-len_wheel_pad/2,0.0f,0.0f);
     glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    GLfloat surface_color[] = {0,1,0};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, surface_color);
+    gluQuadricOrientation(f1,GLU_INSIDE);
     gluCylinder(f1,0.1f,0.1f,len_wheel_pad,32,32);
     glPopMatrix();
 
     glPushMatrix();
-    glColor3f(0.0f,1.0f,0.0f);
+//    glColor3f(0.0f,0.0f,0.0f);
     GLUquadricObj *f2;
     f2 = gluNewQuadric();
     glTranslatef(0,0,-.25f);
