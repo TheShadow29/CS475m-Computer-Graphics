@@ -405,15 +405,15 @@ void update_cam2()
    float delta_x = (1)*cos((orient) * PI / 180);
    float delta_z = (1)*sin((orient) * PI / 180);
 //    //orient = orient < 0? -1*orient : orient;
-    cam1_rx = cam1_ex -(radius)*cos((angle+orient) * PI / 180) ;//  - delta_x;
-    cam1_rz = cam1_ez -sign*(radius)*sin((angle +orient) * PI / 180);// - delta_z;
+    cam1_rx = cam1_ex -(radius)*cos((angle) * PI / 180) ;//  - delta_x;
+    cam1_rz = cam1_ez -sign*(radius)*sin((angle) * PI / 180);// - delta_z;
    // cout << "line 312 orient " << bic_frame2->ry << " angle " << angle << endl;
 //    cout << "line 366 cam1_ex " << 1 + cam1_ex << " cam1_tz " << cam1_ez << endl;
 //    cout << "line 313 cam1_rx " << cam1_rx << " cam1_rz " << cam1_rz << endl;
      // cout << "line 334 sign" << sign << endl;
 
     glLoadIdentity();
-    gluLookAt( 1+cam1_rx-cam1_ex, 5, cam1_rz - cam1_ez, cam1_rx-cam1_ex, -5 cam1_rz - cam1_ex, 0, 1, 0);
+    gluLookAt( cam1_ex, 10, cam1_ez, cam1_rx , 0, cam1_rz  , 0, 1, 0);
 
 }
 
