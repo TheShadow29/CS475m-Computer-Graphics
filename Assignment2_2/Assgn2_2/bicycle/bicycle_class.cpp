@@ -125,8 +125,8 @@ void bic_node::dec_angle(float &angle, float orientation)
         float tan_theta = tan(orientation*PI/180);
         tan_theta = tan_theta < 0? -1*tan_theta : tan_theta;
         float radius = .1 * 12.3255 / tan_theta;
-        cout<< "tan: " << tan_theta;
-        cout << "radius :" << radius << endl ;
+        // cout<< "tan: " << tan_theta;
+        // cout << "radius :" << radius << endl ;
         tx = tx  - (radius*PI/180)*cos(angle*PI/180);
         tz = tz + sign*(radius*PI/180)*sin(angle*PI/180);
     }
