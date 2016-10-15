@@ -44,25 +44,46 @@ void processNormalKeys(unsigned char key, int x, int y) {
       case 'l':
       case 'L':
         L_check = !L_check;
-        cout << "check: " << L_check << endl;
-        if (L_check)
-        {
-          light_ambient[0] = 0.8;
-          light_ambient[1] = 0.5;
-          light_ambient[2] = 0.1;
-        }
-        else
-        {
-          light_ambient[0] = 0.0;
-          light_ambient[1] = 0.0;
-          light_ambient[2] = 0.0;
-        }
+          if(L_check ==1)
+              glEnable(GL_LIGHT0);
+          else
+              glDisable(GL_LIGHT0);
+          glutPostRedisplay();
+          break;
+//        cout << "check: " << L_check << endl;
+//        if (L_check)
+//        {
+//          light_ambient[0] = 0.8;
+//          light_ambient[1] = 0.5;
+//          light_ambient[2] = 0.1;
+//        }
+//        else
+//        {
+//          light_ambient[0] = 0.0;
+//          light_ambient[1] = 0.0;
+//          light_ambient[2] = 0.0;
+//        }
         glutPostRedisplay();
       break;
+      case 'h':
+      case 'H':
+          if (head_light){head_light = false;}
+          else{head_light = true;}
+          if(head_light ==1)
+              glEnable(GL_LIGHT1);
+          else
+              glDisable(GL_LIGHT1);
+          glutPostRedisplay();
+          break;
+
     case 27:           // exit
       exit(0);
           break;
   }
+    if(head_light)
+    {
+        update_head_light();
+    }
   if (key == 27)
     exit(0);
 }

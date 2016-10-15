@@ -30,9 +30,11 @@ GLfloat light_ambient[] = {0.0,0.0,0.0,1.0};
 //GLubyte* image_data;    //image will contain raw color information
 
 unsigned char* texture_image;
+
 int width_text_img;
 int heigh_text_img;
 float l=10,b=10,h=15;
+bool head_light = false;
 
 void draw_cube_room();
 void draw_quad_room();
@@ -43,8 +45,12 @@ void tri(float, float, float);
 void light_init(void);
 void camera_pos(char);
 void rect(float w, float h, int num);
+void text_rect(float w, float h, int num);
 void draw_rect_room(float, float , float);
 void update_cam1();
+void update_look_at();
+void light_init2();
+void update_head_light();
 
 void inp_texture()
 {
@@ -128,7 +134,7 @@ void gen_texture3()
     glPushMatrix();
 glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
      glEnable(GL_COLOR_MATERIAL);
-    loadBMP_custom("./pic_frame3.bmp");
+    loadBMP_custom("./scenery1.bmp");
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -169,10 +175,10 @@ void gen_texture2()
     glNormal3f(0,1,0);
         glBegin(GL_QUADS);
         /*floor*/
-        
+
         GLfloat white[] = {1,1,1};
         glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
-        //glColor3f(1,1,1);
+        glColor3f(1,1,1);
         glTexCoord2f(0.0, 0.0); glVertex3f(-1,-1,1);
         glTexCoord2f(0.0, 1.0); glVertex3f(1,-1,1);
         glTexCoord2f(1.0, 1.0); glVertex3f(1,-1,-1);
@@ -185,101 +191,69 @@ void gen_texture2()
 
 void gen_texture()
 {
-//     glPopMatrix();
     glPushMatrix();
-    glScalef(10,10,15);
-
-    glColor3f(1,1,0);
-    glBegin(GL_QUADS);
-    glVertex3f(-1,1,-1);
-    glVertex3f(1,1,-1);
-    glVertex3f(1,1,1);
-    glVertex3f(-1,1,1);
-    glEnd();
-
-    glColor3f(0,1,0);
-    glBegin(GL_QUADS);
-    glVertex3f(-1,-1,-1);
-    glVertex3f(1,-1,-1);
-    glVertex3f(1,1,-1);
-    glVertex3f(-1,1,-1);
-    glEnd();
-
-    //glDisable(GL_TEXTURE_2D);
-
-
-    glColor3f(1,0,0);
-    glBegin(GL_QUADS);
-    glVertex3f(1,1,1);
-    glVertex3f(1,-1,1);
-    glVertex3f(1,-1,-1);
-    glVertex3f(1,1,-1);
-    glEnd();
-
-    glBegin(GL_QUADS);
-    glVertex3f(-1,1,1);
-    glVertex3f(-1,-1,1);
-    glVertex3f(-1,-1,-1);
-    glVertex3f(-1,1,-1);
-    glEnd();
+    glColor3f(1 ,1 ,1);
+    GLUquadricObj *f1;
+    f1 = gluNewQuadric();
+    glTranslatef(-7, 5, -4);
+    gluCylinder(f1, 0.2, 0.2, 10, 50, 50);
     glPopMatrix();
-
 
 }
 
-
-void draw_quad_room(float l, float b, float h)
-{
-    glPushMatrix();
-    glColor3f(0,0,0);
-    glScalef(l,b,h);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    glBegin(GL_QUADS);
-/* Floor */
-
-    glVertex3f(-1,-1,-1);
-    glVertex3f(1,-1,-1);
-    glVertex3f(1,-1,1);
-    glVertex3f(-1,-1,1);
-/* Ceiling */
-    glVertex3f(-1,1,-1);
-    glVertex3f(1,1,-1);
-    glVertex3f(1,1,1);
-    glVertex3f(-1,1,1);
-/* Walls */
-    // glVertex3f(-1,-1,1);
-    // glVertex3f(1,-1,1);
-    // glVertex3f(1,1,1);
-    // glVertex3f(-1,1,1);
-   // ********************************** //
-
-    glVertex3f(-1,1,1);
-    glVertex3f(1,1,1);
-    glVertex3f(1,-1,1);
-    glVertex3f(-1,-1,1);
-    // ******************************* //
-
-    glVertex3f(-1,-1,-1);
-    glVertex3f(1,-1,-1);
-    glVertex3f(1,1,-1);
-    glVertex3f(-1,1,-1);
-
-    glVertex3f(1,1,1);
-    glVertex3f(1,-1,1);
-    glVertex3f(1,-1,-1);
-    glVertex3f(1,1,-1);
-
-    glVertex3f(-1,1,1);
-    glVertex3f(-1,-1,1);
-    glVertex3f(-1,-1,-1);
-    glVertex3f(-1,1,-1);
-    glEnd();
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-    glPopMatrix();
-}
+//
+//void draw_quad_room(float l, float b, float h)
+//{
+//    glPushMatrix();
+//    glColor3f(0,0,0);
+//    glScalef(l,b,h);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//
+//    glBegin(GL_QUADS);
+///* Floor */
+//
+//    glVertex3f(-1,-1,-1);
+//    glVertex3f(1,-1,-1);
+//    glVertex3f(1,-1,1);
+//    glVertex3f(-1,-1,1);
+///* Ceiling */
+//    glVertex3f(-1,1,-1);
+//    glVertex3f(1,1,-1);
+//    glVertex3f(1,1,1);
+//    glVertex3f(-1,1,1);
+///* Walls */
+//    // glVertex3f(-1,-1,1);
+//    // glVertex3f(1,-1,1);
+//    // glVertex3f(1,1,1);
+//    // glVertex3f(-1,1,1);
+//   // ********************************** //
+//
+//    glVertex3f(-1,1,1);
+//    glVertex3f(1,1,1);
+//    glVertex3f(1,-1,1);
+//    glVertex3f(-1,-1,1);
+//    // ******************************* //
+//
+//    glVertex3f(-1,-1,-1);
+//    glVertex3f(1,-1,-1);
+//    glVertex3f(1,1,-1);
+//    glVertex3f(-1,1,-1);
+//
+//    glVertex3f(1,1,1);
+//    glVertex3f(1,-1,1);
+//    glVertex3f(1,-1,-1);
+//    glVertex3f(1,1,-1);
+//
+//    glVertex3f(-1,1,1);
+//    glVertex3f(-1,-1,1);
+//    glVertex3f(-1,-1,-1);
+//    glVertex3f(-1,1,-1);
+//    glEnd();
+//
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//
+//    glPopMatrix();
+//}
 
 void draw_rect_room(float l, float b, float h)
 {
@@ -294,6 +268,7 @@ void draw_rect_room(float l, float b, float h)
 //    glRotatef(90,1,0,0);
     glPushMatrix();
     //back walll
+    glColor3f(0,1,0);
     glTranslatef(0, 0, -1.01);
     rect(2,2,100);
     glPopMatrix();
@@ -308,6 +283,7 @@ void draw_rect_room(float l, float b, float h)
 
     glPushMatrix();
     //ceiling
+    glColor3f(1,1,0);
     glTranslatef(0,1.01,0);
     glRotatef(90,1,0,0);
     rect(2,2,100);
@@ -315,9 +291,8 @@ void draw_rect_room(float l, float b, float h)
 
     glPushMatrix();
     //left wall
-    GLfloat surface_color[] = {1,0,0};
-    //glColor3f(1,0,0);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, surface_color);
+    glColor3f(1,0,0);
+
     glTranslatef(-1.01,0,0);
     glRotatef(90,0,1,0);
     rect(2,2,100);
@@ -337,6 +312,36 @@ void draw_rect_room(float l, float b, float h)
 }
 
 void update_cam1()
+{
+    update_look_at();
+    glLoadIdentity();
+    gluLookAt( cam1_ex, 1, cam1_ez, cam1_rx, -1, cam1_rz, 0, 1, 0);
+
+//            gluLookAt(cam1_x, 0, cam1_z,1,0, 1, 0, 1, 0);
+//    glutPostRedisplay();
+
+}
+
+void update_cam2()
+{
+    cam1_ex = bic_frame_main->tx;
+    cam1_ez = bic_frame_main->tz;
+    cout << "line 351" << endl;
+    glLoadIdentity();
+    gluLookAt( cam1_ex, 1, cam1_ez, cam1_ex, -1, cam1_ez, 0, 1, 0);
+}
+
+void update_head_light()
+{
+    update_look_at();
+    GLfloat light_position1[] = {cam1_ex , 0.0, cam1_ez, 1.0};
+    GLfloat spot_direction1[] = {cam1_rx - cam1_ex, 0.0, cam1_rz - cam1_ez};
+    glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction1);
+//    glEnable(GL_LIGHT1);
+
+}
+void update_look_at()
 {
     cam1_ex = bic_frame_main->tx;
     cam1_ez = bic_frame_main->tz;
@@ -362,28 +367,11 @@ void update_cam1()
 //    //orient = orient < 0? -1*orient : orient;
     cam1_rx = cam1_ex -(radius)*cos((angle+orient) * PI / 180) ;// - delta_x;
     cam1_rz = cam1_ez -sign*(radius)*sin((angle +orient) * PI / 180) ; //- delta_z;
-   cout << "line 312 orient " << bic_frame2->ry << " angle " << angle << endl;
-//    cout << "line 366 cam1_ex " << 1 + cam1_ex << " cam1_tz " << cam1_ez << endl;
-//    cout << "line 313 cam1_rx " << cam1_rx << " cam1_rz " << cam1_rz << endl;
+    cout << "line 312 orient " << bic_frame2->ry << " angle " << angle << endl;
+    cout << "line 366 cam1_ex " << 1 + cam1_ex << " cam1_tz " << cam1_ez << endl;
+    cout << "line 313 cam1_rx " << cam1_rx << " cam1_rz " << cam1_rz << endl;
     cout << "line 334 sign" << sign << endl;
-
-    glLoadIdentity();
-    gluLookAt( cam1_ex, 1, cam1_ez, cam1_rx, -1, cam1_rz, 0, 1, 0);
-
-//            gluLookAt(cam1_x, 0, cam1_z,1,0, 1, 0, 1, 0);
-//    glutPostRedisplay();
-
 }
-
-void update_cam2()
-{
-    cam1_ex = bic_frame_main->tx;
-    cam1_ez = bic_frame_main->tz;
-    cout << "line 351" << endl;
-    glLoadIdentity();
-    gluLookAt( cam1_ex, 1, cam1_ez, cam1_ex, -1, cam1_ez, 0, 1, 0);
-}
-
 
 void draw_cube_room()
 {
@@ -394,33 +382,53 @@ void draw_cube_room()
     glPopMatrix();
 }
 
-
-void light_init(void)
+void light_init2()
 {
-    
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 50.0 };
-    GLfloat light_position[] = { 1.0, -10.0, 1.0, 1.0 };
-    GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_specular[] = {1.0,0.0,0.0,1.0};
-    //GLfloat light_ambient[] = {0.8,0.5,0.1,1.0};
-   // glClearColor (0.0, 0.0, 0.0, 0.0);
-    glShadeModel (GL_SMOOTH);
+//    update_head_light();
+    GLfloat mat_ambient[] = {1.0, 1.0, 1.0, 1};
+    GLfloat mat_diffuse[] = {1.0, 1.0, 1.0, 1};
+    GLfloat mat_specular[] = {0.5, 0.5, 0.5, 1};
+    GLfloat mat_shininess[] = {50.0};
 
-    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    //glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv ( GL_LIGHT0 , GL_POSITION , light_position );
-    glLightfv ( GL_LIGHT0 , GL_DIFFUSE , light_diffuse );
-    glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
-     glLightfv ( GL_LIGHT0 , GL_AMBIENT , light_ambient );
+    GLfloat light_ambient[] = {1.5, 1.5, 1.5, 1.0};
+    GLfloat light_diffuse[] = {1, 1, 1, 1.0};
+    GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0};
+
+    GLfloat light_ambient1[] = {1.0,1.0,1.0, 1.0};
+    GLfloat light_diffuse1[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light_specular1[] = {1.0, 1.0, 1.0, 1.0};
+
+    GLfloat light_position1[] = {-8 , -3, 0.0, 1.0};
+    GLfloat light_position0[] = {-19.5, 3.5, 0.0, 1.0 };
+    GLfloat spot_direction0[] = {0.0, 0.0, -1.0};
+    GLfloat spot_direction1[] = {0.0, 0.0, -1.0};
+    glShadeModel(GL_SMOOTH);
+
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_specular);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+    glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular1);
+//    glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+//    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction1);
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 20.0);
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 2.0);
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position0);
+    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.0);
+    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1  );
+    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0);
 
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
 }
-
 void camera_pos(char key)
 {
     //gluLookAt => eye, center, up
@@ -452,13 +460,18 @@ void camera_pos(char key)
     }
 }
 
+//void text_rect(float w, float h, int num)
+//{
+//
+//}
+
 void rect(float w, float h, int num)
 {
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glTranslatef(-w/2,-h/2,0);
-    for (float w1 = 0; w1 < w; w1+=w/num)
+    for (float w1 = 0; w1 <= w; w1+=w/num)
     {
-        for (float h1 = 0; h1 < h; h1+=h/num)
+        for (float h1 = 0; h1 <= h; h1+=h/num)
         {
             // cout << "line 328 w1 " << w1 << " h1 " << h1 << endl;
             //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
@@ -496,7 +509,8 @@ void draw()
     // glLightfv ( GL_LIGHT0 , GL_SPECULAR , light_specular );
 
 
-    light_init();
+//   light_init();
+    light_init2();
     draw_rect_room(10,10,15);
     //draw_quad_room(10,10,15);
     glPushMatrix();
@@ -507,6 +521,7 @@ void draw()
     gen_texture();
     gen_texture3();
     gen_texture2();
+    update_head_light();
 
 //    draw_cube_room();
 }
