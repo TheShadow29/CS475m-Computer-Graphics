@@ -1,0 +1,636 @@
+line 194 90
+line 194 90
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.58141e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+line 312 orient 0 angle 0
+line 366 cam1_ex 1 cam1_tz 0
+line 313 cam1_rx -1 cam1_rz 0
+line 334 sign4.59135e-41
+out -0.100000
+line 59 0
+line 312 orient 0 angle 0
+line 366 cam1_ex 0.9 cam1_tz 0
+line 313 cam1_rx -1.1 cam1_rz 0
+line 334 sign4.59135e-41
+out -0.400000
+line 59 1
+line 312 orient 0 angle 0
+line 366 cam1_ex 0.6 cam1_tz 0
+line 313 cam1_rx -1.4 cam1_rz 0
+line 334 sign4.58141e-41
+out -0.700000
+line 59 2
+line 312 orient 0 angle 0
+line 366 cam1_ex 0.3 cam1_tz 0
+line 313 cam1_rx -1.7 cam1_rz 0
+line 334 sign4.59135e-41
+out -1.200000
+line 59 3
+line 312 orient 0 angle 0
+line 366 cam1_ex -0.2 cam1_tz 0
+line 313 cam1_rx -2.2 cam1_rz 0
+line 334 sign4.58141e-41
+out -2.500000
+line 59 4
+line 312 orient 0 angle 0
+line 366 cam1_ex -1.5 cam1_tz 0
+line 313 cam1_rx -3.5 cam1_rz 0
+line 334 sign4.59135e-41
+out -2.900000
+line 59 5
+line 312 orient 0 angle 0
+line 366 cam1_ex -1.9 cam1_tz 0
+line 313 cam1_rx -3.9 cam1_rz 0
+line 334 sign4.58141e-41
+out 9.21942e-410-7.68821e+364.58141e-411.764e-380
+line 59 6
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
+line 312 orient 2.35099e-38 angle 0
+line 366 cam1_ex 1 cam1_tz -7.68821e+36
+line 313 cam1_rx -inf cam1_rz inf
+line 334 sign-1
