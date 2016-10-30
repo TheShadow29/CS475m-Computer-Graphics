@@ -119,9 +119,9 @@ void processSpecialKeys(int key, int x, int y) {
           bic_front_wheel->inc_rz();
           bic_back_wheel->inc_rz();
 
-          if(orientation != 0 && orientation != 360)
+          if(orientation != 180 && orientation != -180)
           {
-            if( orientation < 360  && orientation > 180)
+            if( orientation < 0  && orientation > -180)
               bic_frame_main ->  dec_ry();
             if (orientation > 0 && orientation < 180)
               bic_frame_main -> inc_ry();

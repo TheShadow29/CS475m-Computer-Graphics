@@ -32,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="animate.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="animate.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/animate.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="97" column="30" selection-start-line="97" selection-start-column="30" selection-end-line="97" selection-end-column="30" />
+            <state relative-caret-position="716">
+              <caret line="125" column="17" selection-start-line="125" selection-start-column="17" selection-end-line="125" selection-end-column="17" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -66,7 +66,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="all_lighting.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="all_lighting.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/all_lighting.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
@@ -113,8 +113,8 @@
         <option value="$PROJECT_DIR$/animate_class.cpp" />
         <option value="$PROJECT_DIR$/all_animate.cpp" />
         <option value="$PROJECT_DIR$/bicycle/bicycle_class.cpp" />
-        <option value="$PROJECT_DIR$/animate.cpp" />
         <option value="$PROJECT_DIR$/all_lighting.cpp" />
+        <option value="$PROJECT_DIR$/animate.cpp" />
       </list>
     </option>
   </component>
@@ -618,16 +618,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/animate.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="97" column="30" selection-start-line="97" selection-start-column="30" selection-end-line="97" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/all_animate.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
@@ -644,6 +634,16 @@
           <caret line="394" column="5" selection-start-line="394" selection-start-column="5" selection-end-line="394" selection-end-column="5" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/animate.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="716">
+          <caret line="125" column="17" selection-start-line="125" selection-start-column="17" selection-end-line="125" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
