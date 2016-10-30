@@ -315,7 +315,7 @@ void update_cam1()
 {
     update_look_at();
     glLoadIdentity();
-    gluLookAt( -1 + cam1_ex, 1, cam1_ez, -1 + cam1_rx, -1, cam1_rz, 0, 1, 0);
+    gluLookAt(  cam1_ex, 1, cam1_ez,  cam1_rx, -1, cam1_rz, 0, 1, 0);
 //            gluLookAt(cam1_x, 0, cam1_z,1,0, 1, 0, 1, 0);
 //    glutPostRedisplay();
 
@@ -340,17 +340,28 @@ void update_cam2()
         radius = .1 * 12.3255 / tan_theta;
     }
     float frame_ry = bic_frame2->ry;
-    if ( frame_ry < 360 && frame_ry > 180) {
-        orient = 360 - orient;
-        sign = 1;
-    }
-    if (frame_ry > 0 && frame_ry < 180) {
-        orient = orient;
+    // if ( frame_ry < 360 && frame_ry > 180) {
+    //     orient = 360 - orient;
+    //     sign = 1;
+    // }
+    // if (frame_ry > 0 && frame_ry < 180) {
+    //     orient = orient;
+    //     sign = -1;
+    // }
+
+    if ( frame_ry < 180 && frame_ry >= 0) {
+//        orient = 360 - orient;
         sign = -1;
     }
+    if (frame_ry >= -180 && frame_ry < 0) {
+//        orient = orient;
+        sign = 1;
+    }
+
+
    float delta_x = (1)*cos((orient) * PI / 180);
    float delta_z = (1)*sin((orient) * PI / 180);
-//    //orient = orient < 0? -1*orient : orient;
+//  orient = orient < 0? -1*orient : orient;
     cam1_rx = cam1_ex -(radius)*cos((angle) * PI / 180) ;//  - delta_x;
     cam1_rz = cam1_ez -sign*(radius)*sin((angle) * PI / 180);// - delta_z;
    // cout << "line 312 orient " << bic_frame2->ry << " angle " << angle << endl;
@@ -392,11 +403,18 @@ void update_look_at()
     }
     if (frame_ry > -180 && frame_ry < 0) {
 //        orient = orient;
-        sign = -1;
+        sign = 1;
+    }
+
+     if (bic_frame2->zero_check){
+        bic_frame2->set_check();
+      //  cout << "line 397";
+        if (angle != 0)
+            angle = 360 - angle;
     }
 //    float delta_x = (1)*cos((orient) * PI / 180);
 //    float delta_z = (1)*sin((orient) * PI / 180);
-//    //orient = orient < 0? -1*orient : orient;
+    orient = orient < 0? -1*orient : orient;
     cam1_rx = cam1_ex -(radius)*cos((angle+orient) * PI / 180) ;// - delta_x;
     cam1_rz = cam1_ez -sign*(radius)*sin((angle +orient) * PI / 180) ; //- delta_z;
 

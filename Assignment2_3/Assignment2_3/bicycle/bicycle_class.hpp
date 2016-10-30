@@ -33,6 +33,7 @@ public:
     float ch;
     float tx, ty, tz;
     float rx, ry, rz;
+    bool zero_check;
     bic_node();
     bic_node (bic_node* _parent, int _glist);
     void set_color(color_t color1);
@@ -52,6 +53,7 @@ public:
     float get_ry();
     float get_rz();
 
+
     void inc_tx();
     void inc_ty();
     void inc_tz();
@@ -60,6 +62,7 @@ public:
     void dec_tx();
     void dec_ty();
     void dec_tz();
+    void set_check();
 
     void dec_angle(float &angle, float orientation);
 

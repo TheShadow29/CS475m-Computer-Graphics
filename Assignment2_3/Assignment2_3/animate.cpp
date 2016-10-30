@@ -145,7 +145,7 @@ void processSpecialKeys(int key, int x, int y) {
 
           break;
   }
-  glutPostRedisplay();
+  //glutPostRedisplay();
 }
 
 void display(void)

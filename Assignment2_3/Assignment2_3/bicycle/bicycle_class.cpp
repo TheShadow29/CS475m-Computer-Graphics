@@ -8,6 +8,7 @@ bic_node::bic_node()
 {
     tx = ty =tz = rx = ry = rz = 0;
     ch = false;
+    zero_check =  true;
 }
 void bic_node::set_color(color_t color1)
 {
@@ -20,6 +21,7 @@ bic_node::bic_node(bic_node *_parent, int _glist) : glist(_glist)
         parent = _parent;
     }
     tx = ty =tz = rx = ry = rz = 0;
+    zero_check = true;
 }
 void bic_node::set_parent(bic_node *_parent)
 {
@@ -27,6 +29,10 @@ void bic_node::set_parent(bic_node *_parent)
     {
         parent = _parent;
     }
+    if (ry == 0)
+        zero_check = true;
+    else 
+        zero_check = false;
 }
 
 void bic_node::set_glist(int _glist)
@@ -42,6 +48,10 @@ void bic_node::change_params(float _tx, float _ty, float _tz, float _rx, float _
 {
     tx = _tx; ty = _ty; tz = _tz;
     rx = _rx; ry = _ry; rz = _rz;
+    if (ry == 0)
+        zero_check = true;
+    else 
+        zero_check = false;
 }
 void bic_node::dec_rx()
 {
@@ -52,6 +62,10 @@ void bic_node::dec_ry()
 {
     ry--;
     if (ry < -180){ry += 360; ch= true;}
+    if (ry == 0)
+        zero_check = true;
+    else 
+        zero_check = false;
 }
 void bic_node::dec_rz()
 {
@@ -67,6 +81,10 @@ void bic_node::inc_ry()
 {
     ry++;
     if (ry >= 180){ry -= 360; ch = true;}
+    if (ry == 0)
+        zero_check = true;
+    else 
+        zero_check = false;
 }
 void bic_node::inc_rz()
 {
@@ -123,6 +141,8 @@ void bic_node::dec_angle(float &angle, float orientation)
     if(orientation != 180 && orientation != -180)
     {
         angle++;
+        if (angle == 360)
+            angle = 0;
         float tan_theta = tan(orientation*PI/180);
         tan_theta = tan_theta < 0? -1*tan_theta : tan_theta;
         float radius = .1 * 12.3255 / tan_theta;
@@ -133,8 +153,8 @@ void bic_node::dec_angle(float &angle, float orientation)
     }
     else
     {
-            tx -= 0.1 * cos(angle * PI / 180);
-            tz = tz + sign * 0.1 * sin(angle * PI / 180);
+            tx -= 0.01 * cos(angle * PI / 180);
+            tz = tz + sign * 0.01 * sin(angle * PI / 180);
     }
 }
 
@@ -151,6 +171,10 @@ float bic_node::get_ry()
 float bic_node::get_rz()
 {
     return rz;
+}
+void bic_node::set_check()
+{
+    zero_check = false;
 }
 void bic_node::render()
 {
