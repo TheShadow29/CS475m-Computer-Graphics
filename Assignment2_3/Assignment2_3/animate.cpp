@@ -73,7 +73,8 @@ void processNormalKeys(unsigned char key, int x, int y) {
       case 'P':
           reader_writer1->read_from_file();
           raw_values = reader_writer1->inp_from_file;
-          play_back = true;
+          play_back_vector();
+//          play_back = true;
           break;
     case 27:           // exit
       exit(0);
@@ -89,15 +90,17 @@ void processNormalKeys(unsigned char key, int x, int y) {
 void processSpecialKeys(int key, int x, int y) {
   switch(key) {
     case GLUT_KEY_LEFT :
-      if( bic_frame2->ry < 60 || bic_frame2->ry >= 300)
+      if( bic_frame2->ry < 60 && bic_frame2->ry >= -60) {
+        cout << "line 94_1 " << bic_frame2->ry << endl;
         bic_frame2->inc_ry();
+      }
 //          cout << bic_frame2->get_ry() << endl;
           glutPostRedisplay();
           break;
 
     case GLUT_KEY_RIGHT :
       //float angle1 = bic_frame2->get_ry();
-      if( bic_frame2->ry <= 60 || bic_frame2->ry > 300)
+      if( bic_frame2->ry <= 60 && bic_frame2->ry > -60)
         bic_frame2->dec_ry();
 //          cout << bic_frame2->get_ry() << endl;
           glutPostRedisplay();

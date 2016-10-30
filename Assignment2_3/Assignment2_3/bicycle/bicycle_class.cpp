@@ -46,32 +46,32 @@ void bic_node::change_params(float _tx, float _ty, float _tz, float _rx, float _
 void bic_node::dec_rx()
 {
     rx--;
-    if  (rx < 0){rx += 360;}
+    if  (rx < -180){rx += 360;}
 }
 void bic_node::dec_ry()
 {
     ry--;
-    if (ry < 0){ry += 360; ch= true;}
+    if (ry < -180){ry += 360; ch= true;}
 }
 void bic_node::dec_rz()
 {
     rz--;
-    if(rz < 0){rz += 360;}
+    if(rz < -180){rz += 360;}
 }
 void bic_node::inc_rx()
 {
     rx++;
-    if (rx > 360){rx -= 360;}
+    if (rx > 180){rx -= 360;}
 }
 void bic_node::inc_ry()
 {
     ry++;
-    if (ry >= 360){ry -= 360; ch = true;}
+    if (ry >= 180){ry -= 360; ch = true;}
 }
 void bic_node::inc_rz()
 {
     rz++;
-    if (rz > 360){rz -= 360;}
+    if (rz > 180){rz -= 360;}
 }
 
 void bic_node::inc_tx()
@@ -112,7 +112,7 @@ void bic_node::dec_angle(float &angle, float orientation)
     float sign = 0;
 //    cout << orientation << endl;
     
-    if (orientation >180 && orientation < 360)
+    if (orientation > -180 && orientation < 0)
     {
         sign = -1;
     }
@@ -120,7 +120,7 @@ void bic_node::dec_angle(float &angle, float orientation)
     {
         sign = 1;
     }
-    if(orientation != 0 && orientation != 360)
+    if(orientation != 180 && orientation != -180)
     {
         angle++;
         float tan_theta = tan(orientation*PI/180);

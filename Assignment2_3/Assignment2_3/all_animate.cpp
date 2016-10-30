@@ -5,8 +5,8 @@ using namespace std;
 
 void write_file();
 void clear_file();
-void play_back_vector(int);
-//void play_back_line(int);
+void play_back_vector();
+void play_back_line(int);
 void interpolate_raw_values(int fps);
 
 
@@ -17,7 +17,10 @@ reader_writer* reader_writer1 = new reader_writer();
 vector<string> raw_values;
 vector<string> interpolated_values;
 int counter_frames = 0;
-int msecs = 10000;
+int msecs = 1000;
+int interpolate_ratio;
+int fps = 30;
+float time_between_frames = 1000/fps;
 
 void write_file()
 {
@@ -34,48 +37,98 @@ void write_file()
     }
 }
 
-void play_back_vector(int timer_func_msecs)
+void play_back_vector()
 {
-    if (play_back)
+    cout << "line 42" << endl;
+    interpolate_raw_values(1);
+    for(int i = 0; i < interpolated_values.size(); i++)
+    {cout << interpolated_values[i] << endl;}
+    if (interpolated_values.size() != 0)
     {
-        interpolate_raw_values(1);
-        if (counter_frames < interpolated_values.size())
-        {
-            float handle_angle;
-            float tx1, ty1, tz1, rx1, ry1, rz1, hl, lc;
-            string line;
-            line = interpolated_values[counter_frames];
-            istringstream s1(line);
-            s1 >> handle_angle >> tx1 >> ty1 >> tz1 >> rx1 >> ry1 >> rz1 >> hl >> lc;
-            bic_frame_main->tx = tx1;
-            bic_frame_main->ty = ty1;
-            bic_frame_main->tz = tz1;
-            bic_frame2->ry = handle_angle;
-            head_light = hl;
-            L_check = lc;
-            glutPostRedisplay();
-            glutTimerFunc(timer_func_msecs, play_back_vector, 0);
-            cout << "out " << tx1 << ty1 << tz1 << rx1 << ry1 << rz1 << endl;
-            cout << "line 59 " << counter_frames << endl;
-            counter_frames++;
-        }
-        else
-        {
-            counter_frames = 0;
-            play_back = false;
-        }
+        interpolate_ratio = 0;
+        counter_frames = 0;
+        play_back_line(time_between_frames);
     }
-
 }
 
-//void play_back_line(int counter)
-//{
-//
-//}
+void play_back_line(int time)
+{
+    float handle_angle_c, handle_angle_n;
+    float tx1_c,tx1_n, ty1_c, ty1_n, tz1_c, tz1_n, rx1_c, rx1_n, ry1_c, ry1_n, rz1_c, rz1_n;
+    bool hl, lc;
+    string line;
+    line = interpolated_values[counter_frames];
+    istringstream s1(line);
+    s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc;
+    line = interpolated_values[counter_frames+1];
+    istringstream s2(line);
+    s2 >> handle_angle_n >> tx1_n >> ty1_n >> tz1_n >> rx1_n >> ry1_n >> rz1_n;
+
+    bic_frame_main->tx = tx1_c + (tx1_n - tx1_c)*interpolate_ratio*1.0/fps;
+    bic_frame_main->ty = ty1_c + (ty1_n - ty1_c)*interpolate_ratio*1.0/fps;
+    bic_frame_main->tz = tz1_c + (tz1_n - tz1_c)*interpolate_ratio*1.0/fps;
+    bic_frame_main->rx = rx1_c + (rx1_n - rx1_c)*interpolate_ratio*1.0/fps;
+    bic_frame_main->ry = ry1_c + (ry1_n - ry1_c)*interpolate_ratio*1.0/fps;
+    bic_frame_main->rz = rz1_c + (rz1_n - rz1_c)*interpolate_ratio*1.0/fps;
+
+    bic_frame2->ry = handle_angle_c + (handle_angle_n - handle_angle_c)*interpolate_ratio*1.0/fps;
+
+    head_light = hl;
+    L_check = lc;
+    if(L_check ==1)
+        glEnable(GL_LIGHT0);
+    else
+        glDisable(GL_LIGHT0);
+    head_light = !head_light;
+    if(head_light ==1)
+        glEnable(GL_LIGHT1);
+    else
+        glDisable(GL_LIGHT1);
+    glutPostRedisplay();
+    interpolate_ratio++;
+    if (interpolate_ratio == fps)
+    {
+        interpolate_ratio = 0;
+        counter_frames++;
+    }
+    if (counter_frames < interpolated_values.size() - 2)
+    {
+        glutTimerFunc(time, play_back_line, time_between_frames);
+    }
+    if (counter_frames == interpolated_values.size() - 2)
+    {
+        line = interpolated_values[counter_frames];
+        istringstream s1(line);
+        s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c;
+        bic_frame_main->tx = tx1_c;
+        bic_frame_main->ty = ty1_c;
+        bic_frame_main->tz = tz1_c;
+        bic_frame_main->rx = rx1_c;
+        bic_frame_main->ry = ry1_c;
+        bic_frame_main->rz = rz1_c;
+        bic_frame2->ry = handle_angle_c;
+    }
+    cout << "line 94 " << bic_frame_main->tx << endl;
+//    cout << "out " << tx1 << ty1 << tz1 << rx1 << ry1 << rz1 << endl;
+//    cout << "line 59 " << counter_frames << endl;
+//    counter_frames++;
+}
 
 void interpolate_raw_values(int fps)
 {
     interpolated_values = raw_values;
+//    string curr_line, next_line;
+//    float handle_angle_c, handle_angle_n;
+//    float tx1_c,tx1_n, ty1_c, ty1_n, tz1_c, tz1_n, rx1_c, rx1_n, ry1_c, ry1_n, rz1_c, rz1_n;
+//    for(int i = 0; i < raw_values.size(); i++)
+//    {
+//        curr_line = raw_values[i];
+//        next_line = raw_values[i+1];
+//        istringstream s_curr(line);
+//        s_curr >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c;
+//        istringstream s_next(line);
+//        s_next >> handle_angle_n >> tx1_n >> ty1_n >> tz1_n >> rx1_n >> ry1_n >> rz1_n;
+//    }
 }
 
 void clear_file()
@@ -86,6 +139,5 @@ void clear_file()
 void draw_all()
 {
     write_file();
-    play_back_vector(msecs);
     draw();
 }
