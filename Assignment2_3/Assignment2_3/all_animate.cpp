@@ -96,6 +96,7 @@ void play_back_line(int time)
     }
     if (counter_frames < interpolated_values.size() - 2)
     {
+        screen_shot();
         glutTimerFunc(time, play_back_line, time_between_frames);
     }
     if (counter_frames == interpolated_values.size() - 2)
@@ -170,7 +171,7 @@ void screen_shot()
     // open the file for writing. If unsucessful, return 1
     //
     stringstream ff;
-    ff << "img_" << interpolate_ratio*fps + counter_frames << ".tga";
+    ff << "./img_files/img_" << interpolate_ratio + counter_frames*fps << ".tga";
     string f = ff.str();
     cout << "line 175" << endl;
 //    if(img_data_file = fopen(f.c_str()));
