@@ -1,0 +1,1 @@
+ffmpeg -f image2 -i ./img_files/img_%d.tga vid.mp4

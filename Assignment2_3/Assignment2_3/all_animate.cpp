@@ -13,6 +13,7 @@ void screen_shot();
 bool record_mode = false;
 bool save_it = false;
 bool play_back = false;
+bool take_screenshot = false;
 reader_writer* reader_writer1 = new reader_writer();
 vector<string> raw_values;
 vector<string> interpolated_values;
@@ -150,6 +151,8 @@ void interpolate_raw_values(int fps)
 
 void screen_shot()
 {
+    if (!take_screenshot)
+    { return;}
     // we will store the image data here
     unsigned char *pixels;
     // the thingy we use to write files

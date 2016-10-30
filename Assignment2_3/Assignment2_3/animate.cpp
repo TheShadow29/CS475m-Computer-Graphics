@@ -79,6 +79,10 @@ void processNormalKeys(unsigned char key, int x, int y) {
           play_back_vector();
 //          play_back = true;
           break;
+      case 'm':
+      case 'M':
+          take_screenshot = !take_screenshot;
+          break;
     case 27:           // exit
       exit(0);
           break;
