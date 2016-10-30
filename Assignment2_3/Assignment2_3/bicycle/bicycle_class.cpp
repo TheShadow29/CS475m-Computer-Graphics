@@ -128,7 +128,8 @@ void bic_node::dec_tz()
 void bic_node::dec_angle(float &angle, float orientation)
 {
     float sign = 0;
-//    cout << orientation << endl;
+    // cout << orientation << endl;
+    // cout << angle << endl;
     
     if (orientation > -180 && orientation < 0)
     {
@@ -138,7 +139,7 @@ void bic_node::dec_angle(float &angle, float orientation)
     {
         sign = 1;
     }
-    if(orientation != 180 && orientation != -180)
+    if(orientation != 180 && orientation != -180 && orientation !=0)
     {
         angle++;
         if (angle == 360)
@@ -153,8 +154,9 @@ void bic_node::dec_angle(float &angle, float orientation)
     }
     else
     {
-            tx -= 0.01 * cos(angle * PI / 180);
-            tz = tz + sign * 0.01 * sin(angle * PI / 180);
+            
+            tx -= 0.03 * cos(angle * PI / 180);
+            tz = tz + sign * 0.03 * sin(angle * PI / 180);
     }
 }
 

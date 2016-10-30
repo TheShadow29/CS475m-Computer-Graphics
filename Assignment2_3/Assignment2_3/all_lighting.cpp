@@ -396,6 +396,8 @@ void update_look_at()
         tan_theta = tan_theta < 0 ? -1 * tan_theta : tan_theta;
         radius = .1 * 12.3255 / tan_theta;
     }
+    
+
     float frame_ry = bic_frame2->ry;
     if ( frame_ry < 180 && frame_ry > 0) {
 //        orient = 360 - orient;
