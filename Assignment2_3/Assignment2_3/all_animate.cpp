@@ -28,10 +28,11 @@ void write_file()
     if (record_mode && save_it)
     {
         stringstream ss2;
+        int cmode = camera_mode - '0';
         ss2 << bic_frame2->ry << " " << bic_frame_main->tx << " " << bic_frame_main->ty << " " << bic_frame_main->tz <<
         " ";
         ss2 << bic_frame_main->rx << " " << bic_frame_main->ry << " " << bic_frame_main->rz << " ";
-        ss2 << head_light << " " << L_check << " " << angle;
+        ss2 << head_light << " " << L_check << " " << angle << " " << cmode;
         string s2 = ss2.str();
         reader_writer1->write_to_file(s2);
         save_it = false;
@@ -62,7 +63,8 @@ void play_back_line(int time)
     string line;
     line = interpolated_values[counter_frames];
     istringstream s1(line);
-    s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc >> angle_c >> camera_mode_c;
+    s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc >> angle_c;
+    s1 >> camera_mode_c;
     line = interpolated_values[counter_frames+1];
     istringstream s2(line);
     s2 >> handle_angle_n >> tx1_n >> ty1_n >> tz1_n >> rx1_n >> ry1_n >> rz1_n >> hl2 >> lc2 >> angle_n;

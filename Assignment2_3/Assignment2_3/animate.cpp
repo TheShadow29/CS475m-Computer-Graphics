@@ -98,7 +98,7 @@ void processSpecialKeys(int key, int x, int y) {
   switch(key) {
     case GLUT_KEY_LEFT :
       if( bic_frame2->ry < 60 && bic_frame2->ry >= -60) {
-        cout << "line 94_1 " << bic_frame2->ry << endl;
+//        cout << "line 94_1 " << bic_frame2->ry << endl;
         bic_frame2->inc_ry();
       }
 //          cout << bic_frame2->get_ry() << endl;
@@ -145,7 +145,7 @@ void processSpecialKeys(int key, int x, int y) {
 
           break;
   }
-  //glutPostRedisplay();
+  glutPostRedisplay();
 }
 
 void display(void)
