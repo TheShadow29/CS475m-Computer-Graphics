@@ -34,6 +34,7 @@ int width_text_img;
 int heigh_text_img;
 float l=10,b=10,h=15;
 bool head_light = false;
+char camera_mode;
 
 void draw_cube_room();
 void draw_quad_room();

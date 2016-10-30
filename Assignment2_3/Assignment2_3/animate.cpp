@@ -25,13 +25,16 @@ void processNormalKeys(unsigned char key, int x, int y) {
           glutPostRedisplay();
           break;
     case '1':
-      camera_pos('1');
+        camera_mode = '1';
+      camera_pos(camera_mode);
           break;
     case '2':
-      camera_pos('2');
+        camera_mode = '2';
+      camera_pos(camera_mode);
           break;
     case '3':
-      camera_pos('3');
+        camera_mode = '3';
+      camera_pos(camera_mode);
           break;
     case 'i':
     case 'I':                  // change the look at vector

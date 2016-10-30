@@ -30,7 +30,7 @@ void write_file()
         ss2 << bic_frame2->ry << " " << bic_frame_main->tx << " " << bic_frame_main->ty << " " << bic_frame_main->tz <<
         " ";
         ss2 << bic_frame_main->rx << " " << bic_frame_main->ry << " " << bic_frame_main->rz << " ";
-        ss2 << head_light << " " << L_check;
+        ss2 << head_light << " " << L_check << " " << angle << " " << camera_mode;
         string s2 = ss2.str();
         reader_writer1->write_to_file(s2);
         save_it = false;
@@ -55,14 +55,16 @@ void play_back_line(int time)
 {
     float handle_angle_c, handle_angle_n;
     float tx1_c,tx1_n, ty1_c, ty1_n, tz1_c, tz1_n, rx1_c, rx1_n, ry1_c, ry1_n, rz1_c, rz1_n;
-    bool hl, lc;
+    float angle_c, angle_n;
+    char camera_mode_c;
+    bool hl,hl2, lc,lc2;
     string line;
     line = interpolated_values[counter_frames];
     istringstream s1(line);
-    s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc;
+    s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc >> angle_c >> camera_mode_c;
     line = interpolated_values[counter_frames+1];
     istringstream s2(line);
-    s2 >> handle_angle_n >> tx1_n >> ty1_n >> tz1_n >> rx1_n >> ry1_n >> rz1_n;
+    s2 >> handle_angle_n >> tx1_n >> ty1_n >> tz1_n >> rx1_n >> ry1_n >> rz1_n >> hl2 >> lc2 >> angle_n;
 
     bic_frame_main->tx = tx1_c + (tx1_n - tx1_c)*interpolate_ratio*1.0/fps;
     bic_frame_main->ty = ty1_c + (ty1_n - ty1_c)*interpolate_ratio*1.0/fps;
@@ -70,16 +72,17 @@ void play_back_line(int time)
     bic_frame_main->rx = rx1_c + (rx1_n - rx1_c)*interpolate_ratio*1.0/fps;
     bic_frame_main->ry = ry1_c + (ry1_n - ry1_c)*interpolate_ratio*1.0/fps;
     bic_frame_main->rz = rz1_c + (rz1_n - rz1_c)*interpolate_ratio*1.0/fps;
-
+    camera_pos(camera_mode_c);
     bic_frame2->ry = handle_angle_c + (handle_angle_n - handle_angle_c)*interpolate_ratio*1.0/fps;
-
+    angle = angle_c + (angle_n - angle_c)*interpolate_ratio*1.0/fps;
     head_light = hl;
+//    cout << "line 77 " << hl << endl;
     L_check = lc;
+//    cout << "line 79 " << lc << endl;
     if(L_check ==1)
         glEnable(GL_LIGHT0);
     else
         glDisable(GL_LIGHT0);
-    head_light = !head_light;
     if(head_light ==1)
         glEnable(GL_LIGHT1);
     else
@@ -99,16 +102,28 @@ void play_back_line(int time)
     {
         line = interpolated_values[counter_frames];
         istringstream s1(line);
-        s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c;
+        s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc;
         bic_frame_main->tx = tx1_c;
         bic_frame_main->ty = ty1_c;
         bic_frame_main->tz = tz1_c;
         bic_frame_main->rx = rx1_c;
         bic_frame_main->ry = ry1_c;
         bic_frame_main->rz = rz1_c;
+        head_light = hl;
+        L_check = lc;
+        if(L_check ==1)
+            glEnable(GL_LIGHT0);
+        else
+            glDisable(GL_LIGHT0);
+        if(head_light ==1)
+            glEnable(GL_LIGHT1);
+        else
+            glDisable(GL_LIGHT1);
         bic_frame2->ry = handle_angle_c;
+        glutPostRedisplay();
     }
-    cout << "line 94 " << bic_frame_main->tx << endl;
+
+//    cout << "line 94 " << bic_frame_main->tx << endl;
 //    cout << "out " << tx1 << ty1 << tz1 << rx1 << ry1 << rz1 << endl;
 //    cout << "line 59 " << counter_frames << endl;
 //    counter_frames++;
