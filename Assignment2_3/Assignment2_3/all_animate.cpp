@@ -76,6 +76,7 @@ void play_back_line(int time)
     bic_frame_main->ry = ry1_c + (ry1_n - ry1_c)*interpolate_ratio*1.0/fps;
     bic_frame_main->rz = rz1_c + (rz1_n - rz1_c)*interpolate_ratio*1.0/fps;
     camera_pos(camera_mode_c);
+    camera_mode = camera_mode_c;
     bic_frame2->ry = handle_angle_c + (handle_angle_n - handle_angle_c)*interpolate_ratio*1.0/fps;
     angle = angle_c + (angle_n - angle_c)*interpolate_ratio*1.0/fps;
     head_light = hl;
@@ -106,13 +107,14 @@ void play_back_line(int time)
     {
         line = interpolated_values[counter_frames];
         istringstream s1(line);
-        s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc;
+        s1 >> handle_angle_c >> tx1_c >> ty1_c >> tz1_c >> rx1_c >> ry1_c >> rz1_c >> hl >> lc >> angle_c;
         bic_frame_main->tx = tx1_c;
         bic_frame_main->ty = ty1_c;
         bic_frame_main->tz = tz1_c;
         bic_frame_main->rx = rx1_c;
         bic_frame_main->ry = ry1_c;
         bic_frame_main->rz = rz1_c;
+        angle = angle_c;
         head_light = hl;
         L_check = lc;
         if(L_check ==1)
