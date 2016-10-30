@@ -8,7 +8,7 @@ void clear_file();
 void play_back_vector();
 void play_back_line(int);
 void interpolate_raw_values(int fps);
-
+void screen_shot();
 
 bool record_mode = false;
 bool save_it = false;
@@ -30,7 +30,7 @@ void write_file()
         ss2 << bic_frame2->ry << " " << bic_frame_main->tx << " " << bic_frame_main->ty << " " << bic_frame_main->tz <<
         " ";
         ss2 << bic_frame_main->rx << " " << bic_frame_main->ry << " " << bic_frame_main->rz << " ";
-        ss2 << head_light << " " << L_check << " " << angle << " " << camera_mode;
+        ss2 << head_light << " " << L_check << " " << angle;
         string s2 = ss2.str();
         reader_writer1->write_to_file(s2);
         save_it = false;
@@ -120,6 +120,7 @@ void play_back_line(int time)
         else
             glDisable(GL_LIGHT1);
         bic_frame2->ry = handle_angle_c;
+        screen_shot();
         glutPostRedisplay();
     }
 
@@ -144,6 +145,69 @@ void interpolate_raw_values(int fps)
 //        istringstream s_next(line);
 //        s_next >> handle_angle_n >> tx1_n >> ty1_n >> tz1_n >> rx1_n >> ry1_n >> rz1_n;
 //    }
+}
+
+void screen_shot()
+{
+    // we will store the image data here
+    unsigned char *pixels;
+    // the thingy we use to write files
+    //FILE * shot;
+    FILE* img_data_file;
+    // we get the width/height of the screen into this array
+    int screenStats[4];
+
+    // get the width/height of the window
+    glGetIntegerv(GL_VIEWPORT, screenStats);
+
+    // generate an array large enough to hold the pixel data
+    // (width*height*bytesPerPixel)
+    pixels = new unsigned char[screenStats[2]*screenStats[3]*3];
+    // read in the pixel data, TGA's pixels are BGR aligned
+    glReadPixels(0, 0, screenStats[2], screenStats[3], GL_BGR,
+                 GL_UNSIGNED_BYTE, pixels);
+
+    // open the file for writing. If unsucessful, return 1
+    //
+    stringstream ff;
+    ff << "img_" << interpolate_ratio*fps + counter_frames << ".tga";
+    string f = ff.str();
+    cout << "line 175" << endl;
+//    if(img_data_file = fopen(f.c_str()));
+    if((img_data_file = fopen(f.c_str(), "wb"))==NULL)
+    {
+        cout << "line 172 couldn't open " << f << endl;
+    }
+    else
+    {
+        cout << "line 178 writing to file " << f << endl;
+    }
+    // this is the tga header it must be in the beginning of
+    // every (uncompressed) .tga
+    unsigned char TGAheader[12]={0,0,2,0,0,0,0,0,0,0,0,0};
+    // the header that is used to get the dimensions of the .tga
+    // header[1]*256+header[0] - width
+    // header[3]*256+header[2] - height
+    // header[4] - bits per pixel
+    // header[5] - ?
+    unsigned char header[6]={((int)(screenStats[2]%256)),
+                             ((int)(screenStats[2]/256)),
+                             ((int)(screenStats[3]%256)),
+                             ((int)(screenStats[3]/256)),24,0};
+
+    // write out the TGA header
+    fwrite(TGAheader, sizeof(unsigned char), 12, img_data_file);
+    // write out the header
+    fwrite(header, sizeof(unsigned char), 6, img_data_file);
+    // write the pixels
+    fwrite(pixels, sizeof(unsigned char),
+           screenStats[2]*screenStats[3]*3, img_data_file);
+
+    // close the file
+    fclose(img_data_file);
+    // free the memory
+    delete [] pixels;
+
 }
 
 void clear_file()
